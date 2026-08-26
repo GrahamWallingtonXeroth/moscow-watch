@@ -1,0 +1,8 @@
+{"articles": [
+  {"url": "https://smallblog.example/2026/08/26/russia-iran-halt-weapons-intelligence",
+   "title": "Russia halts weapons shipments and intelligence sharing with Iran",
+   "seendate": "20260826T093000Z", "domain": "smallblog.example", "language": "English"},
+  {"url": "https://another.example/iran-oman-hormuz",
+   "title": "Iran and Oman agree temporary Hormuz corridor after mediation",
+   "seendate": "20260826T100000Z", "domain": "another.example", "language": "English"}
+]}

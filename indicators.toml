@@ -1,0 +1,541 @@
+#
+# Moscow Watch — indicator definitions.
+#
+# An indicator is a named quantity, from a named source, with a value, a timestamp, a date
+# on which it becomes decidable, and a stated direction of implication for each hypothesis.
+#
+# There are no scoring rules in this file, because there is no scoring. `bears_on` records
+# which way a move would point if it happened. It does not weight anything, and nothing
+# here is summed into a verdict. The repo publishes; the article interprets.
+#
+
+[project]
+name = "Moscow Watch"
+# The 25 August 2026 Ratcliffe visit to Moscow. Everything is measured against this.
+event_date = "2026-08-25"
+news_timespan = "3d"
+stale_after_hours = 12
+# Never report a move computed over a shorter window than this. The previous version
+# reported half-point moves over three-minute windows and it discredited the whole page.
+min_change_window_hours = 6
+max_discovery_queries = 2
+discovery_min_interval_seconds = 6
+# Fortnight buckets for the contact counter are measured from here.
+contact_anchor = "2026-01-05"
+
+# ---------------------------------------------------------------------------
+# HYPOTHESES
+#
+# Six tracked, one named and excluded. Each carries a falsifier and a date, because
+# committing to what would change your mind, in advance, is the only thing that
+# distinguishes a tracker from a narrative.
+# ---------------------------------------------------------------------------
+
+[[hypotheses]]
+id = "h1"
+name = "Uranium custody"
+claim = "Washington is exploring, through Moscow, a route to account for and remove Iran's unaccounted enriched uranium, reviving the 2015 mechanism in which Russia took custody of Iranian material."
+falsifier = "No IAEA, Rosatom or US statement referencing third-party custody, transfer or accounting of Iranian material by 31 October 2026."
+falsifier_date = "2026-10-31"
+
+[[hypotheses]]
+id = "h2"
+name = "Ukraine endgame"
+claim = "The trip prepared a Ukraine settlement or a Trump-Putin meeting, explored deniably because the formal track has been suspended since February 2026."
+falsifier = "No announced meeting, no resumption of the trilateral track, and no near-dated change in the Polymarket ceasefire term structure by 31 October 2026."
+falsifier_date = "2026-10-31"
+
+[[hypotheses]]
+id = "h3"
+name = "Iran-for-Ukraine bargain"
+claim = "Reciprocal costly concessions: Washington gives Russia room in Ukraine while Moscow reduces the support that makes Iran harder to pressure."
+falsifier = "Continued or increased Russian engagement with Tehran alongside continued US costs on Russia, through 30 November 2026. This hypothesis already starts behind: US intelligence sharing with Ukraine was restored to full levels on 17 August 2026, which is the opposite of its American leg."
+falsifier_date = "2026-11-30"
+
+[[hypotheses]]
+id = "h4"
+name = "Brokerage"
+claim = "Washington asked Moscow to carry messages to, or mediate with, Tehran. Not a trade and not a withdrawal of Russian support, but an increase in Russian engagement at American request."
+falsifier = "A fall in reported Russia-Iran contacts below the pre-25-August baseline, sustained through 31 October 2026."
+falsifier_date = "2026-10-31"
+
+[[hypotheses]]
+id = "h5"
+name = "Warning"
+claim = "Ratcliffe delivered a warning about Russian intelligence support to Iranian forces targeting American assets. Coercion, not cooperation."
+falsifier = "No new US costs imposed on Russia, and no reported reduction in Russian targeting support, by 31 October 2026."
+falsifier_date = "2026-10-31"
+
+[[hypotheses]]
+id = "h6"
+name = "Channel maintenance"
+claim = "Ordinary intelligence-service business: prisoners, counterterrorism, embassy staffing, or re-establishing a working channel. There is no US ambassador in Moscow, and 7.5 hours on the ground with no Putin meeting fits working-level business."
+falsifier = "Any documented substantive outcome on Iran, uranium or Ukraine attributable to the visit by 31 October 2026."
+falsifier_date = "2026-10-31"
+
+[[hypotheses]]
+id = "h7"
+name = "Arms control"
+claim = "New START expired on 5 February 2026 with no successor, and no strategic stability talks exist. This is the most consequential unattended file in the US-Russia relationship and a plausible reason to send an intelligence chief."
+scored = false
+note = "Named and set aside, not quietly promoted to a testable hypothesis. No outlet has reported it as an agenda item, and there is no prediction market on arms control on either venue. If a market on a New START successor appears, it moves into the tracked set."
+
+# ---------------------------------------------------------------------------
+# INDICATORS — POLYMARKET
+# ---------------------------------------------------------------------------
+
+[[indicators]]
+id = "pm_ukraine_ceasefire_ladder"
+name = "Polymarket: Russia-Ukraine ceasefire term structure"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "russia-x-ukraine-ceasefire-agreement-by"
+material_move = 0.03
+note = "Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs are thin - under $5,000 of volume - so treat the Q1-2027 peak with the caution that deserves."
+bears_on = [
+  { hypothesis = "h2", direction = "up" },
+  { hypothesis = "h3", direction = "up" },
+]
+
+[[indicators]]
+id = "pm_iran_ceasefire"
+name = "Polymarket: US-Iran ceasefire continues"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "us-ceasefire-against-iran-continues-throughptptpt"
+resolves = "2026-09-30"
+material_move = 0.05
+bears_on = [
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h4", direction = "up" },
+]
+
+[[indicators]]
+id = "pm_iran_nuclear_deal"
+name = "Polymarket: final US-Iran nuclear deal"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "us-iran-final-nuclear-deal-by-20260621201254412"
+resolves = "2026-12-31"
+material_move = 0.05
+bears_on = [
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h4", direction = "up" },
+]
+
+[[indicators]]
+id = "pm_us_gets_iran_uranium"
+name = "Polymarket: US obtains Iranian enriched uranium"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "us-obtains-iranian-enriched-uranium-by"
+resolves = "2026-12-31"
+material_move = 0.05
+note = "The most direct market instrument for H1. A custody route through Moscow would not necessarily resolve this Yes, so read a rise as consistent-with rather than confirming."
+bears_on = [{ hypothesis = "h1", direction = "up" }]
+
+[[indicators]]
+id = "pm_us_iran_hormuz"
+name = "Polymarket: US-Iran Hormuz agreement"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "us-iran-hormuz-agreement-byptptpt-20260803235957575"
+resolves = "2026-09-30"
+material_move = 0.05
+bears_on = [
+  { hypothesis = "h4", direction = "up" },
+  { hypothesis = "h1", direction = "up" },
+]
+
+[[indicators]]
+id = "pm_nato_russia_clash"
+name = "Polymarket: NATO-Russia military clash"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "nato-x-russia-military-clash-in-2025"
+resolves = "2026-12-31"
+material_move = 0.05
+bears_on = [{ hypothesis = "h5", direction = "up" }]
+
+[[indicators]]
+id = "pm_us_russia_clash"
+name = "Polymarket: US-Russia military clash"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "us-x-russia-military-clash-by"
+resolves = "2026-12-31"
+material_move = 0.03
+bears_on = [{ hypothesis = "h5", direction = "up" }]
+
+[[indicators]]
+id = "pm_ukraine_security_guarantee"
+name = "Polymarket: US gives Ukraine a formal security guarantee"
+source = "polymarket"
+kind = "market_ladder"
+event_slug = "us-agrees-to-give-ukraine-security-guarantee-by-december-31"
+resolves = "2026-12-31"
+material_move = 0.04
+note = "One of the two market inputs to the US-posture axis of the discriminator map. A fall is relief toward Moscow."
+bears_on = [
+  { hypothesis = "h3", direction = "down" },
+  { hypothesis = "h5", direction = "up" },
+]
+
+# ---------------------------------------------------------------------------
+# INDICATORS — KALSHI
+#
+# Kalshi publishes machine-readable resolution wording and open interest, neither of which
+# Polymarket exposes. It has no Ukraine ceasefire, Article 5 or NATO-Russia clash market -
+# verified by direct probing - so that half of the picture is Polymarket-only.
+# ---------------------------------------------------------------------------
+
+[[indicators]]
+id = "kalshi_us_iran_agreement"
+name = "Kalshi: US-Iran nuclear agreement"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXUSAIRANAGREEMENT"
+material_move = 0.05
+bears_on = [
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h4", direction = "up" },
+]
+
+[[indicators]]
+id = "kalshi_witkoff_russia"
+name = "Kalshi: Witkoff travels to Russia"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXWITKOFFRUSSIA"
+material_move = 0.05
+note = "A named envoy trip is one of the cleaner observable proxies for an active Ukraine track."
+bears_on = [{ hypothesis = "h2", direction = "up" }]
+
+[[indicators]]
+id = "kalshi_zelensky_putin"
+name = "Kalshi: Zelensky-Putin meeting"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXZELENSKYPUTIN"
+material_move = 0.05
+bears_on = [{ hypothesis = "h2", direction = "up" }]
+
+[[indicators]]
+id = "kalshi_putin_trump_location"
+name = "Kalshi: Putin-Trump meeting location"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXPUTINDJTLOCATION"
+material_move = 0.05
+bears_on = [{ hypothesis = "h2", direction = "up" }]
+
+[[indicators]]
+id = "kalshi_sanction_russia"
+name = "Kalshi: new US sanctions on Russia"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXSANCTIONRUSSIA"
+material_move = 0.05
+note = "A US-posture input. Costs point to H5 and against the American leg of H3."
+bears_on = [
+  { hypothesis = "h5", direction = "up" },
+  { hypothesis = "h3", direction = "down" },
+]
+
+[[indicators]]
+id = "kalshi_house_russia_sanction"
+name = "Kalshi: House Russia sanctions legislation"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXHOUSERUSSIASANCTION"
+material_move = 0.05
+bears_on = [
+  { hypothesis = "h5", direction = "up" },
+  { hypothesis = "h3", direction = "down" },
+]
+
+[[indicators]]
+id = "kalshi_kash_russia"
+name = "Kalshi: Kash Patel travels to Russia"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXKASHRUSSIA"
+material_move = 0.05
+bears_on = [{ hypothesis = "h6", direction = "up" }]
+
+[[indicators]]
+id = "kalshi_hormuz_weekly"
+name = "Kalshi: weekly Strait of Hormuz traffic"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXHORMUZWEEKLY"
+material_move = 0.10
+note = "Settles on IMF PortWatch, the same feed this repo collects directly, so the market and the counted quantity can be read against each other."
+bears_on = [
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h4", direction = "up" },
+]
+
+[[indicators]]
+id = "kalshi_hormuz_norm"
+name = "Kalshi: Strait of Hormuz traffic normalisation"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXHORMUZNORM"
+material_move = 0.10
+bears_on = [
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h4", direction = "up" },
+]
+
+[[indicators]]
+id = "kalshi_us_iran_mou"
+name = "Kalshi: US-Iran memorandum of understanding"
+source = "kalshi"
+kind = "market_probability"
+series_ticker = "KXUSIRANMOU"
+material_move = 0.05
+enabled = false
+disabled_reason = "The series has no open markets: the 17 June Islamabad MoU's 60-day window lapsed on 17 August 2026 and no successor market has been listed. Re-enable if one appears."
+bears_on = [{ hypothesis = "h4", direction = "up" }]
+
+# ---------------------------------------------------------------------------
+# INDICATORS — COUNTED QUANTITIES
+# ---------------------------------------------------------------------------
+
+[[indicators]]
+id = "portwatch_hormuz_transits"
+name = "IMF PortWatch: daily Strait of Hormuz transits"
+source = "portwatch"
+kind = "counted_quantity"
+chokepoint_id = "chokepoint6"
+value_field = "n_total"
+material_move = 0.20
+note = "The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits."
+bears_on = [
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h4", direction = "up" },
+]
+
+[[indicators]]
+id = "russia_iran_contacts"
+name = "Reported senior Russia-Iran diplomatic contacts per fortnight"
+source = "corpus"
+kind = "event_count"
+value_field = "count"
+material_move = 0.50
+note = "The only indicator that separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL."
+bears_on = [
+  { hypothesis = "h4", direction = "up" },
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h3", direction = "down" },
+  { hypothesis = "h5", direction = "down" },
+]
+
+# ---------------------------------------------------------------------------
+# NEWS SOURCES
+#
+# `source_family` is the unit of editorial independence, not the domain. Reuters is absent
+# because reuters.com/robots.txt disallows this agent site-wide and GDELT indexes no
+# reuters.com news; the only compliant route is the paid Reuters Connect licence.
+# ---------------------------------------------------------------------------
+
+[[news_sources]]
+id = "guardian_world"
+title = "The Guardian, World"
+url = "https://www.theguardian.com/world/rss"
+publisher = "The Guardian"
+source_family = "guardian"
+
+[[news_sources]]
+id = "bbc_world"
+title = "BBC News, World"
+url = "https://feeds.bbci.co.uk/news/world/rss.xml"
+publisher = "BBC News"
+source_family = "bbc"
+
+[[news_sources]]
+id = "aljazeera_all"
+title = "Al Jazeera English"
+url = "https://www.aljazeera.com/xml/rss/all.xml"
+publisher = "Al Jazeera"
+source_family = "aljazeera"
+
+[[news_sources]]
+id = "npr_world"
+title = "NPR, World"
+url = "https://feeds.npr.org/1004/rss.xml"
+publisher = "NPR"
+source_family = "npr"
+
+[[news_sources]]
+id = "white_house"
+title = "The White House"
+url = "https://www.whitehouse.gov/news/feed/"
+publisher = "The White House"
+source_family = "us_executive"
+source_type = "primary_record"
+standpoint = "United States executive branch"
+include_any = ["Russia", "Ukraine", "Iran", "Hormuz", "NATO", "sanctions", "nuclear"]
+
+[[news_sources]]
+id = "kremlin_en"
+title = "President of Russia, English"
+url = "http://en.kremlin.ru/events/president/news/feed"
+publisher = "Kremlin"
+source_family = "kremlin"
+source_type = "primary_record"
+standpoint = "Russian presidential administration"
+include_any = ["Ukraine", "Iran", "NATO", "United States", "sanctions", "security", "talks", "nuclear"]
+
+[[news_sources]]
+id = "un_news"
+title = "UN News"
+url = "https://news.un.org/feed/subscribe/en/news/all/rss.xml"
+publisher = "UN News"
+source_family = "united_nations"
+source_type = "primary_record"
+standpoint = "United Nations institutional reporting"
+include_any = ["Russia", "Ukraine", "Iran", "Hormuz", "NATO", "sanctions", "IAEA", "Security Council"]
+
+[[news_sources]]
+id = "state_department"
+title = "US Department of State"
+url = "https://www.state.gov/rss-feed/press-releases/feed/"
+publisher = "US Department of State"
+source_family = "us_state"
+source_type = "primary_record"
+standpoint = "United States Department of State"
+enabled = false
+disabled_reason = "Every state.gov RSS endpoint returns an HTML error page instead of XML (verified 26 August 2026)."
+reference_url = "https://www.state.gov/press-releases/"
+
+[[news_sources]]
+id = "us_treasury_ofac"
+title = "US Treasury and OFAC"
+url = "https://home.treasury.gov/news/press-releases/feed"
+publisher = "US Department of the Treasury"
+source_family = "us_treasury"
+source_type = "primary_record"
+standpoint = "United States Department of the Treasury"
+enabled = false
+disabled_reason = "The press-release RSS endpoint returns HTTP 404 and OFAC retired its RSS feed in 2025. Only an HTML listing remains, and a scraper over it would be brittle enough to misreport a sanctions action."
+reference_url = "https://ofac.treasury.gov/recent-actions"
+
+[[news_sources]]
+id = "nato_news"
+title = "NATO news and statements"
+url = "https://www.nato.int/cps/en/natohq/news.rss"
+publisher = "NATO"
+source_family = "nato"
+source_type = "primary_record"
+standpoint = "North Atlantic Treaty Organization"
+enabled = false
+disabled_reason = "NATO publishes no discoverable public RSS or Atom endpoint; every advertised and documented path returns HTTP 404 (verified 26 August 2026)."
+reference_url = "https://www.nato.int/cps/en/natohq/news.htm"
+
+[[news_sources]]
+id = "ukraine_president"
+title = "President of Ukraine, English"
+url = "https://www.president.gov.ua/en/news/all.rss"
+publisher = "President of Ukraine"
+source_family = "ukraine_president"
+source_type = "primary_record"
+standpoint = "Ukrainian presidential administration"
+enabled = false
+disabled_reason = "president.gov.ua/robots.txt disallows this user agent and the endpoint returns HTTP 403. Collecting it anyway would violate the site's stated rules."
+reference_url = "https://www.president.gov.ua/en/news"
+
+# ---------------------------------------------------------------------------
+# DISCOVERY — GDELT
+#
+# Two broad, paced queries. Discovery may never promote a claim on its own: an index is a
+# pointer to a story, not an independent witness to it.
+# ---------------------------------------------------------------------------
+
+[[discovery_queries]]
+id = "russia_ukraine_nato"
+title = "Russia, Ukraine and NATO theatre"
+query = "(Russia OR Russian OR Moscow) (Ukraine OR NATO) (sanctions OR ceasefire OR escalation OR intelligence OR weapons OR strikes)"
+max_records = 250
+
+[[discovery_queries]]
+id = "russia_iran_hormuz"
+title = "Russia, Iran and Hormuz theatre"
+query = "(Iran OR Iranian OR Tehran OR Hormuz) (Russia OR Russian OR Washington) (ceasefire OR nuclear OR intelligence OR weapons OR sanctions OR mediation)"
+max_records = 250
+
+# ---------------------------------------------------------------------------
+# CLAIM RULES
+#
+# Deterministic keyword rules over headlines and feed summaries. A match is labelled by
+# how well it is attested and nothing more. No number is attached and nothing is summed.
+# ---------------------------------------------------------------------------
+
+[[claim_rules]]
+id = "uranium_custody_route"
+title = "Third-party custody, transfer or accounting of Iranian enriched uranium"
+hypothesis_id = "h1"
+claim_type = "official_action"
+required_groups = [
+  ["iran", "iranian", "tehran"],
+  ["uranium", "enriched", "hexafluoride", "stockpile", "material"],
+  ["custody", "transfer", "remove", "removal", "account", "accounting", "ship", "shipped", "russia", "rosatom"],
+]
+
+[[claim_rules]]
+id = "ukraine_settlement_track"
+title = "Movement on a Ukraine settlement or a leaders' meeting"
+hypothesis_id = "h2"
+claim_type = "external_observable"
+required_groups = [
+  ["russia", "russian", "moscow", "kremlin", "putin"],
+  ["ukraine", "ukrainian", "kyiv", "zelensky", "zelenskyy"],
+  ["ceasefire", "settlement", "peace talks", "negotiations", "summit", "meeting", "truce"],
+]
+
+[[claim_rules]]
+id = "russia_iran_support_down"
+title = "Russia reduces support to Iran"
+hypothesis_id = "h3"
+claim_type = "external_observable"
+required_groups = [
+  ["russia", "russian", "moscow", "kremlin"],
+  ["iran", "iranian", "tehran"],
+  ["reduce", "reduces", "reduced", "halt", "halts", "halted", "suspend", "suspends", "suspended", "withdraw", "withdrew", "curb", "curbs", "curbed"],
+  ["intelligence", "targeting", "weapons", "military", "satellite", "arms", "support"],
+]
+
+[[claim_rules]]
+id = "russia_iran_engagement_up"
+title = "Russia increases engagement with Iran"
+hypothesis_id = "h4"
+claim_type = "external_observable"
+required_groups = [
+  ["russia", "russian", "moscow", "kremlin", "lavrov", "putin"],
+  ["iran", "iranian", "tehran", "araghchi"],
+  ["mediate", "mediation", "broker", "brokered", "talks", "delegation", "visit", "message", "channel", "consultations"],
+]
+
+[[claim_rules]]
+id = "us_costs_on_russia"
+title = "United States imposes new costs on Russia"
+hypothesis_id = "h5"
+claim_type = "official_action"
+required_groups = [
+  ["russia", "russian", "moscow"],
+  ["united states", "washington", "treasury", "ofac", "state department"],
+  ["sanctions", "designations", "designated", "export controls", "penalties"],
+  ["new", "impose", "imposes", "imposed", "expand", "expands", "expanded", "tighten", "tightens"],
+]
+
+[[claim_rules]]
+id = "channel_maintenance_business"
+title = "Prisoner, embassy or counterterrorism channel business"
+hypothesis_id = "h6"
+claim_type = "external_observable"
+required_groups = [
+  ["russia", "russian", "moscow", "kremlin"],
+  ["united states", "washington", "american", "cia"],
+  ["prisoner", "prisoners", "exchange", "swap", "embassy", "ambassador", "consular", "counterterrorism"],
+]

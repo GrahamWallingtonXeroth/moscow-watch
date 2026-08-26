@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moscow-watch"
+version = "0.1.0"
+description = "Collects and publishes indicators bearing on the August 2026 Moscow intelligence visit. It does not adjudicate them."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Moscow Watch contributors" }]
+keywords = ["osint", "prediction-markets", "polymarket", "kalshi", "geopolitics"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+# The collectors, the tracker and the diff use only the standard library. No API key,
+# secret or database is required by any source.
+dependencies = []
+
+[project.optional-dependencies]
+# Charts are the one thing that needs a third-party package. Everything else runs without it.
+charts = ["matplotlib>=3.8"]
+
+[project.scripts]
+mw = "moscow_watch.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/GrahamWallingtonXeroth/moscow-watch"
+Documentation = "https://github.com/GrahamWallingtonXeroth/moscow-watch#readme"
+Issues = "https://github.com/GrahamWallingtonXeroth/moscow-watch/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]

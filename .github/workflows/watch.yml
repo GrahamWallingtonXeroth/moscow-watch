@@ -1,0 +1,63 @@
+name: Update watch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: moscow-watch-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # Hard cap. No upstream is allowed to hold the schedule open.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: python -m pip install -e ".[charts]"
+
+      - name: Validate indicators.toml
+        run: mw check-config
+
+      # A single upstream being down must not stop the rest of the run; it is recorded
+      # in data/source_status.json and shown as a failed row in TRACKER.md.
+      - name: Collect
+        run: mw collect --allow-partial
+
+      - name: Render tracker
+        if: always()
+        run: mw tracker
+
+      - name: Render changes
+        if: always()
+        run: mw diff
+
+      - name: Build charts
+        if: always()
+        run: mw charts
+
+      - name: Commit whatever changed
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name "moscow-watch[bot]"
+          git config user.email "moscow-watch[bot]@users.noreply.github.com"
+          # Stage directories, not globs: a glob matching nothing aborts `git add`, and a
+          # ledger only appears once its first record is collected.
+          git add -A -- TRACKER.md CHANGES.md data assets
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+            exit 0
+          fi
+          git commit -m "data: update watch"
+          git push

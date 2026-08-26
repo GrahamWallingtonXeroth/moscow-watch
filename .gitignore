@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+
+# Never commit credentials. No collector needs one, so anything matching this is a mistake.
+.env
+.env.*
+*.pem
+*.key
+cookies.txt

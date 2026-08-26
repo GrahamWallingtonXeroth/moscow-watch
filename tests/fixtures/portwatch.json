@@ -1,0 +1,4 @@
+{"features":[
+ {"attributes":{"portid":"chokepoint6","portname":"Strait of Hormuz","date":"2026-08-23","n_total":3,"n_tanker":1,"n_cargo":2,"n_container":0,"n_dry_bulk":1,"n_general_cargo":1,"n_roro":0,"capacity":32472,"capacity_tanker":12000,"capacity_cargo":20472}},
+ {"attributes":{"portid":"chokepoint6","portname":"Strait of Hormuz","date":"2026-08-22","n_total":7,"n_tanker":1,"n_cargo":6,"n_container":2,"n_dry_bulk":2,"n_general_cargo":2,"n_roro":0,"capacity":184497,"capacity_tanker":15000,"capacity_cargo":169497}},
+ {"attributes":{"portid":"chokepoint6","portname":"Strait of Hormuz","date":"2026-08-21","n_total":4,"n_tanker":2,"n_cargo":2,"n_container":1,"n_dry_bulk":1,"n_general_cargo":0,"n_roro":0,"capacity":72476,"capacity_tanker":40000,"capacity_cargo":32476}}]}

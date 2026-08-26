@@ -1,0 +1,9 @@
+{"markets":[
+ {"ticker":"KXTEST-26AUG30-T75","event_ticker":"KXTEST-26AUG30","title":"Test market above 75","status":"active",
+  "close_time":"2026-09-01T13:00:00Z","yes_bid_dollars":"0.0100","yes_ask_dollars":"0.0800",
+  "last_price_dollars":"0.1000","volume_fp":"422.31","open_interest_fp":"421.31","liquidity_dollars":"0.0000",
+  "rules_primary":"If traffic is above 75 then Yes.","rules_secondary":""},
+ {"ticker":"KXTEST-26AUG30-T50","event_ticker":"KXTEST-26AUG30","title":"Test market above 50","status":"active",
+  "close_time":"2026-09-08T13:00:00Z","yes_bid_dollars":"0.0500","yes_ask_dollars":"0.0800",
+  "last_price_dollars":"0.0500","volume_fp":"2323.70","open_interest_fp":"1863.46","liquidity_dollars":"0.0000",
+  "rules_primary":"If traffic is above 50 then Yes.","rules_secondary":""}]}
