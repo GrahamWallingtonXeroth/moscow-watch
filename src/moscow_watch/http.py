@@ -15,8 +15,8 @@ from urllib.request import Request, urlopen
 from .models import utc_now_iso
 
 USER_AGENT = (
-    "moscow-bargain-watch/0.3 "
-    "(+https://github.com/GrahamWallingtonXeroth/moscow-bargain-watch)"
+    "moscow-watch/0.1 "
+    "(+https://github.com/GrahamWallingtonXeroth/moscow-watch)"
 )
 
 # Permanent failures. Retrying these wastes the workflow budget and tells us nothing new.

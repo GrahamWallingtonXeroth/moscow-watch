@@ -120,9 +120,9 @@ every claim. This is a real limitation: a headline can invert the article beneat
 `CHANGES.md` is the feature the follow-up articles are written from, so two suppressions
 keep it honest:
 
-- **No move computed over a window shorter than `min_change_window_hours`** (default 6). An
-  earlier version of this project reported half-point moves over three-minute windows, which
-  made noise look like news.
+- **No move computed over a window shorter than `min_change_window_hours`** (default 6). A
+  half-point move over a three-minute window is noise, and reporting it as news is how a
+  tracker loses its reader.
 - **No move smaller than the indicator's own `material_move`**, fixed in advance in
   `indicators.toml` rather than chosen after seeing the data.
 
@@ -140,20 +140,44 @@ drawn as an empty ring at centre and labelled *not yet determined* — never gue
 
 ### X — Russian engagement with Iran
 
-From the contact counter. With `latest` the count in the most recent fortnight and `mean`
-the mean per fortnight before the event date:
+From **Russia–Iran engagement volume (reporting index)**, not from the contact counter. The
+counter cannot reach behind 25 August — RSS exposes only a few days — and an axis without a
+pre-event baseline cannot be read at all. GDELT does hold history, so the baseline is built
+from GDELT DOC 2.0 in `timelinevol` mode by `mw backfill --engagement`, covering 1 January
+2026 to 24 August 2026 and bucketed by fortnight.
+
+With `latest` the mean daily volume in the current post-event fortnight and `mean` the mean
+across the complete pre-event fortnights:
 
 ```
-x = clamp( (latest − mean) / max(mean, 1),  −1, +1 )
+x = clamp( (latest − mean) / mean,  −1, +1 )
 ```
 
 Negative is *Russia pulls back from Tehran*; positive is *Russia leans in*.
 
-The counter counts **reported** contacts from the collected corpus, each stored with its
-source URL so the count is auditable. Unreported diplomacy is exactly what this story is
-about, so it is a floor and never a total. It also **cannot be backfilled** — RSS exposes
-only a few days — so the pre-event baseline is not currently available from any source this
-project can compliantly collect.
+Three limits travel with that number wherever it appears:
+
+1. It counts **reporting volume** from a news index — the share of the coverage GDELT
+   monitored that day which matched the query — and **not contacts**. It is a proxy for
+   diplomatic tempo, not a tally of meetings.
+2. Because it is a share of coverage, **only the direction of change against the baseline
+   is meaningful**. The level on its own says nothing.
+3. Counting how much a subject is reported and attesting that something happened are
+   different operations. This performs the first only. The rule that a GDELT hit can never
+   attest a claim is unchanged: nothing in this series promotes or corroborates anything.
+
+Two bucketing rules keep the comparison honest. The baseline uses only **complete**
+fortnights that end before 25 August, so a short window is never averaged in beside a full
+one and the event's own coverage spike never lands in its own baseline. The live series is
+bucketed in 14-day windows measured **from the event date**, so a window never mixes days
+before the visit with days after it. And the marker is not placed at all until the current
+fortnight holds at least seven days, because half a fortnight is the least that can be
+compared with a whole one.
+
+The directly collected contact counter runs alongside this and is unchanged. It counts
+**reported** contacts from the collected corpus, each stored with its source URL, so it is
+the auditable series; unreported diplomacy is exactly what this story is about, so it is a
+floor and never a total.
 
 ### Y — US posture toward Russia
 

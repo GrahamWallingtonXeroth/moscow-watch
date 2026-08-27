@@ -110,7 +110,15 @@ class SourceHealth:
         # Each evidence layer is reported separately: losing all newsrooms is a different
         # failure from losing the discovery index, and only one of them stops scoring.
         layers: dict[str, dict[str, Any]] = {}
-        for layer in ("polymarket", "independent_reporting", "primary_record", "discovery"):
+        for layer in (
+            "polymarket",
+            "kalshi",
+            "portwatch",
+            "independent_reporting",
+            "primary_record",
+            "discovery",
+            "gdelt",
+        ):
             entries = [e for e in self.entries.values() if e.kind == layer]
             ok = [e for e in entries if e.status == "ok"]
             families_ok = {e.source_family for e in ok if e.source_family}

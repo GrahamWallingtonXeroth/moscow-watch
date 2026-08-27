@@ -15,13 +15,18 @@ name = "Moscow Watch"
 event_date = "2026-08-25"
 news_timespan = "3d"
 stale_after_hours = 12
-# Never report a move computed over a shorter window than this. The previous version
-# reported half-point moves over three-minute windows and it discredited the whole page.
+# Never report a move computed over a shorter window than this. A half-point move over a
+# three-minute window is noise, and reporting it as news discredits the whole page.
 min_change_window_hours = 6
 max_discovery_queries = 2
 discovery_min_interval_seconds = 6
 # Fortnight buckets for the contact counter are measured from here.
 contact_anchor = "2026-01-05"
+# The pre-event baseline for the reporting-volume index. RSS exposes only a few days, so
+# the baseline is assembled from GDELT DOC 2.0 in timelinevol mode by `mw backfill
+# --engagement`, and it stops the day before the visit.
+engagement_baseline_start = "2026-01-01"
+engagement_baseline_end = "2026-08-24"
 
 # ---------------------------------------------------------------------------
 # HYPOTHESES
@@ -56,7 +61,7 @@ falsifier_date = "2026-11-30"
 id = "h4"
 name = "Brokerage"
 claim = "Washington asked Moscow to carry messages to, or mediate with, Tehran. Not a trade and not a withdrawal of Russian support, but an increase in Russian engagement at American request."
-falsifier = "A fall in reported Russia-Iran contacts below the pre-25-August baseline, sustained through 31 October 2026."
+falsifier = "Reported Russia-Iran contacts have not risen above the pre-25-August baseline by 31 October 2026, and US-Iran talks have not resumed."
 falsifier_date = "2026-10-31"
 
 [[hypotheses]]
@@ -324,7 +329,32 @@ source = "corpus"
 kind = "event_count"
 value_field = "count"
 material_move = 0.50
-note = "The only indicator that separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL."
+note = "The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL."
+bears_on = [
+  { hypothesis = "h4", direction = "up" },
+  { hypothesis = "h1", direction = "up" },
+  { hypothesis = "h3", direction = "down" },
+  { hypothesis = "h5", direction = "down" },
+]
+
+# ---------------------------------------------------------------------------
+# INDICATORS — REPORTING VOLUME
+#
+# One indicator, and it is the only place in this file where GDELT supplies a number
+# rather than a lead. The distinction it rests on: counting how often a subject is
+# reported and attesting that something happened are different operations. This does the
+# first. It never does the second.
+# ---------------------------------------------------------------------------
+
+[[indicators]]
+id = "russia_iran_engagement_volume"
+name = "Russia-Iran engagement volume (reporting index)"
+source = "gdelt"
+kind = "reporting_index"
+query = "(Russia OR Russian OR Moscow OR Kremlin OR Lavrov) (Iran OR Iranian OR Tehran OR Araghchi) (talks OR meeting OR visit OR delegation OR consultations OR mediation OR envoy)"
+value_field = "mean_volume"
+material_move = 0.05
+note = "Counts REPORTING VOLUME from a news index - GDELT DOC 2.0 in timelinevol mode - and not contacts. It is a proxy for diplomatic tempo rather than a count of contacts: the value is the share of monitored world coverage matching the query, averaged over the fortnight. Only the DIRECTION of change against the pre-25-August baseline is meaningful; the level carries no meaning on its own. A GDELT hit still cannot attest a claim, because counting volume and attesting a claim are different operations, so nothing here promotes anything. The directly collected contact counter runs alongside it and is the auditable one."
 bears_on = [
   { hypothesis = "h4", direction = "up" },
   { hypothesis = "h1", direction = "up" },

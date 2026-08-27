@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 import tomllib
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -22,9 +22,10 @@ INDICATOR_KINDS = {
     "market_ladder",        # a set of dated legs read as a term structure
     "counted_quantity",     # something physically counted, e.g. ship transits
     "event_count",          # a tally built from collected records, e.g. contacts
+    "reporting_index",      # how much a subject is being reported, from a news index
 }
 DIRECTIONS = {"up", "down", "flat"}
-VENUES = {"polymarket", "kalshi", "portwatch", "corpus"}
+VENUES = {"polymarket", "kalshi", "portwatch", "corpus", "gdelt"}
 
 
 @dataclass(slots=True)
@@ -57,6 +58,7 @@ class Indicator:
     event_slug: str = ""
     series_ticker: str = ""
     chokepoint_id: str = ""
+    query: str = ""
     value_field: str = ""
     material_move: float = 0.05
     bears_on: list[dict[str, str]] = field(default_factory=list)
@@ -150,6 +152,20 @@ class Config:
     @property
     def contact_anchor(self) -> date:
         return date.fromisoformat(str(self.project.get("contact_anchor", "2026-01-05")))
+
+    @property
+    def engagement_baseline_start(self) -> date:
+        return date.fromisoformat(
+            str(self.project.get("engagement_baseline_start", "2026-01-01"))
+        )
+
+    @property
+    def engagement_baseline_end(self) -> date:
+        """The last day of the baseline window: the day before the event, never after it."""
+        stated = date.fromisoformat(
+            str(self.project.get("engagement_baseline_end", "2026-08-24"))
+        )
+        return min(stated, self.event_date - timedelta(days=1))
 
     @property
     def event_date(self) -> date:
@@ -252,11 +268,24 @@ def validate_config(config: Config) -> list[str]:
             "[project] discovery_min_interval_seconds must be at least 5 to respect GDELT's "
             "documented rate limit"
         )
-    for key in ("contact_anchor", "event_date"):
+    for key in (
+        "contact_anchor",
+        "event_date",
+        "engagement_baseline_start",
+        "engagement_baseline_end",
+    ):
         try:
             getattr(config, key)
         except (ValueError, TypeError):
             errors.append(f"[project] {key} must be an ISO date")
+
+    try:
+        if config.engagement_baseline_start >= config.engagement_baseline_end:
+            errors.append(
+                "[project] engagement_baseline_start must precede engagement_baseline_end"
+            )
+    except (ValueError, TypeError):
+        pass
 
     hypothesis_ids = {h.id for h in config.hypotheses}
     for dupe in _duplicates([h.id for h in config.hypotheses]):
@@ -306,6 +335,11 @@ def validate_config(config: Config) -> list[str]:
                     f"indicator {indicator.id} has invalid direction {bearing.direction!r}; "
                     f"expected one of {sorted(DIRECTIONS)}"
                 )
+        if indicator.source == "gdelt" and not indicator.query:
+            errors.append(
+                f"indicator {indicator.id} draws on GDELT but states no query; the query is "
+                "the whole definition of a reporting-volume series"
+            )
         if not indicator.enabled and not indicator.disabled_reason:
             errors.append(f"indicator {indicator.id} is disabled but gives no disabled_reason")
 

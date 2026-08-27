@@ -34,7 +34,7 @@ evidence arrives is the only thing separating a tracker from a narrative.
 | **H1** | Uranium custody | A disposition route, through Moscow, for Iran's unaccounted enriched uranium — reviving the 2015 mechanism | No IAEA, Rosatom or US statement referencing third-party custody, transfer or accounting of Iranian material | 31 Oct 2026 |
 | **H2** | Ukraine endgame | Preparation for a settlement or a Trump–Putin meeting, explored deniably because the formal track has been suspended since February | No announced meeting, no resumed trilateral track, and no near-dated change in the ceasefire term structure | 31 Oct 2026 |
 | **H3** | Iran-for-Ukraine bargain | Reciprocal costly concessions: US room in Ukraine, Russian pullback from Iran | Continued or increased Russian engagement with Tehran alongside continued US costs on Russia | 30 Nov 2026 |
-| **H4** | Brokerage | Washington asked Moscow to carry messages to Tehran — an *increase* in Russian engagement, at American request | A fall in reported Russia–Iran contacts below the pre-25-August baseline, sustained | 31 Oct 2026 |
+| **H4** | Brokerage | Washington asked Moscow to carry messages to Tehran — an *increase* in Russian engagement, at American request | Reported Russia–Iran contact has not risen above the pre-25-August baseline, and US–Iran talks have not resumed | 31 Oct 2026 |
 | **H5** | Warning | A demand about Russian intelligence support to Iranian forces targeting American assets. Coercion, not cooperation | No new US costs on Russia and no reported reduction in targeting support | 31 Oct 2026 |
 | **H6** | Channel maintenance | Ordinary service business: prisoners, counterterrorism, embassies. There is no US ambassador in Moscow | Any documented substantive outcome on Iran, uranium or Ukraine attributable to the visit | 31 Oct 2026 |
 
@@ -55,9 +55,14 @@ simply **which direction Russian officials are travelling**.
 
 ![Six explanations, two axes we can count](assets/discriminator-map.png)
 
-The marker's position must be derivable from the ledger. When it is not — as now, because
-the contact counter has no pre-event baseline — it is drawn as an empty ring at centre and
-labelled *not yet determined*, never guessed.
+The marker's position must be derivable from the ledger. The vertical axis comes from
+collected market prices. The horizontal one comes from the **Russia–Iran engagement volume
+(reporting index)**, which is the only series here that reaches behind 25 August: it counts
+reporting volume from GDELT's news index, not contacts, so it is a proxy for diplomatic
+tempo and only the *direction* of its change against the pre-event baseline is used. Until
+half a fortnight of post-event days has been collected, or if the baseline is missing, the
+marker is drawn as an empty ring at centre and labelled *not yet determined*, never
+guessed.
 
 ## Where every number comes from
 
@@ -71,7 +76,7 @@ All endpoints are public and require **no authentication, no API key and no secr
 | Kalshi | Markets, order books, candlesticks **with open interest**, and machine-readable resolution wording | `external-api.kalshi.com/trade-api/v2` |
 | IMF PortWatch | Daily Strait of Hormuz transits, ~2,790 rows of history | `services9.arcgis.com/.../Daily_Chokepoints_Data` |
 | RSS | Guardian, BBC, Al Jazeera, NPR, White House, Kremlin, UN News | publisher feeds |
-| GDELT | Discovery only — candidate leads it may never promote | `api.gdeltproject.org/api/v2/doc/doc` |
+| GDELT | Discovery leads it may never promote, and — separately — reporting volume over time, which measures coverage and attests nothing | `api.gdeltproject.org/api/v2/doc/doc` |
 
 Two things about that table are worth pausing on.
 
@@ -97,13 +102,15 @@ formula is in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 
 - **It does not say which hypothesis is winning.** No score, no ranking, no aggregate.
 - **It does not price positions.** No profit-and-loss tables, no return calculations, and
-  no claim about whether any market is mispriced. Earlier versions did all three, and the
-  numbers looked more rigorous than they were.
+  no claim about whether any market is mispriced.
 - **It does not treat a source saying something as that thing being true.** A claim is
   labelled by how well it is attested — `primary_documented`, `corroborated`,
   `single_source`, `contested`, `discovery_only` — and the label is the whole output.
 - **It does not let an index vote.** A GDELT hit is a pointer to a story, not a witness to
-  it, and can never be the second source that attests a claim.
+  it, and can never be the second source that attests a claim. GDELT also supplies one
+  number — how much Russia–Iran engagement is being reported — and that is a measurement of
+  coverage, not an attestation. Counting how often a subject is reported and establishing
+  that something happened are different operations, and the code keeps them apart.
 - **It does not invent history.** If two real observations do not exist, the tracker says
   so rather than assuming a baseline.
 
@@ -125,9 +132,16 @@ formula is in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
   to plot the line naively.
 - **The contact counter measures *reported* contacts.** Unreported diplomacy is exactly
   what this story is about, so the count is a floor and never a total. It also **cannot be
-  backfilled**: RSS feeds expose only a few days, so the pre-25-August baseline the
-  discriminator map needs is not available from any source this project can compliantly
-  collect. The series starts from first run and accumulates.
+  backfilled**: RSS feeds expose only a few days, so the directly counted series starts
+  from first run and accumulates.
+- **The baseline behind the discriminator map is a reporting index, not a contact count.**
+  Because the counter cannot reach behind 25 August, the horizontal axis is measured
+  instead by **Russia–Iran engagement volume (reporting index)**: GDELT DOC 2.0 in
+  `timelinevol` mode, backfilled from 1 January 2026 and bucketed by fortnight. It counts
+  reporting volume from a news index, which is a proxy for diplomatic tempo and **not** a
+  count of contacts, and its level means nothing on its own — **only the direction of
+  change against the baseline is meaningful**. The directly collected counter, where every
+  entry carries a citation, runs alongside it and remains the auditable one.
 - **The far legs of the ceasefire ladder are thin** — the March and June 2027 rungs carry
   under $5,000 of volume between them. Treat the Q1-2027 peak with the caution that
   deserves.
@@ -160,6 +174,7 @@ mw check-config              # validate indicators.toml offline
 mw doctor --check-robots     # read-only live checks; writes nothing
 mw collect --allow-partial   # collect from every configured source
 mw backfill --trades         # real price history and the trade tape
+mw backfill --only-engagement # pre-25-August reporting-volume baseline from GDELT
 mw tracker                   # render TRACKER.md
 mw diff --since 2026-08-25   # render CHANGES.md
 mw charts                    # regenerate both PNGs
@@ -173,6 +188,7 @@ indicators.toml              hypotheses, indicators, sources, resolution dates
 src/moscow_watch/
   collectors/                polymarket · kalshi · portwatch · contacts · feeds · gdelt
   corroboration.py           attestation taxonomy — labels, never numbers
+  engagement.py              reporting-volume buckets, baseline and direction
   dedupe.py                  syndication clustering
   hazard.py                  term-structure maths
   tracker.py                 renders TRACKER.md

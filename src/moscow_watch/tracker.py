@@ -207,8 +207,9 @@ def render(
         "kalshi": "Kalshi",
         "portwatch": "IMF PortWatch (counted quantity)",
         "corpus": "Collected corpus",
+        "gdelt": "GDELT reporting index (volume only — it attests nothing)",
     }
-    for source in ("polymarket", "kalshi", "portwatch", "corpus"):
+    for source in ("polymarket", "kalshi", "portwatch", "corpus", "gdelt"):
         rows = grouped.get(source, [])
         if not rows:
             continue
@@ -254,6 +255,7 @@ def render(
             ("independent_reporting", "Independent reporting"),
             ("primary_record", "Primary records"),
             ("discovery", "Discovery (GDELT, never promotes a claim)"),
+            ("gdelt", "GDELT reporting index (volume only)"),
         ):
             layer = layers.get(key)
             if not layer:

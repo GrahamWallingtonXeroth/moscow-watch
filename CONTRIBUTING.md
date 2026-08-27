@@ -9,8 +9,7 @@ readers. Disagreement about what the evidence means is the point of the project.
 
 Pull requests that add scoring, ranking, weighting, an aggregate "which hypothesis is
 winning" number, or a position-pricing calculation will be declined however well
-implemented. A previous version had all of those and they made it look more rigorous than
-it was.
+implemented. They make a page look more rigorous than it is.
 
 Interpretation goes in the article, with a name attached to it.
 

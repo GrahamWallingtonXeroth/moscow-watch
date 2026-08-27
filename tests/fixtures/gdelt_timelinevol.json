@@ -1,0 +1,19 @@
+{
+  "query_details": {
+    "title": "(Russia OR Russian OR Moscow) (Iran OR Iranian OR Tehran) (talks OR meeting OR visit)",
+    "date_resolution": "day"
+  },
+  "timeline": [
+    {
+      "series": "Volume Intensity",
+      "data": [
+        { "date": "20260105T000000Z", "value": 0.2 },
+        { "date": "20260106T000000Z", "value": 0.4 },
+        { "date": "20260107T000000Z", "value": 0.3 },
+        { "date": "20260119T000000Z", "value": 0.9 },
+        { "date": "20260120T000000Z", "value": "not a number" },
+        { "date": "", "value": 0.5 }
+      ]
+    }
+  ]
+}

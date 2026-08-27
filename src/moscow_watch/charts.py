@@ -8,8 +8,9 @@ Three figures, regenerated on every collection run:
                          converted to forward conditional hazard rates
   hero-sequence.png      the established sequence of 17-26 August
 
-Both read from data/latest.json in production. The defaults below are the
-verified readings for 26 August 2026 so the module runs standalone.
+`render_all` builds every figure from the collected ledgers in `data/`. The
+module-level defaults exist only so the file can be run directly while working
+on the layout; nothing published is drawn from them.
 """
 from __future__ import annotations
 
@@ -150,7 +151,7 @@ def discriminator_map(position=None, as_of="26 August 2026", path="discriminator
              "Live tracker  ·  github.com/GrahamWallingtonXeroth/moscow-watch",
              fontsize=13.5, color=FAINT)
     fig.text(0.948, 0.043,
-             "Sources: Polymarket · Kalshi · IMF PortWatch · official readouts",
+             "Sources: Polymarket · Kalshi · IMF PortWatch · official readouts · GDELT",
              fontsize=13.5, color=FAINT, ha="right")
 
     fig.savefig(path, bbox_inches="tight", pad_inches=0.40, facecolor=INK)
@@ -346,22 +347,35 @@ def us_posture_index(store, config) -> tuple[float | None, str]:
     return max(-1.0, min(1.0, -(mean - 0.5) * 2.0)), f"mean of {len(values)} market(s)"
 
 
-def contact_axis(store, config) -> tuple[float | None, str]:
-    """X-axis: Russia pulls back (-1) … Russia leans in (+1), from the contact counter."""
-    series = sorted(store.read("contact_series"), key=lambda r: str(r.get("fortnight_start", "")))
-    if not series:
-        return None, "no contact series collected"
-    from .collectors.contacts import baseline as contact_baseline
+def engagement_axis(store, config) -> tuple[float | None, str]:
+    """X-axis: Russia pulls back (-1) … Russia leans in (+1).
 
-    base = contact_baseline(series, before=config.event_date)
-    mean = base.get("mean_per_fortnight")
-    if mean is None:
-        return None, "no pre-event baseline available"
-    latest = float(series[-1].get("count", 0))
-    if mean == 0:
-        return (0.0 if latest == 0 else 1.0), "baseline is zero"
-    ratio = (latest - mean) / max(mean, 1.0)
-    return max(-1.0, min(1.0, ratio)), f"latest {latest:.0f} vs baseline {mean:.2f}/fortnight"
+    Read from the reporting-volume index, because it is the only one of the two series
+    that reaches behind the event date. It measures how much Russia-Iran engagement is
+    being *reported*, not how many contacts occurred, so only the direction of change
+    against the pre-event baseline is used here — never the level.
+    """
+    from .engagement import axis_position, fortnightly_volume
+    from .engagement import baseline as engagement_baseline
+
+    series = fortnightly_volume(
+        store.read("engagement_daily"), anchor=config.event_date, since=config.event_date
+    )
+    if not series:
+        return None, "no reporting-volume series collected since the event"
+    base = engagement_baseline(store.read("engagement_baseline"), before=config.event_date)
+    position = axis_position(series, base)
+    if position is None:
+        if base.get("mean_volume") is None:
+            return None, "no pre-25-August baseline; run `mw backfill --engagement`"
+        return None, (
+            f"only {series[-1]['days']} of 14 days collected since the event; the marker "
+            "is not placed on less than half a fortnight"
+        )
+    return position, (
+        f"latest {series[-1]['mean_volume']:.4f}% vs baseline "
+        f"{base['mean_volume']:.4f}% over {base['fortnights']} fortnights"
+    )
 
 
 # --------------------------------------------------------------------------
@@ -438,7 +452,7 @@ def hero_timeline(path="hero-sequence.png"):
 
 
 def render_all(config, store, out_dir: Path = Path("assets")) -> list[str]:
-    """Regenerate both PNGs from the ledger. Committed on every run."""
+    """Regenerate the three PNGs from the ledger. Committed on every run."""
     out_dir.mkdir(parents=True, exist_ok=True)
     as_of = datetime.now(UTC).strftime("%d %B %Y")
     written: list[str] = []
@@ -457,7 +471,7 @@ def render_all(config, store, out_dir: Path = Path("assets")) -> list[str]:
     else:
         print("hazard-curve.png skipped: no ceasefire ladder in the ledger")
 
-    x, x_note = contact_axis(store, config)
+    x, x_note = engagement_axis(store, config)
     y, y_note = us_posture_index(store, config)
     if x is None or y is None:
         # Never guess a position. Centre it and say so.

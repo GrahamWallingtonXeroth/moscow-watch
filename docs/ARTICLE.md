@@ -185,10 +185,18 @@ costs nothing at all.
 
 Plotted together, each explanation occupies its own cell.
 
-**Six explanations, two countable quantities.** *The marker shows where the evidence sits
-today and moves as data arrives.*
+**Six explanations, two countable quantities.** *The marker sits where the collected data
+puts it. Today it sits nowhere.*
 
 ![Discriminator map](../assets/discriminator-map.png)
+
+The marker reads "not yet determined", and it is worth saying why rather than quietly
+picking a spot. The vertical axis can be assembled from sanctions filings and market prices
+that carry years of history behind them. The horizontal one cannot, at least not yet. The
+rate of Russian-Iranian contact needs a baseline from before August 25th to mean anything,
+and the feeds this project can lawfully collect expose only the past few days. The counter
+therefore starts from nothing and accumulates. A tracker that guessed the missing half
+would be a worse instrument than one that leaves it blank, and the blank will fill.
 
 Six weeks of data will place the story in one of those boxes or show it sitting still,
 which is itself an answer and the likeliest one.
@@ -222,27 +230,38 @@ tolerable reason to lead with it.
 ## A test with dates on it
 
 The whole apparatus sits in a public repository. It collects Polymarket ladders together
-with their full price history, Kalshi contracts with open interest and machine-readable
-settlement rules, daily tanker transits through the Strait of Hormuz from the IMF's
-PortWatch dataset, and a count of senior Russian-Iranian diplomatic contacts drawn from
-official readouts. Every source is a public endpoint and none requires a key. It runs every
-six hours, and the charts above regenerate with it, so they may have moved by the time they
-are read.
+with their full price history and trade tape, Kalshi contracts with their open interest and
+machine-readable settlement rules, daily tanker transits through the Strait of Hormuz from
+the IMF's PortWatch dataset, and a count of senior Russian-Iranian diplomatic contacts drawn
+from official readouts, which as noted begins empty. Every source is a public endpoint and
+none requires a key. It runs every six hours, and the charts above regenerate with it, so
+they may have moved by the time they are read.
+
+One of those sources deserves particular attention, because it is the clearest example of
+the thing this exercise is arguing for. Kalshi runs contracts on traffic through the Strait
+of Hormuz, and they settle on the IMF's PortWatch figures: the same feed collected here
+directly, with about 7,500 days of history behind it. A market whose resolution depends on
+a counted physical quantity that anybody can download is a fundamentally different object
+from a market resolved by somebody's judgment about whether an event happened. It can be
+checked against reality rather than against a consensus reading of the news, which is the
+condition under which open-source intelligence and prediction markets are genuinely useful
+together. Most of the markets in this article do not meet it. That one does.
 
 It publishes data and declines to say which explanation is winning, that being a judgment,
 and judgments benefiting from a name attached.
 
-Each explanation carries a falsifier and a date, fixed now rather than in hindsight.
-Custody fails if, by October 31st, there is no movement from Rosatom or the IAEA on Iranian
-material and Washington restates on the record that it will not use a Russian route.
-Ukraine fails if, by the same date, no senior American official has travelled to Russia, no
-meeting is scheduled and the near end of the hazard curve has not steepened. The bargain
-fails if, by November 30th, intelligence-sharing with Kyiv remains at full levels, no
-sanctions relief has occurred and Russian support to Iran is still being reported.
-Brokerage fails if Russian-Iranian contact has not risen above its baseline by October
-31st and American-Iranian talks have not resumed. The warning fails on any documented
-American relief towards Russia. The routine explanation fails if any of this produces
-durable change in either theatre.
+Each explanation carries a falsifier and a date, fixed now rather than in hindsight, and
+stated in the repository in the same words. Custody fails if no statement from the IAEA,
+from Rosatom or from Washington references third-party custody, transfer or accounting of
+Iranian material by October 31st. Ukraine fails if by the same date there is no announced
+meeting, no resumption of the trilateral track and no near-dated change in the ceasefire
+term structure. The bargain fails on continued or increased Russian engagement with Tehran
+alongside continued American costs on Russia, through November 30th. Brokerage fails if
+reported Russian-Iranian contact has not risen above its pre-August-25th baseline by
+October 31st and American-Iranian talks have not resumed. The warning fails if no new
+American costs are imposed on Russia and no reduction in Russian targeting support is
+reported by October 31st. Channel maintenance fails on any documented substantive outcome
+on Iran, uranium or Ukraine attributable to the visit by the same date.
 
 Further pieces will follow when the data move, and the repository will have shown what
 moved first.

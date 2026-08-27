@@ -101,10 +101,27 @@ Terms: [IMF PortWatch](https://portwatch.imf.org/).
 Not an endpoint — a tally built from the collected corpus. Senior Russia–Iran diplomatic
 contacts per fortnight, each stored with its source URL so the count is auditable.
 
-It is the only indicator that separates H3 from H4, and it counts **reported** contacts, so
-it is a floor and never a total. It cannot be backfilled: RSS feeds expose only a few days,
-so the pre-25-August baseline is not available from any source this project can compliantly
-collect. The series starts at first run.
+It counts **reported** contacts, so it is a floor and never a total, and it cannot be
+backfilled: RSS feeds expose only a few days. The series starts at first run and every
+entry carries a citation, which makes it the auditable half of the pair below.
+
+### Russia–Iran engagement volume (reporting index)
+
+`api.gdeltproject.org/api/v2/doc/doc` in `timelinevol` mode. The value is the share of the
+coverage GDELT monitored on a given day that matched the engagement query, averaged over a
+fortnight. `mw backfill --engagement` builds the pre-25-August baseline from 1 January
+2026; `mw collect` extends the series forward from the event date.
+
+It exists because the counter above cannot reach behind the event and the discriminator
+map's horizontal axis is unreadable without a baseline. What it is not:
+
+- **It is not a count of contacts.** It measures reporting volume, which is a proxy for
+  diplomatic tempo and nothing more.
+- **Its level means nothing on its own.** Only the **direction** of change against the
+  baseline is meaningful, and only the direction is published.
+- **It attests nothing.** Counting how often a subject is reported and establishing that
+  something happened are different operations. This performs the first. The rule below —
+  that a GDELT hit can never attest a claim — is untouched by it.
 
 ## News
 

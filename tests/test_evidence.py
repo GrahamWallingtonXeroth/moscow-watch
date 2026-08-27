@@ -16,7 +16,7 @@ from moscow_watch.collectors.contacts import (
     fortnightly_series,
 )
 from moscow_watch.collectors.feeds import NewsFeedCollector
-from moscow_watch.collectors.gdelt import GdeltDiscovery
+from moscow_watch.collectors.gdelt import GdeltDiscovery, GdeltVolumeTimeline
 from moscow_watch.config import (
     ClaimRule,
     Config,
@@ -29,6 +29,16 @@ from moscow_watch.config import (
 from moscow_watch.corroboration import attested, leads, promote_claims
 from moscow_watch.dedupe import group_duplicates, is_near_duplicate
 from moscow_watch.diff import count_suppressed, find_movements
+from moscow_watch.engagement import (
+    axis_position,
+    fortnightly_volume,
+)
+from moscow_watch.engagement import (
+    baseline as volume_baseline,
+)
+from moscow_watch.engagement import (
+    direction as volume_direction,
+)
 from moscow_watch.matching import detect_negation, match_groups
 
 NOW = datetime(2026, 8, 26, 18, 0, tzinfo=UTC)
@@ -286,7 +296,7 @@ class SuppressionTests(unittest.TestCase):
         self.assertEqual(count_suppressed(config, history, since="2026-08-01"), 1)
 
     def test_a_move_over_too_short_a_window_is_suppressed(self):
-        # The previous version reported half-point moves over three-minute windows.
+        # A half-point move over a three-minute window is noise, not news.
         config = self._config(min_window=6.0)
         history = self._history(0.20, 0.40, 3)
         self.assertEqual(find_movements(config, history, since="2026-08-01"), [])
@@ -321,6 +331,35 @@ class ShippedConfigTests(unittest.TestCase):
                 self.assertTrue(hypothesis.falsifier, hypothesis.id)
                 self.assertTrue(hypothesis.falsifier_date, hypothesis.id)
 
+    def test_h4_is_falsified_by_a_flat_reading_not_only_by_a_fall(self):
+        # H4 predicts that Russian engagement RISES, because carrying a message means
+        # travelling. A falsifier phrased as "a fall below baseline" lets a flat reading
+        # survive a hypothesis it should kill.
+        h4 = load_config("indicators.toml").hypothesis("h4")
+        self.assertIn("have not risen above", h4.falsifier)
+        self.assertNotIn("A fall in", h4.falsifier)
+
+    def test_the_reporting_index_says_it_is_not_a_count_of_contacts(self):
+        config = load_config("indicators.toml")
+        indicator = next(i for i in config.indicators if i.source == "gdelt")
+        self.assertEqual(indicator.name, "Russia-Iran engagement volume (reporting index)")
+        self.assertTrue(indicator.query, "a volume series is defined by its query")
+        note = indicator.note.casefold()
+        self.assertIn("reporting volume", note)
+        self.assertIn("rather than a count of contacts", note)
+        self.assertIn("attest", note)
+        self.assertIn("direction", note)
+
+    def test_the_directly_collected_contact_counter_is_still_tracked(self):
+        config = load_config("indicators.toml")
+        counter = next(i for i in config.indicators if i.id == "russia_iran_contacts")
+        self.assertEqual(counter.source, "corpus")
+
+    def test_a_gdelt_indicator_without_a_query_is_caught(self):
+        config = load_config("indicators.toml")
+        next(i for i in config.indicators if i.source == "gdelt").query = ""
+        self.assertTrue(any("states no query" in e for e in validate_config(config)))
+
     def test_untracked_hypothesis_states_why(self):
         h7 = load_config("indicators.toml").hypothesis("h7")
         self.assertFalse(h7.scored)
@@ -345,6 +384,107 @@ class ShippedConfigTests(unittest.TestCase):
         config = load_config("indicators.toml")
         config.indicators[0].enabled = False
         self.assertTrue(any("disabled_reason" in e for e in validate_config(config)))
+
+
+
+class ReportingVolumeTests(unittest.TestCase):
+    """The GDELT reporting-volume index: what it measures and what it refuses to say."""
+
+    def _points(self):
+        client = FakeClient(payload=fixture_json("gdelt_timelinevol.json"))
+        timeline = GdeltVolumeTimeline(client, sleeper=CountingSleeper())
+        return timeline.volume(
+            "(Russia) (Iran) (talks)", start=date(2026, 1, 5), end=date(2026, 1, 20)
+        ), client
+
+    def test_timelinevol_mode_and_window_are_requested(self):
+        _, client = self._points()
+        url = client.calls[0]
+        self.assertIn("mode=timelinevol", url)
+        self.assertIn("startdatetime=20260105000000", url)
+        self.assertIn("enddatetime=20260120235959", url)
+
+    def test_unparseable_rows_are_dropped_not_guessed(self):
+        points, _ = self._points()
+        self.assertEqual([p.day for p in points],
+                         ["2026-01-05", "2026-01-06", "2026-01-07", "2026-01-19"])
+
+    def test_throttle_reply_is_an_error_not_a_series(self):
+        client = FakeClient(text=fixture("gdelt_rate_limited.txt"))
+        with self.assertRaises(Exception) as caught:
+            GdeltVolumeTimeline(client, sleeper=CountingSleeper()).volume(
+                "q", start=date(2026, 1, 1), end=date(2026, 1, 2)
+            )
+        self.assertEqual(getattr(caught.exception, "category", ""), "rate_limited")
+
+    def test_an_empty_timeline_raises_rather_than_returning_nothing(self):
+        client = FakeClient(payload={"timeline": [{"series": "Volume Intensity", "data": []}]})
+        with self.assertRaises(Exception) as caught:
+            GdeltVolumeTimeline(client, sleeper=CountingSleeper()).volume(
+                "q", start=date(2026, 1, 1), end=date(2026, 1, 2)
+            )
+        self.assertEqual(getattr(caught.exception, "category", ""), "empty_timeline")
+
+    def test_days_are_bucketed_into_fortnights_with_their_day_count(self):
+        points, _ = self._points()
+        series = fortnightly_volume(
+            [p.to_dict() for p in points], anchor=date(2026, 1, 5)
+        )
+        self.assertEqual([b["fortnight_start"] for b in series],
+                         ["2026-01-05", "2026-01-19"])
+        self.assertAlmostEqual(series[0]["mean_volume"], 0.3)
+        self.assertEqual(series[0]["days"], 3)
+
+    def test_days_before_the_event_are_excluded_from_the_live_series(self):
+        points = [
+            {"day": "2026-08-24", "value": 9.0},
+            {"day": "2026-08-25", "value": 0.5},
+        ]
+        series = fortnightly_volume(
+            points, anchor=date(2026, 8, 25), since=date(2026, 8, 25)
+        )
+        self.assertEqual(len(series), 1)
+        self.assertEqual(series[0]["fortnight_start"], "2026-08-25")
+        self.assertEqual(series[0]["days"], 1)
+
+    def test_baseline_uses_only_fortnights_ending_before_the_event(self):
+        series = [
+            {"fortnight_start": "2026-08-03", "fortnight_end": "2026-08-16",
+             "mean_volume": 0.2, "days": 14},
+            {"fortnight_start": "2026-08-17", "fortnight_end": "2026-08-30",
+             "mean_volume": 9.0, "days": 14},
+        ]
+        base = volume_baseline(series, before=date(2026, 8, 25))
+        self.assertEqual(base["fortnights"], 1)
+        self.assertAlmostEqual(base["mean_volume"], 0.2)
+
+    def test_no_baseline_means_no_direction_and_no_marker(self):
+        base = volume_baseline([], before=date(2026, 8, 25))
+        self.assertIsNone(base["mean_volume"])
+        series = [{"fortnight_start": "2026-08-25", "mean_volume": 0.5, "days": 14}]
+        self.assertEqual(volume_direction(series, base), "insufficient data")
+        self.assertIsNone(axis_position(series, base))
+
+    def test_direction_is_relative_because_the_level_means_nothing(self):
+        base = {"mean_volume": 0.40, "fortnights": 15}
+        self.assertEqual(
+            volume_direction([{"mean_volume": 0.60, "days": 14}], base), "up")
+        self.assertEqual(
+            volume_direction([{"mean_volume": 0.20, "days": 14}], base), "down")
+        # Inside the tolerance band a move is not a direction.
+        self.assertEqual(
+            volume_direction([{"mean_volume": 0.42, "days": 14}], base), "flat")
+
+    def test_marker_is_not_placed_on_less_than_half_a_fortnight(self):
+        base = {"mean_volume": 0.40, "fortnights": 15}
+        self.assertIsNone(axis_position([{"mean_volume": 0.90, "days": 2}], base))
+        self.assertIsNotNone(axis_position([{"mean_volume": 0.90, "days": 7}], base))
+
+    def test_axis_is_clamped_to_the_grid(self):
+        base = {"mean_volume": 0.10, "fortnights": 15}
+        self.assertEqual(axis_position([{"mean_volume": 9.0, "days": 14}], base), 1.0)
+        self.assertEqual(axis_position([{"mean_volume": 0.0, "days": 14}], base), -1.0)
+
 
 
 if __name__ == "__main__":

@@ -6,9 +6,9 @@ not from a blank page.
 
 Two suppressions keep it honest, and both matter more than they sound:
 
-- **No move computed over a window shorter than `min_change_window_hours`.** An earlier
-  version of this project reported half-point moves over three-minute windows. It made
-  noise look like news and it discredited the whole page.
+- **No move computed over a window shorter than `min_change_window_hours`.** A half-point
+  move over a three-minute window is noise. Reporting it as news is how a page loses the
+  reader it was written for.
 - **No move smaller than the indicator's own `material_move`**, which is fixed in advance
   in `indicators.toml` rather than chosen after seeing the data.
 """

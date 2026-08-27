@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -18,13 +18,29 @@ from .collectors.contacts import (
     fortnightly_series,
 )
 from .collectors.feeds import NewsFeedCollector
-from .collectors.gdelt import DISCOVERY_RETRIES, DISCOVERY_TIMEOUT_SECONDS, GdeltDiscovery
+from .collectors.gdelt import (
+    DISCOVERY_RETRIES,
+    DISCOVERY_TIMEOUT_SECONDS,
+    TIMELINE_RETRIES,
+    TIMELINE_TIMEOUT_SECONDS,
+    GdeltDiscovery,
+    GdeltVolumeTimeline,
+)
 from .collectors.kalshi import KalshiCollector, rules_changes
 from .collectors.polymarket import PolymarketCollector, open_legs, tape_summary
 from .collectors.portwatch import PortWatchCollector, lag_days, rolling_mean
 from .config import Config, load_config, validate_config
 from .diff import count_suppressed, find_movements
 from .diff import render as render_changes
+from .engagement import (
+    baseline as engagement_baseline,
+)
+from .engagement import (
+    direction as engagement_direction,
+)
+from .engagement import (
+    fortnightly_volume,
+)
 from .health import SourceHealth
 from .http import USER_AGENT, HttpClient, HttpError
 from .models import utc_now_iso
@@ -345,6 +361,104 @@ def _contact_reading(config: Config, store: JsonlStore, at: str) -> list[Reading
     ]
 
 
+def _engagement_reading(
+    config: Config, store: JsonlStore, health: SourceHealth, at: str
+) -> list[Reading]:
+    """The reporting-volume index, and its pre-event baseline if one has been backfilled.
+
+    This counts how much Russia-Iran engagement is being *reported*, which is not the same
+    thing as counting contacts and is not evidence that any contact occurred. It exists
+    because the directly collected counter cannot reach behind the event date and this can.
+    """
+    indicators = [i for i in config.indicators_for("gdelt") if i.query]
+    if not indicators:
+        return []
+    indicator = indicators[0]
+
+    # Fortnights are measured from the event, not from the counter's anchor: a window
+    # straddling 25 August would average the days before the visit with the days after it.
+    # Today is excluded, because a part-day is not a reading.
+    today = datetime.now(UTC).date()
+    start = config.event_date
+    end = today - timedelta(days=1)
+    stored_baseline = store.read("engagement_baseline")
+
+    if end >= start:
+        timeline = GdeltVolumeTimeline(
+            HttpClient(timeout=DISCOVERY_TIMEOUT_SECONDS, retries=DISCOVERY_RETRIES)
+        )
+        try:
+            points = timeline.volume(indicator.query, start=start, end=end)
+            added = store.append_unique(
+                "engagement_daily",
+                [{"id": f"gdelt_day:{pt.day}", **pt.to_dict()} for pt in points],
+            )
+            health.record_success(
+                f"gdelt:{indicator.id}", kind="gdelt", label=indicator.name,
+                target="GDELT DOC 2.0 timelinevol", records=added, at=at,
+                source_family="gdelt",
+            )
+        except Exception as exc:
+            category, message = _error(exc)
+            health.record_failure(
+                f"gdelt:{indicator.id}", kind="gdelt", label=indicator.name,
+                target="GDELT DOC 2.0 timelinevol", category=category, message=message,
+                at=at, source_family="gdelt",
+            )
+            print(f"WARN engagement/{indicator.id}: {message[:160]}", file=sys.stderr)
+
+    series = fortnightly_volume(
+        store.read("engagement_daily"), anchor=config.event_date, since=config.event_date
+    )
+    if not series:
+        return [
+            Reading(
+                indicator_id=indicator.id,
+                name=indicator.name,
+                source="gdelt",
+                kind=indicator.kind,
+                value=None,
+                display="n/a",
+                collected_at=at,
+                unit="share of monitored coverage (%)",
+                available=False,
+                unavailable_reason="no reporting-volume series collected",
+            )
+        ]
+
+    base = engagement_baseline(stored_baseline, before=config.event_date)
+    heading = engagement_direction(series, base)
+    latest = series[-1]
+    mean = base.get("mean_volume")
+    baseline_text = (
+        f"baseline {mean:.4f}% over {base['fortnights']} fortnights before "
+        f"{config.event_date.isoformat()}"
+        if mean is not None
+        else "no pre-25-August baseline collected yet, so no direction can be read; "
+        "run `mw backfill --engagement`"
+    )
+    return [
+        Reading(
+            indicator_id=indicator.id,
+            name=indicator.name,
+            source="gdelt",
+            kind=indicator.kind,
+            value=float(latest["mean_volume"]),
+            display=f"{latest['mean_volume']:.4f}% of monitored coverage",
+            collected_at=at,
+            unit="share of monitored coverage (%)",
+            detail=(
+                f"direction vs baseline: {heading}; {latest['days']} of 14 days collected "
+                f"in the current fortnight; {baseline_text}; this is REPORTING "
+                "VOLUME from a news index, a proxy for diplomatic tempo and not a count of "
+                "contacts, so only the DIRECTION of change means anything and the level "
+                "means nothing on its own; an index hit still attests no claim"
+            ),
+            components=series[-6:],
+        )
+    ]
+
+
 def command_collect(args: argparse.Namespace) -> int:
     config, store = _load(args)
     health = SourceHealth(args.health_output)
@@ -363,6 +477,8 @@ def command_collect(args: argparse.Namespace) -> int:
         _collect_discovery(config, store, health, at)
     if args.source in {"all", "feeds"}:
         readings += _contact_reading(config, store, at)
+    if args.source in {"all", "discovery"}:
+        readings += _engagement_reading(config, store, health, at)
 
     rows = [r.to_dict() for r in readings]
     for row in rows:
@@ -377,9 +493,78 @@ def command_collect(args: argparse.Namespace) -> int:
     return 0
 
 
+def _backfill_engagement(config: Config, store: JsonlStore) -> int:
+    """The pre-25-August baseline for the reporting-volume index, from GDELT timelinevol.
+
+    Counting how much a subject is reported and attesting that something happened are
+    different operations. This performs the first only. Nothing collected here names an
+    article, witnesses an event or corroborates a claim, and the rule that a GDELT hit can
+    never attest a claim is untouched by it: a volume series is a measurement of coverage,
+    and the directly collected contact counter, with a citation behind every entry, remains
+    the auditable series.
+
+    If GDELT cannot supply the series the baseline is left empty and said to be empty. An
+    invented baseline would be worse than none, because the axis it feeds would then look
+    determined when it is not.
+    """
+    indicators = [i for i in config.indicators_for("gdelt") if i.query]
+    if not indicators:
+        print("no GDELT reporting-volume indicator configured; nothing to backfill")
+        return 0
+    indicator = indicators[0]
+    start, end = config.engagement_baseline_start, config.engagement_baseline_end
+    timeline = GdeltVolumeTimeline(
+        HttpClient(timeout=TIMELINE_TIMEOUT_SECONDS, retries=TIMELINE_RETRIES)
+    )
+    try:
+        points = timeline.volume(indicator.query, start=start, end=end)
+    except Exception as exc:
+        print(
+            f"WARN backfill/{indicator.id}: {_error(exc)[1][:160]}\n"
+            "the pre-25-August baseline is left EMPTY. The discriminator map will keep "
+            "its horizontal axis undetermined rather than guess one.",
+            file=sys.stderr,
+        )
+        return 0
+
+    series = fortnightly_volume(
+        [pt.to_dict() for pt in points], anchor=config.contact_anchor
+    )
+    # Only *whole* fortnights that end before the event belong in a pre-event baseline. A
+    # bucket cut short by either end of the window is a smaller sample pretending to be an
+    # equal one, and a bucket straddling the event contains the event's own coverage spike.
+    series = [
+        b
+        for b in series
+        if b["days"] == 14 and date.fromisoformat(b["fortnight_end"]) < config.event_date
+    ]
+    added = store.append_unique(
+        "engagement_baseline",
+        [
+            {
+                "id": f"baseline_fortnight:{b['fortnight_start']}",
+                "source": "gdelt_timelinevol",
+                "query": indicator.query,
+                **b,
+            }
+            for b in series
+        ],
+    )
+    base = engagement_baseline(store.read("engagement_baseline"), before=config.event_date)
+    print(
+        f"engagement baseline: {len(points)} days -> {len(series)} fortnights "
+        f"({added} new), mean {base.get('mean_volume')}% of monitored coverage"
+    )
+    return added
+
+
 def command_backfill(args: argparse.Namespace) -> int:
-    """Real historical prices, so a baseline never has to be invented."""
+    """Real history, so a baseline never has to be invented."""
     config, store = _load(args)
+    if args.engagement or args.only_engagement:
+        _backfill_engagement(config, store)
+        if args.only_engagement:
+            return 0
     collector = PolymarketCollector(HttpClient(timeout=args.timeout))
     today = datetime.now(UTC).date()
     points = 0
@@ -653,7 +838,19 @@ def build_parser() -> argparse.ArgumentParser:
     collect.add_argument("--allow-partial", action="store_true")
     collect.set_defaults(handler=command_collect)
 
-    backfill = sub.add_parser("backfill", help="real Polymarket history and trade tape")
+    backfill = sub.add_parser(
+        "backfill", help="real Polymarket history, trade tape and the engagement baseline"
+    )
+    backfill.add_argument(
+        "--engagement",
+        action="store_true",
+        help="also build the pre-25-August reporting-volume baseline from GDELT",
+    )
+    backfill.add_argument(
+        "--only-engagement",
+        action="store_true",
+        help="build the engagement baseline and skip the Polymarket history",
+    )
     backfill.add_argument("--fidelity", type=int, default=1440, help="minutes per point")
     backfill.add_argument("--trades", action="store_true", help="also fetch the trade tape")
     backfill.add_argument("--trade-limit", type=int, default=500)
