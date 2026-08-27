@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-08-27T09:36:14Z  
-**Since:** 2026-08-20T09:36:14Z
+**Generated:** 2026-08-27T09:53:57Z  
+**Since:** 2026-08-20T09:53:57Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
