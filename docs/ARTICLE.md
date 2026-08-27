@@ -191,12 +191,14 @@ puts it. Today it sits nowhere.*
 ![Discriminator map](../assets/discriminator-map.png)
 
 The marker reads "not yet determined", and it is worth saying why rather than quietly
-picking a spot. The vertical axis can be assembled from sanctions filings and market prices
-that carry years of history behind them. The horizontal one cannot, at least not yet. The
-rate of Russian-Iranian contact needs a baseline from before August 25th to mean anything,
-and the feeds this project can lawfully collect expose only the past few days. The counter
-therefore starts from nothing and accumulates. A tracker that guessed the missing half
-would be a worse instrument than one that leaves it blank, and the blank will fill.
+picking a spot. Both axes are calibrated. The vertical one draws on sanctions filings and
+market prices carrying years of history. The horizontal one rests on fifteen fortnights of
+Russian-Iranian engagement volume running from January to August, which is the baseline any
+reading taken after the visit has to be measured against. What is missing is the reading.
+A fortnight is fourteen days and the visit was two days ago, so the first post-event bucket
+is not yet a bucket. The instrument is built and pointed. It has not been given enough of
+the future to say anything, and a tracker that filled that gap by guessing would be worse
+than one that leaves it blank.
 
 Six weeks of data will place the story in one of those boxes or show it sitting still,
 which is itself an answer and the likeliest one.
@@ -232,10 +234,13 @@ tolerable reason to lead with it.
 The whole apparatus sits in a public repository. It collects Polymarket ladders together
 with their full price history and trade tape, Kalshi contracts with their open interest and
 machine-readable settlement rules, daily tanker transits through the Strait of Hormuz from
-the IMF's PortWatch dataset, and a count of senior Russian-Iranian diplomatic contacts drawn
-from official readouts, which as noted begins empty. Every source is a public endpoint and
-none requires a key. It runs every six hours, and the charts above regenerate with it, so
-they may have moved by the time they are read.
+the IMF's PortWatch dataset, and two readings of Russian-Iranian engagement: a direct count
+of senior contacts drawn from official readouts, which begins empty and accumulates, and a
+volume index built from a news archive, which supplies the historical baseline the direct
+count cannot. The second measures how much is being reported rather than how much is
+happening, so only its direction against baseline carries meaning. Every source is a public
+endpoint and none requires a key. It runs every six hours, and the charts above regenerate
+with it, so they may have moved by the time they are read.
 
 One of those sources deserves particular attention, because it is the clearest example of
 the thing this exercise is arguing for. Kalshi runs contracts on traffic through the Strait
