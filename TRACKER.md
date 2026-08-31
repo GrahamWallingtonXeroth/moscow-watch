@@ -2,7 +2,7 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-08-31T05:39:27Z
+**Generated:** 2026-08-31T13:57:26Z
 
 This page lists what was collected, from where, and when each thing becomes decidable. **It contains no verdict, no score and no ranking**, by design. Which hypothesis the evidence favours is a judgement, and judgements belong in the article with a name attached.
 
@@ -47,20 +47,20 @@ Each tracked hypothesis states, in advance, what would falsify it and by when. T
 
 | Indicator | Value | Collected | Resolves | Bears on |
 | --- | ---: | --- | --- | --- |
-| [Polymarket: NATO-Russia military clash](https://polymarket.com/event/nato-x-russia-military-clash-in-2025) | 23.5% (December 31 leg) | 2026-08-31T05:38 | 2027-01-01 | H5 ↑ |
-| [Polymarket: Russia-Ukraine ceasefire term structure](https://polymarket.com/event/russia-x-ukraine-ceasefire-agreement-by) | 0.1% (August 31 leg) | 2026-08-31T05:38 | 2026-09-01 | H2 ↑, H3 ↑ |
-| [Polymarket: US gives Ukraine a formal security guarantee](https://polymarket.com/event/us-agrees-to-give-ukraine-security-guarantee-by-december-31) | 7.5% (2027-01-01 leg) | 2026-08-31T05:38 | 2027-01-01 | H3 ↓, H5 ↑ |
-| [Polymarket: US obtains Iranian enriched uranium](https://polymarket.com/event/us-obtains-iranian-enriched-uranium-by) | 4.5% (December 31 leg) | 2026-08-31T05:38 | 2027-01-01 | H1 ↑ |
-| [Polymarket: US-Iran Hormuz agreement](https://polymarket.com/event/us-iran-hormuz-agreement-byptptpt-20260803235957575) | 10.5% (September 30 leg) | 2026-08-31T05:38 | 2026-10-01 | H4 ↑, H1 ↑ |
-| Polymarket: US-Iran ceasefire continues | unavailable — no open legs | 2026-08-31T05:38 | 2026-09-30 | H1 ↑, H4 ↑ |
-| [Polymarket: US-Russia military clash](https://polymarket.com/event/us-x-russia-military-clash-by) | 4.6% (December 31, 2026 leg) | 2026-08-31T05:38 | 2027-01-01 | H5 ↑ |
-| [Polymarket: final US-Iran nuclear deal](https://polymarket.com/event/us-iran-final-nuclear-deal-by-20260621201254412) | 10.5% (December 31 leg) | 2026-08-31T05:38 | 2027-01-01 | H1 ↑, H4 ↑ |
+| [Polymarket: NATO-Russia military clash](https://polymarket.com/event/nato-x-russia-military-clash-in-2025) | 24.5% (December 31 leg) | 2026-08-31T13:54 | 2027-01-01 | H5 ↑ |
+| [Polymarket: Russia-Ukraine ceasefire term structure](https://polymarket.com/event/russia-x-ukraine-ceasefire-agreement-by) | 0.1% (August 31 leg) | 2026-08-31T13:54 | 2026-09-01 | H2 ↑, H3 ↑ |
+| [Polymarket: US gives Ukraine a formal security guarantee](https://polymarket.com/event/us-agrees-to-give-ukraine-security-guarantee-by-december-31) | 7.5% (2027-01-01 leg) | 2026-08-31T13:54 | 2027-01-01 | H3 ↓, H5 ↑ |
+| [Polymarket: US obtains Iranian enriched uranium](https://polymarket.com/event/us-obtains-iranian-enriched-uranium-by) | 4.5% (December 31 leg) | 2026-08-31T13:54 | 2027-01-01 | H1 ↑ |
+| [Polymarket: US-Iran Hormuz agreement](https://polymarket.com/event/us-iran-hormuz-agreement-byptptpt-20260803235957575) | 9.5% (September 30 leg) | 2026-08-31T13:54 | 2026-10-01 | H4 ↑, H1 ↑ |
+| Polymarket: US-Iran ceasefire continues | unavailable — no open legs | 2026-08-31T13:54 | 2026-09-30 | H1 ↑, H4 ↑ |
+| [Polymarket: US-Russia military clash](https://polymarket.com/event/us-x-russia-military-clash-by) | 4.6% (December 31, 2026 leg) | 2026-08-31T13:54 | 2027-01-01 | H5 ↑ |
+| [Polymarket: final US-Iran nuclear deal](https://polymarket.com/event/us-iran-final-nuclear-deal-by-20260621201254412) | 10.5% (December 31 leg) | 2026-08-31T13:54 | 2027-01-01 | H1 ↑, H4 ↑ |
 
-- **Polymarket: NATO-Russia military clash** — 3 open legs — 2026-09-01: 0.5%; 2026-11-01: 13.5%; 2027-01-01: 23.5%
-- **Polymarket: Russia-Ukraine ceasefire term structure** — 5 open legs — 2026-09-01: 0.1%; 2026-11-01: 7.5%; 2027-01-01: 19.0%; 2027-04-01: 36.5%; 2027-07-01: 49.5%
+- **Polymarket: NATO-Russia military clash** — 3 open legs — 2026-09-01: 0.9%; 2026-11-01: 13.5%; 2027-01-01: 24.5%
+- **Polymarket: Russia-Ukraine ceasefire term structure** — 5 open legs — 2026-09-01: 0.1%; 2026-11-01: 7.5%; 2027-01-01: 18.5%; 2027-04-01: 37.0%; 2027-07-01: 50.0%
 - **Polymarket: US gives Ukraine a formal security guarantee** — 1 open legs — 2027-01-01: 7.5%
 - **Polymarket: US obtains Iranian enriched uranium** — 3 open legs — 2026-09-01: 0.1%; 2026-10-01: 1.1%; 2027-01-01: 4.5%
-- **Polymarket: US-Iran Hormuz agreement** — 3 open legs — 2026-09-01: 0.3%; 2026-09-16: 4.7%; 2026-10-01: 10.5%
+- **Polymarket: US-Iran Hormuz agreement** — 3 open legs — 2026-09-01: 0.2%; 2026-09-16: 4.7%; 2026-10-01: 9.5%
 - **Polymarket: US-Russia military clash** — 1 open legs — 2027-01-01: 4.6%
 - **Polymarket: final US-Iran nuclear deal** — 5 open legs — 2026-09-01: 0.1%; 2026-10-01: 0.9%; 2026-11-01: 2.4%; 2026-12-01: 6.0%; 2027-01-01: 10.5%
 
@@ -68,18 +68,18 @@ Each tracked hypothesis states, in advance, what would falsify it and by when. T
 
 | Indicator | Value | Collected | Resolves | Bears on |
 | --- | ---: | --- | --- | --- |
-| [Kalshi: House Russia sanctions legislation](https://kalshi.com/markets/KXHOUSERUSSIASANCTION-26AUG10-T400) | 4.0% | 2026-08-31T05:38 | 2027-01-01 | H5 ↑, H3 ↓ |
-| [Kalshi: Kash Patel travels to Russia](https://kalshi.com/markets/KXKASHRUSSIA-26JUL27-NOV01) | 62.0% | 2026-08-31T05:38 | 2026-11-01 | H6 ↑ |
-| [Kalshi: Putin-Trump meeting location](https://kalshi.com/markets/KXPUTINDJTLOCATION-29-HUN) | 5.0% | 2026-08-31T05:38 | 2029-01-01 | H2 ↑ |
-| [Kalshi: Strait of Hormuz traffic normalisation](https://kalshi.com/markets/KXHORMUZNORM-26MAR17-B260901) | 1.0% | 2026-08-31T05:38 | 2026-09-01 | H1 ↑, H4 ↑ |
-| [Kalshi: US-Iran nuclear agreement](https://kalshi.com/markets/KXUSAIRANAGREEMENT-27-26SEP) | 1.0% | 2026-08-31T05:38 | 2026-09-01 | H1 ↑, H4 ↑ |
-| [Kalshi: Witkoff travels to Russia](https://kalshi.com/markets/KXWITKOFFRUSSIA-26JUN29-OCT01) | 39.0% | 2026-08-31T05:38 | 2026-10-01 | H2 ↑ |
-| [Kalshi: Zelensky-Putin meeting](https://kalshi.com/markets/KXZELENSKYPUTIN-29-27) | 9.0% | 2026-08-31T05:38 | 2027-01-01 | H2 ↑ |
-| [Kalshi: new US sanctions on Russia](https://kalshi.com/markets/KXSANCTIONRUSSIA-26JUL) | 5.0% | 2026-08-31T05:38 | 2026-09-01 | H5 ↑, H3 ↓ |
-| [Kalshi: weekly Strait of Hormuz traffic](https://kalshi.com/markets/KXHORMUZWEEKLY-26AUG30-T75) | 1.0% | 2026-08-31T05:38 | 2026-09-01 | H1 ↑, H4 ↑ |
+| [Kalshi: House Russia sanctions legislation](https://kalshi.com/markets/KXHOUSERUSSIASANCTION-26AUG10-T400) | 4.0% | 2026-08-31T13:54 | 2027-01-01 | H5 ↑, H3 ↓ |
+| [Kalshi: Kash Patel travels to Russia](https://kalshi.com/markets/KXKASHRUSSIA-26JUL27-NOV01) | 61.0% | 2026-08-31T13:54 | 2026-11-01 | H6 ↑ |
+| [Kalshi: Putin-Trump meeting location](https://kalshi.com/markets/KXPUTINDJTLOCATION-29-HUN) | 5.0% | 2026-08-31T13:54 | 2029-01-01 | H2 ↑ |
+| [Kalshi: Strait of Hormuz traffic normalisation](https://kalshi.com/markets/KXHORMUZNORM-26MAR17-B260901) | 1.0% | 2026-08-31T13:54 | 2026-09-01 | H1 ↑, H4 ↑ |
+| [Kalshi: US-Iran nuclear agreement](https://kalshi.com/markets/KXUSAIRANAGREEMENT-27-26SEP) | 1.0% | 2026-08-31T13:54 | 2026-09-01 | H1 ↑, H4 ↑ |
+| [Kalshi: Witkoff travels to Russia](https://kalshi.com/markets/KXWITKOFFRUSSIA-26JUN29-OCT01) | 39.0% | 2026-08-31T13:54 | 2026-10-01 | H2 ↑ |
+| [Kalshi: Zelensky-Putin meeting](https://kalshi.com/markets/KXZELENSKYPUTIN-29-27) | 9.0% | 2026-08-31T13:54 | 2027-01-01 | H2 ↑ |
+| [Kalshi: new US sanctions on Russia](https://kalshi.com/markets/KXSANCTIONRUSSIA-26JUL) | 5.0% | 2026-08-31T13:54 | 2026-09-01 | H5 ↑, H3 ↓ |
+| [Kalshi: weekly Strait of Hormuz traffic](https://kalshi.com/markets/KXHORMUZWEEKLY-26AUG30-T75) | 1.0% | 2026-08-31T13:54 | 2026-09-01 | H1 ↑, H4 ↑ |
 
 - **Kalshi: House Russia sanctions legislation** — 7 open markets; front leg KXHOUSERUSSIASANCTION-26AUG10-T400, open interest 10, settles on Library of Congress <https://www.congress.gov/>
-- **Kalshi: Kash Patel travels to Russia** — 1 open markets; front leg KXKASHRUSSIA-26JUL27-NOV01, open interest 2,462, settles on The Guardian <https://www.theguardian.com>, official representatives or offices of Kash Patel <https://kalshi.com/>, Fox News <https://www.foxnews.com/>, official social media accounts of Kash Patel or their official representatives <https://kalshi.com/>, Semafor <https://www.semafor.com/>, The Information <https://www.theinformation.com/>, CNBC <https://www.cnbc.com>, the Associated Press <https://apnews.com/>, The Wall Street Journal <https://www.wsj.com/>, CNN <https://www.cnn.com>, Politico <https://www.politico.com>, MSNBC <https://www.msnbc.com>, The Washington Post <https://www.washingtonpost.com/>, Reuters <https://www.reuters.com>, local news outlets with verifiable mastheads in Russia <https://kalshi.com/>, official government sources of Russia <https://kalshi.com/>, The New York Times <https://www.nytimes.com>
+- **Kalshi: Kash Patel travels to Russia** — 1 open markets; front leg KXKASHRUSSIA-26JUL27-NOV01, open interest 2,464, settles on The Guardian <https://www.theguardian.com>, official representatives or offices of Kash Patel <https://kalshi.com/>, Fox News <https://www.foxnews.com/>, official social media accounts of Kash Patel or their official representatives <https://kalshi.com/>, Semafor <https://www.semafor.com/>, The Information <https://www.theinformation.com/>, CNBC <https://www.cnbc.com>, the Associated Press <https://apnews.com/>, The Wall Street Journal <https://www.wsj.com/>, CNN <https://www.cnn.com>, Politico <https://www.politico.com>, MSNBC <https://www.msnbc.com>, The Washington Post <https://www.washingtonpost.com/>, Reuters <https://www.reuters.com>, local news outlets with verifiable mastheads in Russia <https://kalshi.com/>, official government sources of Russia <https://kalshi.com/>, The New York Times <https://www.nytimes.com>
 - **Kalshi: Putin-Trump meeting location** — 10 open markets; front leg KXPUTINDJTLOCATION-29-HUN, open interest 1,763, settles on the New York Times <https://www.nytimes.com>, Bloomberg <https://www.bloomberg.com>, Reuters <https://www.reuters.com>, The Washington Post <https://www.washingtonpost.com>, The Wall Street Journal <https://www.wsj.com/>, ABC <https://abcnews.go.com/>, CBS <https://www.cbs.com>, NBC <https://www.nbc.com/>, MSNBC <https://www.msnbc.com>, CNN <https://www.cnn.com>, Semafor <https://semafor.com>, The Information <https://www.theinformation.com>, ESPN <https://www.espn.com/>, Fox News <https://www.foxnews.com>, Axios <https://www.axios.com/>, Politico <https://www.politico.com/>
 - **Kalshi: Strait of Hormuz traffic normalisation** — 10 open markets; front leg KXHORMUZNORM-26MAR17-B260901, open interest 1,195,795, settles on IMF PortWatch <https://portwatch.imf.org/pages/chokepoint6>
 - **Kalshi: US-Iran nuclear agreement** — 9 open markets; front leg KXUSAIRANAGREEMENT-27-26SEP, open interest 1,047,532, settles on The New York Times <https://www.nytimes.com/>, the Associated Press <https://apnews.com/>, Reuters <https://www.reuters.com/>, Axios <https://www.axios.com/>, Politico <https://www.politico.com/>, Semafor <https://www.semafor.com/>, The Information <https://www.theinformation.com/>, The Washington Post <https://www.washingtonpost.com/>, The Wall Street Journal <https://www.wsj.com/>, ABC <https://abcnews.go.com/>, CBS <https://www.cbsnews.com/>, CNN <https://www.cnn.com/>, Fox News <https://www.foxnews.com/>, MSNBC <https://www.msnbc.com/>
@@ -92,7 +92,7 @@ Each tracked hypothesis states, in advance, what would falsify it and by when. T
 
 | Indicator | Value | Collected | Resolves | Bears on |
 | --- | ---: | --- | --- | --- |
-| [IMF PortWatch: daily Strait of Hormuz transits](https://portwatch.imf.org/) | 5.0 ships/day (7-day mean) | 2026-08-31T05:38 | — | H1 ↑, H4 ↑ |
+| [IMF PortWatch: daily Strait of Hormuz transits](https://portwatch.imf.org/) | 5.0 ships/day (7-day mean) | 2026-08-31T13:54 | — | H1 ↑, H4 ↑ |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — newest observation 2026-08-23, 8 days ago — this feed lags by roughly a week, so it is never today; counts are observed transits, not all transits
 
@@ -100,7 +100,7 @@ Each tracked hypothesis states, in advance, what would falsify it and by when. T
 
 | Indicator | Value | Collected | Resolves | Bears on |
 | --- | ---: | --- | --- | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | n/a | 2026-08-31T05:38 | — | H4 ↑, H1 ↑, H3 ↓, H5 ↓ |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | n/a | 2026-08-31T13:54 | — | H4 ↑, H1 ↑, H3 ↓, H5 ↓ |
 
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — direction vs pre-2026-08-25 baseline: insufficient data; baseline None per fortnight over 0 fortnights; counts REPORTED contacts only, so this is a floor and never a total
 
@@ -108,7 +108,7 @@ Each tracked hypothesis states, in advance, what would falsify it and by when. T
 
 | Indicator | Value | Collected | Resolves | Bears on |
 | --- | ---: | --- | --- | --- |
-| Russia-Iran engagement volume (reporting index) | 0.4081% of monitored coverage | 2026-08-31T05:38 | — | H4 ↑, H1 ↑, H3 ↓, H5 ↓ |
+| Russia-Iran engagement volume (reporting index) | 0.4081% of monitored coverage | 2026-08-31T13:54 | — | H4 ↑, H1 ↑, H3 ↓, H5 ↓ |
 
 - **Russia-Iran engagement volume (reporting index)** — direction vs baseline: flat; 160 of 14 days collected in the current fortnight; baseline 0.3938% over 15 fortnights before 2026-08-25; this is REPORTING VOLUME from a news index, a proxy for diplomatic tempo and not a count of contacts, so only the DIRECTION of change means anything and the level means nothing on its own; an index hit still attests no claim
 
@@ -128,13 +128,13 @@ Each tracked hypothesis states, in advance, what would falsify it and by when. T
 
 | Layer | Healthy | Last success |
 | --- | --- | --- |
-| Polymarket | 7 of 8 | 2026-08-31T05:38:05Z |
-| Kalshi | 9 of 9 | 2026-08-31T05:38:05Z |
-| IMF PortWatch | 1 of 1 | 2026-08-31T05:38:05Z |
-| Independent reporting | 4 of 4 | 2026-08-31T05:38:05Z |
-| Primary records | 3 of 7, 4 disabled | 2026-08-31T05:38:05Z |
-| Discovery (GDELT, never promotes a claim) | 2 of 2 | 2026-08-31T05:38:05Z |
-| GDELT reporting index (volume only) | 1 of 1 | 2026-08-31T05:38:05Z |
+| Polymarket | 7 of 8 | 2026-08-31T13:54:18Z |
+| Kalshi | 9 of 9 | 2026-08-31T13:54:18Z |
+| IMF PortWatch | 1 of 1 | 2026-08-31T13:54:18Z |
+| Independent reporting | 4 of 4 | 2026-08-31T13:54:18Z |
+| Primary records | 3 of 7, 4 disabled | 2026-08-31T13:54:18Z |
+| Discovery (GDELT, never promotes a claim) | 2 of 2 | 2026-08-31T13:54:18Z |
+| GDELT reporting index (volume only) | 1 of 1 | 2026-08-31T13:54:18Z |
 
 | Source | Status | Detail |
 | --- | --- | --- |
