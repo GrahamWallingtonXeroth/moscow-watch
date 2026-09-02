@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-02T04:40:28Z  
-**Since:** 2026-08-26T04:40:28Z
+**Generated:** 2026-09-02T11:22:45Z  
+**Since:** 2026-08-26T11:22:45Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -14,16 +14,18 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 | Indicator | Then | Now | Move | Window | Points |
 | --- | ---: | ---: | ---: | ---: | --- |
 | Polymarket: US-Iran ceasefire continues | 83.5% | 0.1% | -83.4 pts | 98 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 59.0% | 22.0% | -37.0 pts | 153 h | away from H2 |
-| Kalshi: Kash Patel travels to Russia | 65.0% | 36.0% | -29.0 pts | 153 h | away from H6 |
-| Russia-Iran engagement volume (reporting index) | 0.26 | 0.44 | +0.17 | 139 h | toward H1, H4; away from H3, H5 |
-| Kalshi: new US sanctions on Russia | 5.0% | 22.0% | +17.0 pts | 153 h | toward H5; away from H3 |
-| Kalshi: weekly Strait of Hormuz traffic | 10.0% | 0.0% | -10.0 pts | 153 h | away from H1, H4 |
-| Polymarket: US-Iran Hormuz agreement | 16.5% | 7.5% | -9.0 pts | 153 h | away from H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.8% | 8.5% | +7.8 pts | 153 h | toward H2, H3 |
-| Polymarket: NATO-Russia military clash | 29.5% | 23.5% | -6.0 pts | 153 h | away from H5 |
-| Kalshi: Putin-Trump meeting location | 11.0% | 5.0% | -6.0 pts | 153 h | away from H2 |
+| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 160 h | away from H1, H4 |
+| Kalshi: Witkoff travels to Russia | 59.0% | 22.0% | -37.0 pts | 160 h | away from H2 |
+| Kalshi: Kash Patel travels to Russia | 65.0% | 36.0% | -29.0 pts | 160 h | away from H6 |
+| Russia-Iran engagement volume (reporting index) | 0.26 | 0.44 | +0.18 | 146 h | toward H1, H4; away from H3, H5 |
+| Kalshi: new US sanctions on Russia | 5.0% | 22.0% | +17.0 pts | 160 h | toward H5; away from H3 |
+| Polymarket: US-Iran Hormuz agreement | 16.5% | 6.5% | -10.0 pts | 160 h | away from H1, H4 |
+| Kalshi: weekly Strait of Hormuz traffic | 10.0% | 0.0% | -10.0 pts | 160 h | away from H1, H4 |
+| Polymarket: Russia-Ukraine ceasefire term structure | 0.8% | 7.5% | +6.8 pts | 160 h | toward H2, H3 |
+| Polymarket: NATO-Russia military clash | 29.5% | 23.0% | -6.5 pts | 160 h | away from H5 |
+| Kalshi: Putin-Trump meeting location | 11.0% | 5.0% | -6.0 pts | 160 h | away from H2 |
 
+- **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: Witkoff travels to Russia** — A named envoy trip is one of the cleaner observable proxies for an active Ukraine track.
 - **Russia-Iran engagement volume (reporting index)** — Counts REPORTING VOLUME from a news index - GDELT DOC 2.0 in timelinevol mode - and not contacts. It is a proxy for diplomatic tempo rather than a count of contacts: the value is the share of monitored world coverage matching the query, averaged over the fortnight. Only the DIRECTION of change against the pre-25-August baseline is meaningful; the level carries no meaning on its own. A GDELT hit still cannot attest a claim, because counting volume and attesting a claim are different operations, so nothing here promotes anything. The directly collected contact counter runs alongside it and is the auditable one.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
