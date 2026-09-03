@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-03T11:19:48Z  
-**Since:** 2026-08-27T11:19:48Z
+**Generated:** 2026-09-03T16:28:59Z  
+**Since:** 2026-08-27T16:28:59Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -14,19 +14,19 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 | Indicator | Then | Now | Move | Window | Points |
 | --- | ---: | ---: | ---: | ---: | --- |
 | Polymarket: US-Iran ceasefire continues | 79.5% | 0.1% | -79.4 pts | 71 h | away from H1, H4 |
-| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 157 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 59.0% | 22.0% | -37.0 pts | 157 h | away from H2 |
-| Kalshi: new US sanctions on Russia | 5.0% | 22.0% | +17.0 pts | 157 h | toward H5; away from H3 |
-| Kalshi: Kash Patel travels to Russia | 59.0% | 43.0% | -16.0 pts | 157 h | away from H6 |
-| Polymarket: US-Iran Hormuz agreement | 15.0% | 7.0% | -8.0 pts | 157 h | away from H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.5% | 7.5% | +6.9 pts | 157 h | toward H2, H3 |
+| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 162 h | away from H1, H4 |
+| Kalshi: Witkoff travels to Russia | 59.0% | 22.0% | -37.0 pts | 162 h | away from H2 |
+| Kalshi: Kash Patel travels to Russia | 59.0% | 43.0% | -16.0 pts | 162 h | away from H6 |
+| Kalshi: new US sanctions on Russia | 5.0% | 15.0% | +10.0 pts | 162 h | toward H5; away from H3 |
+| Polymarket: US-Iran Hormuz agreement | 15.0% | 7.0% | -8.0 pts | 162 h | away from H1, H4 |
+| Polymarket: Russia-Ukraine ceasefire term structure | 0.5% | 7.5% | +6.9 pts | 162 h | toward H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: Witkoff travels to Russia** — A named envoy trip is one of the cleaner observable proxies for an active Ukraine track.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs are thin - under $5,000 of volume - so treat the Q1-2027 peak with the caution that deserves.
 
-_9 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_10 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
