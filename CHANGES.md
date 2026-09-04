@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-04T11:21:42Z  
-**Since:** 2026-08-28T11:21:42Z
+**Generated:** 2026-09-04T16:24:16Z  
+**Since:** 2026-08-28T16:24:16Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,14 +13,14 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator | Then | Now | Move | Window | Points |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Polymarket: US-Iran ceasefire continues | 79.5% | 0.1% | -79.4 pts | 58 h | away from H1, H4 |
-| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 168 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 59.0% | 90.0% | +31.0 pts | 168 h | toward H2 |
-| Kalshi: Kash Patel travels to Russia | 63.0% | 43.0% | -20.0 pts | 168 h | away from H6 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.5% | 10.0% | +9.4 pts | 168 h | toward H2, H3 |
-| Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 168 h | toward H5; away from H3 |
-| Polymarket: US-Iran Hormuz agreement | 12.5% | 6.5% | -6.0 pts | 168 h | away from H1, H4 |
-| Russia-Iran engagement volume (reporting index) | 0.5 | 0.44 | -0.06 | 168 h | toward H3, H5; away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues | 77.5% | 0.1% | -77.4 pts | 47 h | away from H1, H4 |
+| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 162 h | away from H1, H4 |
+| Kalshi: Witkoff travels to Russia | 39.0% | 90.0% | +51.0 pts | 162 h | toward H2 |
+| Kalshi: Kash Patel travels to Russia | 65.0% | 43.0% | -22.0 pts | 162 h | away from H6 |
+| Polymarket: Russia-Ukraine ceasefire term structure | 0.5% | 13.0% | +12.4 pts | 162 h | toward H2, H3 |
+| Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 162 h | toward H5; away from H3 |
+| Polymarket: US-Iran Hormuz agreement | 12.5% | 6.5% | -6.0 pts | 162 h | away from H1, H4 |
+| Russia-Iran engagement volume (reporting index) | 0.5 | 0.44 | -0.06 | 162 h | toward H3, H5; away from H1, H4 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: Witkoff travels to Russia** — A named envoy trip is one of the cleaner observable proxies for an active Ukraine track.
