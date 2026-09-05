@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-04T20:48:28Z  
-**Since:** 2026-08-28T20:48:28Z
+**Generated:** 2026-09-05T04:33:52Z  
+**Since:** 2026-08-29T04:33:52Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,14 +13,15 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator | Then | Now | Move | Window | Points |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Polymarket: US-Iran ceasefire continues | 77.5% | 0.1% | -77.4 pts | 47 h | away from H1, H4 |
-| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 166 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 166 h | toward H2 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.5% | 43.5% | +43.0 pts | 166 h | toward H2, H3 |
-| Kalshi: Kash Patel travels to Russia | 65.0% | 43.0% | -22.0 pts | 166 h | away from H6 |
-| Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 166 h | toward H5; away from H3 |
-| Polymarket: US-Iran Hormuz agreement | 12.5% | 6.5% | -6.0 pts | 166 h | away from H1, H4 |
-| Russia-Iran engagement volume (reporting index) | 0.5 | 0.44 | -0.06 | 166 h | toward H3, H5; away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues | 77.5% | 0.1% | -77.4 pts | 38 h | away from H1, H4 |
+| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 165 h | away from H1, H4 |
+| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 165 h | toward H2 |
+| Polymarket: Russia-Ukraine ceasefire term structure | 0.4% | 23.5% | +23.1 pts | 165 h | toward H2, H3 |
+| Kalshi: Kash Patel travels to Russia | 65.0% | 43.0% | -22.0 pts | 165 h | away from H6 |
+| Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 165 h | toward H5; away from H3 |
+| Russia-Iran engagement volume (reporting index) | 0.5 | 0.44 | -0.06 | 165 h | toward H3, H5; away from H1, H4 |
+| Polymarket: US-Iran Hormuz agreement | 12.5% | 7.5% | -5.0 pts | 165 h | away from H1, H4 |
+| Kalshi: Putin-Trump meeting location | 5.0% | 10.0% | +5.0 pts | 165 h | toward H2 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: Witkoff travels to Russia** — A named envoy trip is one of the cleaner observable proxies for an active Ukraine track.
@@ -28,7 +29,7 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
 - **Russia-Iran engagement volume (reporting index)** — Counts REPORTING VOLUME from a news index - GDELT DOC 2.0 in timelinevol mode - and not contacts. It is a proxy for diplomatic tempo rather than a count of contacts: the value is the share of monitored world coverage matching the query, averaged over the fortnight. Only the DIRECTION of change against the pre-25-August baseline is meaningful; the level carries no meaning on its own. A GDELT hit still cannot attest a claim, because counting volume and attesting a claim are different operations, so nothing here promotes anything. The directly collected contact counter runs alongside it and is the auditable one.
 
-_10 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_9 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
@@ -55,17 +56,6 @@ A change to resolution wording is a material event: the same ticker can silently
 
 | Ticker | Title | Closes |
 | --- | --- | --- |
-| KXHORMUZWEEKLY-26SEP06-T75 | Will there be more than 75 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T50 | Will there be more than 50 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T45 | Will there be more than 45 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T40 | Will there be more than 40 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T35 | Will there be more than 35 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T30 | Will there be more than 30 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T25 | Will there be more than 25 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T20 | Will there be more than 20 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T15 | Will there be more than 15 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T100 | Will there be more than 100 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
-| KXHORMUZWEEKLY-26SEP06-T10 | Will there be more than 10 transit calls through the Strait of Hormuz from Aug 31, 2026 to Sep 6, 2026? | 2026-09-08 |
 | KXHORMUZWEEKLY-26SEP13-T75 | Will there be more than 75 transit calls through the Strait of Hormuz from Sep 7, 2026 to Sep 13, 2026? | 2026-09-15 |
 | KXHORMUZWEEKLY-26SEP13-T50 | Will there be more than 50 transit calls through the Strait of Hormuz from Sep 7, 2026 to Sep 13, 2026? | 2026-09-15 |
 | KXHORMUZWEEKLY-26SEP13-T45 | Will there be more than 45 transit calls through the Strait of Hormuz from Sep 7, 2026 to Sep 13, 2026? | 2026-09-15 |
