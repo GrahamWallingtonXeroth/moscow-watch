@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-05T15:17:40Z  
-**Since:** 2026-08-29T15:17:40Z
+**Generated:** 2026-09-05T20:23:59Z  
+**Since:** 2026-08-29T20:23:59Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,11 +13,11 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator | Then | Now | Move | Window | Points |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Polymarket: US-Iran ceasefire continues | 78.5% | 0.1% | -78.4 pts | 28 h | away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues | 77.5% | 0.1% | -77.4 pts | 24 h | away from H1, H4 |
 | IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 167 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 167 h | toward H2 |
+| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 162 h | toward H2 |
 | Kalshi: Kash Patel travels to Russia | 65.0% | 44.0% | -21.0 pts | 167 h | away from H6 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.5% | 17.5% | +16.9 pts | 167 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure | 0.4% | 18.5% | +18.1 pts | 167 h | toward H2, H3 |
 | Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 167 h | toward H5; away from H3 |
 | Kalshi: Putin-Trump meeting location | 5.0% | 10.0% | +5.0 pts | 167 h | toward H2 |
 
@@ -26,7 +26,7 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs are thin - under $5,000 of volume - so treat the Q1-2027 peak with the caution that deserves.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
 
-_10 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_9 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
