@@ -39,6 +39,9 @@ class Reading:
     available: bool = True
     unavailable_reason: str = ""
     components: list[dict[str, Any]] = field(default_factory=list)
+    market_id: str = ""
+    outcome: str = ""
+    lifecycle_status: str = "open"
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -109,7 +112,7 @@ def resolution_calendar(
 
 
 def _cell(value: Any) -> str:
-    return str(value).replace("|", "\\|").replace("\n", " ")
+    return str(value).strip().replace("|", "\\|").replace("\n", " ")
 
 
 def _bearing_text(indicator: Indicator) -> str:
@@ -118,6 +121,34 @@ def _bearing_text(indicator: Indicator) -> str:
         arrow = {"up": "↑", "down": "↓", "flat": "→"}.get(bearing.direction, bearing.direction)
         parts.append(f"{bearing.hypothesis.upper()} {arrow}")
     return ", ".join(parts)
+
+
+def _reading_detail(reading: Reading) -> str:
+    """Render current ladder liquidity from components, not stale prose snapshots."""
+    if (
+        reading.source == "polymarket"
+        and reading.kind == "market_ladder"
+        and reading.lifecycle_status == "open"
+        and reading.components
+    ):
+        legs = []
+        for component in reading.components:
+            value = component.get("yes_price")
+            if value is None:
+                continue
+            when = str(component.get("end_date") or "")[:10] or "?"
+            volume = component.get("volume")
+            book = ""
+            if component.get("best_bid") is not None and component.get("best_ask") is not None:
+                book = (
+                    f", book {float(component['best_bid']) * 100:.1f}–"
+                    f"{float(component['best_ask']) * 100:.1f}¢"
+                )
+            volume_text = f", volume ${float(volume):,.0f}" if volume is not None else ""
+            legs.append(f"{when}: {float(value) * 100:.1f}%{book}{volume_text}")
+        if legs:
+            return f"{len(legs)} open legs — " + "; ".join(legs)
+    return reading.detail
 
 
 def render(
@@ -194,6 +225,12 @@ def render(
                 f"**{hypothesis.id.upper()} — {hypothesis.name}: named and not tracked.** "
                 f"{_cell(hypothesis.note)}"
             )
+    lines.extend([
+        "",
+        "Dated, source-labelled status for individual falsifier components is recorded in "
+        "[docs/OBSERVATIONS.md](docs/OBSERVATIONS.md). Those observations do not amend "
+        "the registered wording or deadlines.",
+    ])
     lines.append("")
 
     # ---- Readings, grouped by source ----
@@ -230,8 +267,9 @@ def render(
             )
         lines.append("")
         for reading in sorted(rows, key=lambda r: r.name):
-            if reading.detail:
-                lines.append(f"- **{_cell(reading.name)}** — {_cell(reading.detail)}")
+            detail = _reading_detail(reading)
+            if detail:
+                lines.append(f"- **{_cell(reading.name)}** — {_cell(detail)}")
         lines.append("")
 
     # ---- Notes that must travel with specific numbers ----

@@ -96,7 +96,7 @@ source = "polymarket"
 kind = "market_ladder"
 event_slug = "russia-x-ukraine-ceasefire-agreement-by"
 material_move = 0.03
-note = "Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs are thin - under $5,000 of volume - so treat the Q1-2027 peak with the caution that deserves."
+note = "Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape."
 bears_on = [
   { hypothesis = "h2", direction = "up" },
   { hypothesis = "h3", direction = "up" },

@@ -42,6 +42,8 @@ class Movement:
     bears_on: list[dict[str, str]] = field(default_factory=list)
     resolves: str = ""
     note: str = ""
+    market_id: str = ""
+    contract: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -58,6 +60,132 @@ def _series_for(rows: Iterable[dict[str, Any]], indicator_id: str) -> list[dict[
     series = [r for r in rows if str(r.get("indicator_id")) == indicator_id and r.get("available", True)]
     series.sort(key=lambda r: str(r.get("collected_at", "")))
     return series
+
+
+def _market_identity(component: dict[str, Any]) -> str:
+    return str(
+        component.get("market_id")
+        or component.get("ticker")
+        or component.get("market_slug")
+        or component.get("condition_id")
+        or ""
+    )
+
+
+def _market_value(component: dict[str, Any]) -> float | None:
+    for key in ("yes_price", "last_price", "yes_bid"):
+        value = component.get(key)
+        if value is not None:
+            return float(value)
+    return None
+
+
+def _market_date(component: dict[str, Any]) -> str:
+    return str(component.get("end_date") or component.get("close_time") or "")[:10]
+
+
+def _market_deadline(component: dict[str, Any]) -> str:
+    return str(component.get("end_date") or component.get("close_time") or "")
+
+
+def _contract_label(component: dict[str, Any]) -> str:
+    if component.get("ticker"):
+        return str(component.get("ticker"))
+    return str(
+        component.get("group_item_title")
+        or component.get("question")
+        or component.get("title")
+        or component.get("ticker")
+        or _market_date(component)
+        or _market_identity(component)
+    )
+
+
+def _selected_component(reading: dict[str, Any]) -> dict[str, Any] | None:
+    components = [c for c in reading.get("components") or [] if isinstance(c, dict)]
+    selected_id = str(reading.get("market_id") or "")
+    if selected_id:
+        match = next((c for c in components if _market_identity(c) == selected_id), None)
+        if match is not None:
+            return match
+    resolves = str(reading.get("resolves") or "")[:10]
+    value = reading.get("value")
+    candidates = [c for c in components if not resolves or _market_date(c) == resolves]
+    if value is not None:
+        priced = [
+            c for c in candidates
+            if _market_value(c) is not None and abs(float(_market_value(c)) - float(value)) < 1e-9
+        ]
+        if priced:
+            return priced[0]
+    return candidates[0] if candidates else (components[0] if len(components) == 1 else None)
+
+
+def _comparison_pairs(
+    indicator: Indicator, baseline: dict[str, Any], latest: dict[str, Any]
+) -> list[tuple[float, float, str, str, str]]:
+    """Comparable (before, after, exact id, label, date) observations.
+
+    Prediction-market readings are paired by exact contract identity. A new front leg is
+    therefore not compared with the expired prior leg, and a whole ladder produces one
+    comparison per surviving rung rather than one ambiguous aggregate movement.
+    """
+    if indicator.kind == "reporting_index":
+        # A fortnight can contain at most fourteen unique daily observations. Legacy
+        # duplicate-day aggregates are invalid inputs, not meaningful movements.
+        for reading in (baseline, latest):
+            buckets = [c for c in reading.get("components") or [] if isinstance(c, dict)]
+            if any(int(bucket.get("days") or 0) > 14 for bucket in buckets):
+                return []
+    if indicator.kind not in {"market_probability", "market_ladder"}:
+        before, after = baseline.get("value"), latest.get("value")
+        if before is None or after is None:
+            return []
+        return [(float(before), float(after), "", "", indicator.resolves)]
+    if str(latest.get("lifecycle_status") or "open") != "open":
+        return []
+
+    previous_components = {
+        _market_identity(c): c
+        for c in baseline.get("components") or []
+        if isinstance(c, dict) and _market_identity(c)
+    }
+    if not previous_components:
+        # Old scalar-only rows remain comparable only when both readings explicitly name
+        # the same contract. Fully legacy rows that name no contract retain their old
+        # scalar behaviour; once either row has identity, never infer across a rollover.
+        if baseline.get("market_id") and baseline.get("market_id") == latest.get("market_id"):
+            before, after = baseline.get("value"), latest.get("value")
+            if before is not None and after is not None:
+                return [(
+                    float(before), float(after), str(latest.get("market_id")),
+                    str(latest.get("market_id")), str(latest.get("resolves") or ""),
+                )]
+        if not baseline.get("market_id") and not latest.get("market_id"):
+            before, after = baseline.get("value"), latest.get("value")
+            if before is not None and after is not None:
+                return [(float(before), float(after), "", "", indicator.resolves)]
+        return []
+
+    if indicator.kind == "market_ladder":
+        current = [c for c in latest.get("components") or [] if isinstance(c, dict)]
+    else:
+        selected = _selected_component(latest)
+        current = [selected] if selected is not None else []
+
+    pairs: list[tuple[float, float, str, str, str]] = []
+    for component in current:
+        identity = _market_identity(component)
+        previous = previous_components.get(identity)
+        if previous is None:
+            continue
+        before, after = _market_value(previous), _market_value(component)
+        if before is None or after is None:
+            continue
+        pairs.append((
+            before, after, identity, _contract_label(component), _market_deadline(component),
+        ))
+    return pairs
 
 
 def find_movements(
@@ -78,16 +206,14 @@ def find_movements(
         if len(series) < 2:
             continue
         latest = series[-1]
-        # The earliest reading at or after `since`; falls back to the oldest we hold.
+        # The earliest reading at or after `since`. If none exists, this indicator has no
+        # observation inside the requested comparison window and must be omitted.
         baseline = next(
-            (r for r in series if str(r.get("collected_at", "")) >= since), series[0]
+            (r for r in series if str(r.get("collected_at", "")) >= since), None
         )
-        if baseline is latest or baseline.get("collected_at") == latest.get("collected_at"):
+        if baseline is None:
             continue
-
-        before = baseline.get("value")
-        after = latest.get("value")
-        if before is None or after is None:
+        if baseline is latest or baseline.get("collected_at") == latest.get("collected_at"):
             continue
 
         window = _hours_between(str(baseline["collected_at"]), str(latest["collected_at"]))
@@ -95,30 +221,35 @@ def find_movements(
             # Too short a window to distinguish a move from noise.
             continue
 
-        change = float(after) - float(before)
-        if abs(change) < indicator.material_move:
-            continue
+        for before, after, market_id, contract, resolves in _comparison_pairs(
+            indicator, baseline, latest
+        ):
+            change = after - before
+            if abs(change) < indicator.material_move:
+                continue
 
-        movements.append(
-            Movement(
-                indicator_id=indicator.id,
-                name=indicator.name,
-                source=indicator.source,
-                before=float(before),
-                after=float(after),
-                change=round(change, 6),
-                before_at=str(baseline["collected_at"]),
-                after_at=str(latest["collected_at"]),
-                window_hours=round(window, 2),
-                material_move=indicator.material_move,
-                display_before=format_value(indicator, float(before)),
-                display_after=format_value(indicator, float(after)),
-                display_change=_display_change(indicator, change),
-                bears_on=list(indicator.bears_on),
-                resolves=indicator.resolves,
-                note=indicator.note,
+            movements.append(
+                Movement(
+                    indicator_id=indicator.id,
+                    name=indicator.name,
+                    source=indicator.source,
+                    before=before,
+                    after=after,
+                    change=round(change, 6),
+                    before_at=str(baseline["collected_at"]),
+                    after_at=str(latest["collected_at"]),
+                    window_hours=round(window, 2),
+                    material_move=indicator.material_move,
+                    display_before=format_value(indicator, before),
+                    display_after=format_value(indicator, after),
+                    display_change=_display_change(indicator, change),
+                    bears_on=list(indicator.bears_on),
+                    resolves=resolves or indicator.resolves,
+                    note=indicator.note,
+                    market_id=market_id,
+                    contract=contract,
+                )
             )
-        )
 
     movements.sort(key=lambda m: abs(m.change), reverse=True)
     return movements
@@ -131,7 +262,7 @@ def _display_change(indicator: Indicator, change: float) -> str:
 
 
 def _cell(value: Any) -> str:
-    return str(value).replace("|", "\\|").replace("\n", " ")
+    return str(value).strip().replace("|", "\\|").replace("\n", " ")
 
 
 def _bearing_text(bears_on: list[dict[str, str]], change: float) -> str:
@@ -161,7 +292,7 @@ def render(
         "",
         "_Generated. Do not edit by hand._",
         "",
-        f"**Generated:** {utc_now_iso()}  ",
+        f"**Generated:** {utc_now_iso()}",
         f"**Since:** {since}",
         "",
         "Everything below cleared two thresholds fixed in advance: a minimum observation "
@@ -177,19 +308,20 @@ def render(
     lines.extend(["## Indicators that moved", ""])
     if movements:
         lines.extend([
-            "| Indicator | Then | Now | Move | Window | Points |",
-            "| --- | ---: | ---: | ---: | ---: | --- |",
+            "| Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |",
+            "| --- | --- | --- | ---: | ---: | ---: | ---: | --- |",
         ])
         for m in movements:
+            label = m.name + (f" — {m.contract}" if m.contract else "")
             lines.append(
-                f"| {_cell(m.name)} | {m.display_before} | {m.display_after} | "
+                f"| {_cell(label)} | {_cell(m.market_id or '—')} | {_cell(m.resolves or '—')} | "
+                f"{m.display_before} | {m.display_after} | "
                 f"{m.display_change} | {m.window_hours:.0f} h | "
                 f"{_bearing_text(m.bears_on, m.change)} |"
             )
         lines.append("")
-        for m in movements:
-            if m.note:
-                lines.append(f"- **{_cell(m.name)}** — {_cell(m.note)}")
+        for name, note in sorted({(m.name, m.note) for m in movements if m.note}):
+            lines.append(f"- **{_cell(name)}** — {_cell(note)}")
         lines.append("")
     else:
         lines.append(
@@ -221,8 +353,22 @@ def render(
             for c in changed:
                 lines.append(f"**{_cell(c.get('ticker'))}** — {_cell(c.get('title'))}")
                 lines.append("")
-                lines.append(f"- Before: {_cell(c.get('before', ''))[:300]}")
-                lines.append(f"- After: {_cell(c.get('after', ''))[:300]}")
+                if c.get("rules_primary_changed", True):
+                    lines.append(
+                        f"- Primary rule before: {_cell(c.get('before', ''))[:300].rstrip()}"
+                    )
+                    lines.append(
+                        f"- Primary rule after: {_cell(c.get('after', ''))[:300].rstrip()}"
+                    )
+                if c.get("rules_secondary_changed"):
+                    lines.append(
+                        f"- Secondary rule before: "
+                        f"{_cell(c.get('secondary_before', ''))[:300].rstrip()}"
+                    )
+                    lines.append(
+                        f"- Secondary rule after: "
+                        f"{_cell(c.get('secondary_after', ''))[:300].rstrip()}"
+                    )
                 if c.get("settlement_sources_before") != c.get("settlement_sources_after"):
                     lines.append(
                         f"- Settlement sources: {_cell(c.get('settlement_sources_before'))} "
@@ -261,15 +407,21 @@ def count_suppressed(
             continue
         latest = series[-1]
         baseline = next(
-            (r for r in series if str(r.get("collected_at", "")) >= since), series[0]
+            (r for r in series if str(r.get("collected_at", "")) >= since), None
         )
-        before, after = baseline.get("value"), latest.get("value")
-        if before is None or after is None or baseline is latest:
+        if baseline is None:
+            continue
+        if baseline is latest:
             continue
         window = _hours_between(str(baseline["collected_at"]), str(latest["collected_at"]))
-        change = abs(float(after) - float(before))
-        if change == 0:
-            continue
-        if window is None or window < config.min_change_window_hours or change < indicator.material_move:
-            suppressed += 1
+        for before, after, _, _, _ in _comparison_pairs(indicator, baseline, latest):
+            change = abs(after - before)
+            if change == 0:
+                continue
+            if (
+                window is None
+                or window < config.min_change_window_hours
+                or change < indicator.material_move
+            ):
+                suppressed += 1
     return suppressed

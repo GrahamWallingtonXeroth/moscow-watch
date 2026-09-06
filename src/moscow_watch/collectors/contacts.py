@@ -59,13 +59,16 @@ class Contact:
     source_family: str
     source_type: str
     matched_terms: list[str] = field(default_factory=list)
+    event_key: str = ""
+    citations: list[dict[str, str]] = field(default_factory=list)
     senior: bool = False
     source: str = "contact_counter"
 
     @property
     def id(self) -> str:
-        # Keyed on URL so re-collection never double-counts a contact.
-        return stable_id("contact", self.url or self.title)
+        # A diplomatic contact is an event, not a story. Reports from independent outlets
+        # about the same named actors on the same day therefore share an id.
+        return stable_id("contact", self.event_key or self.url or self.title)
 
     def to_dict(self) -> dict[str, Any]:
         return {"id": self.id, **asdict(self)}
@@ -74,6 +77,46 @@ class Contact:
 def _is_senior(text: str) -> bool:
     haystack = normalise(text)
     return any(term_matches(haystack, term) for term in SENIOR_TERMS)
+
+
+def _source_implies_russian_presidency(item: dict[str, Any]) -> bool:
+    family = str(item.get("source_family") or "").casefold()
+    publisher = str(item.get("publisher") or "").casefold()
+    standpoint = str(item.get("standpoint") or "").casefold()
+    return (
+        family == "kremlin"
+        or "kremlin" in publisher
+        or "russian presidential" in standpoint
+    )
+
+
+def _named_actor_terms(text: str, terms: tuple[str, ...]) -> list[str]:
+    haystack = normalise(text)
+    # Country/location labels are useful for matching but too broad for event identity.
+    generic = {"russia", "russian", "moscow", "kremlin", "iran", "iranian", "tehran"}
+    return sorted(term for term in terms if term not in generic and term_matches(haystack, term))
+
+
+def _event_key(observed_on: str, text: str, url: str, *, kremlin_context: bool) -> str:
+    russian = _named_actor_terms(text, RUSSIA_TERMS)
+    iranian = _named_actor_terms(text, IRAN_TERMS)
+    if kremlin_context and "putin" not in russian:
+        russian.append("putin")
+    if russian and iranian:
+        return f"{observed_on}|{','.join(sorted(russian))}|{','.join(sorted(iranian))}"
+    return f"{observed_on}|url:{url}" if url else f"{observed_on}|title:{normalise(text)}"
+
+
+def _prefer(left: Contact, right: Contact) -> Contact:
+    """Merge duplicate reporting, preferring a primary record as the lead citation."""
+    citations = {str(c.get("url") or ""): c for c in left.citations + right.citations}
+    preferred = right if right.source_type == "primary_record" else left
+    if left.source_type != "primary_record" and right.source_type != "primary_record":
+        preferred = left
+    preferred.citations = list(citations.values())
+    preferred.matched_terms = sorted(set(left.matched_terms + right.matched_terms))
+    preferred.senior = left.senior or right.senior
+    return preferred
 
 
 def extract_contacts(items: Iterable[dict[str, Any]]) -> list[Contact]:
@@ -85,7 +128,9 @@ def extract_contacts(items: Iterable[dict[str, Any]]) -> list[Contact]:
     found: dict[str, Contact] = {}
     for item in items:
         text = f"{item.get('title', '')} {item.get('summary', '')}"
-        matched, terms = match_groups(text, REQUIRED_GROUPS)
+        kremlin_context = _source_implies_russian_presidency(item)
+        matching_text = f"{text} Russia Kremlin Putin" if kremlin_context else text
+        matched, terms = match_groups(matching_text, REQUIRED_GROUPS)
         if not matched:
             continue
         url = str(item.get("url") or "")
@@ -100,9 +145,15 @@ def extract_contacts(items: Iterable[dict[str, Any]]) -> list[Contact]:
             source_family=str(item.get("source_family") or ""),
             source_type=str(item.get("source_type") or ""),
             matched_terms=terms,
-            senior=_is_senior(text),
+            event_key=_event_key(published, text, url, kremlin_context=kremlin_context),
+            citations=[{
+                "title": str(item.get("title") or ""),
+                "url": url,
+                "publisher": str(item.get("publisher") or ""),
+            }],
+            senior=_is_senior(matching_text),
         )
-        found.setdefault(contact.id, contact)
+        found[contact.id] = _prefer(found[contact.id], contact) if contact.id in found else contact
     return sorted(found.values(), key=lambda c: c.observed_on)
 
 
@@ -119,7 +170,9 @@ def fortnightly_series(
     senior_only: bool = False,
 ) -> list[dict[str, Any]]:
     """Counts per fortnight, with the citing URLs kept alongside each bucket."""
-    buckets: dict[date, list[dict[str, Any]]] = {}
+    # Old ledgers keyed contacts by article URL. Re-deduplicate here as well so upgrading
+    # the extractor immediately fixes derived counts without rewriting append-only data.
+    events: dict[str, dict[str, Any]] = {}
     for row in contacts:
         if senior_only and not row.get("senior"):
             continue
@@ -127,6 +180,43 @@ def fortnightly_series(
             day = date.fromisoformat(str(row.get("observed_on"))[:10])
         except (TypeError, ValueError):
             continue
+        key = str(row.get("event_key") or "")
+        if not key:
+            matched = {str(term).casefold() for term in row.get("matched_terms") or []}
+            russian = sorted(
+                matched.intersection(RUSSIA_TERMS)
+                - {"russia", "russian", "moscow", "kremlin"}
+            )
+            iranian = sorted(
+                matched.intersection(IRAN_TERMS) - {"iran", "iranian", "tehran"}
+            )
+            key = (
+                f"{day.isoformat()}|{','.join(russian)}|{','.join(iranian)}"
+                if russian and iranian
+                else str(row.get("id") or row.get("url") or row.get("title"))
+            )
+        existing = events.get(key)
+        if existing is None:
+            events[key] = row
+            continue
+        citations = {
+            str(citation.get("url") or ""): citation
+            for candidate in (existing, row)
+            for citation in (candidate.get("citations") or [{
+                "title": candidate.get("title", ""),
+                "url": candidate.get("url", ""),
+                "publisher": candidate.get("publisher", ""),
+            }])
+        }
+        preferred = row if (
+            row.get("source_type") == "primary_record"
+            and existing.get("source_type") != "primary_record"
+        ) else existing
+        events[key] = {**preferred, "citations": list(citations.values())}
+
+    buckets: dict[date, list[dict[str, Any]]] = {}
+    for row in events.values():
+        day = date.fromisoformat(str(row.get("observed_on"))[:10])
         buckets.setdefault(fortnight_start(day, anchor=anchor), []).append(row)
 
     series: list[dict[str, Any]] = []
@@ -139,9 +229,12 @@ def fortnightly_series(
                 "count": len(rows),
                 "senior_count": sum(1 for r in rows if r.get("senior")),
                 "citations": [
-                    {"title": r.get("title", ""), "url": r.get("url", ""),
-                     "publisher": r.get("publisher", "")}
+                    citation
                     for r in rows
+                    for citation in (r.get("citations") or [{
+                        "title": r.get("title", ""), "url": r.get("url", ""),
+                        "publisher": r.get("publisher", ""),
+                    }])
                 ],
             }
         )

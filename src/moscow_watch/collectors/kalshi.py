@@ -46,6 +46,7 @@ class KalshiMarket:
     title: str
     captured_at: str
     status: str = ""
+    result: str = ""
     close_time: str = ""
     yes_bid: float | None = None
     yes_ask: float | None = None
@@ -133,6 +134,7 @@ def parse_markets(
                 title=str(raw.get("title") or ""),
                 captured_at=captured_at,
                 status=str(raw.get("status") or ""),
+                result=str(raw.get("result") or ""),
                 event_ticker=event_ticker,
                 close_time=str(raw.get("close_time") or ""),
                 yes_bid=_dollars(raw.get("yes_bid_dollars")),
@@ -265,14 +267,22 @@ def rules_changes(
             )
             continue
         if before.get("rules_fingerprint") != row.get("rules_fingerprint"):
+            primary_before = str(before.get("rules_primary", ""))
+            primary_after = str(row.get("rules_primary", ""))
+            secondary_before = str(before.get("rules_secondary", ""))
+            secondary_after = str(row.get("rules_secondary", ""))
             changes.append(
                 {
                     "kind": "rules_changed",
                     "ticker": ticker,
                     "series_ticker": row.get("series_ticker", ""),
                     "title": row.get("title", ""),
-                    "before": str(before.get("rules_primary", ""))[:400],
-                    "after": str(row.get("rules_primary", ""))[:400],
+                    "before": primary_before[:400],
+                    "after": primary_after[:400],
+                    "rules_primary_changed": primary_before != primary_after,
+                    "secondary_before": secondary_before[:400],
+                    "secondary_after": secondary_after[:400],
+                    "rules_secondary_changed": secondary_before != secondary_after,
                     "settlement_sources_before": before.get("settlement_sources", []),
                     "settlement_sources_after": row.get("settlement_sources", []),
                 }

@@ -246,6 +246,54 @@ class ContactCounterTests(unittest.TestCase):
         second = {c.id for c in extract_contacts(items + items)}
         self.assertEqual(first, second)
 
+    def test_primary_kremlin_record_supplies_implicit_russian_actor(self):
+        item = {
+            "title": "Meeting with President of Iran Masoud Pezeshkian",
+            "summary": "",
+            "url": "https://en.kremlin.ru/events/president/news/80658",
+            "published_at": "2026-09-01T10:45:00Z",
+            "publisher": "Kremlin",
+            "source_family": "kremlin",
+            "source_type": "primary_record",
+            "standpoint": "Russian presidential administration",
+        }
+        contacts = extract_contacts([item])
+        self.assertEqual(len(contacts), 1)
+        self.assertTrue(contacts[0].senior)
+
+    def test_same_named_contact_reported_twice_counts_as_one_event(self):
+        items = [
+            {
+                "title": "Putin meets Iranian President Pezeshkian",
+                "summary": "The presidents held a meeting.",
+                "url": f"https://example/{index}",
+                "published_at": "2026-09-01T10:45:00Z",
+                "publisher": publisher,
+                "source_family": family,
+                "source_type": "independent_reporting",
+            }
+            for index, (publisher, family) in enumerate((("BBC", "bbc"), ("NPR", "npr")))
+        ]
+        contacts = extract_contacts(items)
+        self.assertEqual(len(contacts), 1)
+        self.assertEqual(len(contacts[0].citations), 2)
+
+    def test_legacy_url_keyed_rows_are_deduplicated_by_named_actors(self):
+        rows = [
+            {
+                "id": f"old-url-id-{index}",
+                "observed_on": "2026-09-01",
+                "matched_terms": ["putin", "pezeshkian", "meeting"],
+                "url": f"https://example/{index}",
+                "publisher": publisher,
+                "senior": True,
+            }
+            for index, publisher in enumerate(("BBC", "NPR"))
+        ]
+        series = fortnightly_series(rows, anchor=date(2026, 1, 5))
+        self.assertEqual(sum(bucket["count"] for bucket in series), 1)
+        self.assertEqual(len(series[0]["citations"]), 2)
+
     def test_fortnight_bucketing_is_anchored(self):
         anchor = date(2026, 1, 5)
         self.assertEqual(fortnight_start(date(2026, 1, 5), anchor=anchor), anchor)
@@ -311,6 +359,68 @@ class SuppressionTests(unittest.TestCase):
         history = self._history(0.20, 0.40, 12)
         history[1]["available"] = False
         self.assertEqual(find_movements(config, history, since="2026-08-01"), [])
+
+    def test_no_observation_inside_requested_window_means_no_comparison(self):
+        history = self._history(0.20, 0.40, 12)
+        self.assertEqual(
+            find_movements(self._config(), history, since="2026-08-27T00:00:00Z"),
+            [],
+        )
+        self.assertEqual(
+            count_suppressed(self._config(), history, since="2026-08-27T00:00:00Z"),
+            0,
+        )
+
+    def test_new_front_leg_is_not_compared_with_expired_contract(self):
+        config = self._config(material_move=0.01)
+        history = [
+            {
+                "indicator_id": "ind", "value": 0.01,
+                "collected_at": "2026-08-26T00:00:00Z", "available": True,
+                "market_id": "kalshi:old", "resolves": "2026-08-31",
+                "components": [{"market_id": "kalshi:old", "last_price": 0.01}],
+            },
+            {
+                "indicator_id": "ind", "value": 0.20,
+                "collected_at": "2026-08-27T00:00:00Z", "available": True,
+                "market_id": "kalshi:new", "resolves": "2026-10-31",
+                "components": [{"market_id": "kalshi:new", "last_price": 0.20}],
+            },
+        ]
+        self.assertEqual(find_movements(config, history, since="2026-08-01"), [])
+
+    def test_ladder_moves_are_compared_by_exact_contract(self):
+        indicator = Indicator(
+            id="ladder", name="Ladder", source="polymarket", kind="market_ladder",
+            material_move=0.05, bears_on=[{"hypothesis": "h2", "direction": "up"}],
+        )
+        config = Config(
+            project={"min_change_window_hours": 6.0}, hypotheses=[],
+            indicators=[indicator], news_sources=[], discovery_queries=[], claim_rules=[],
+        )
+        history = [
+            {
+                "indicator_id": "ladder", "value": 0.10,
+                "collected_at": "2026-08-26T00:00:00Z", "available": True,
+                "components": [
+                    {"market_id": "pm:oct", "yes_price": 0.10, "end_date": "2026-10-31"},
+                    {"market_id": "pm:dec", "yes_price": 0.20, "end_date": "2026-12-31"},
+                ],
+            },
+            {
+                "indicator_id": "ladder", "value": 0.17,
+                "collected_at": "2026-08-27T00:00:00Z", "available": True,
+                "components": [
+                    {"market_id": "pm:oct", "yes_price": 0.17, "end_date": "2026-10-31"},
+                    {"market_id": "pm:dec", "yes_price": 0.21, "end_date": "2026-12-31"},
+                    {"market_id": "pm:new", "yes_price": 0.90, "end_date": "2027-06-30"},
+                ],
+            },
+        ]
+        moves = find_movements(config, history, since="2026-08-01")
+        self.assertEqual(len(moves), 1)
+        self.assertEqual(moves[0].market_id, "pm:oct")
+        self.assertEqual(moves[0].resolves, "2026-10-31")
 
 
 class ShippedConfigTests(unittest.TestCase):
@@ -447,6 +557,18 @@ class ReportingVolumeTests(unittest.TestCase):
         self.assertEqual(series[0]["fortnight_start"], "2026-08-25")
         self.assertEqual(series[0]["days"], 1)
 
+    def test_repeated_rows_for_one_day_count_once_and_latest_revision_wins(self):
+        series = fortnightly_volume(
+            [
+                {"day": "2026-08-25", "value": 0.1},
+                {"day": "2026-08-25", "value": 0.9},
+                {"day": "2026-08-26", "value": 0.3},
+            ],
+            anchor=date(2026, 8, 25),
+        )
+        self.assertEqual(series[0]["days"], 2)
+        self.assertAlmostEqual(series[0]["mean_volume"], 0.6)
+
     def test_baseline_uses_only_fortnights_ending_before_the_event(self):
         series = [
             {"fortnight_start": "2026-08-03", "fortnight_end": "2026-08-16",
@@ -474,6 +596,13 @@ class ReportingVolumeTests(unittest.TestCase):
         # Inside the tolerance band a move is not a direction.
         self.assertEqual(
             volume_direction([{"mean_volume": 0.42, "days": 14}], base), "flat")
+
+    def test_direction_is_withheld_until_seven_unique_days_exist(self):
+        base = {"mean_volume": 0.40, "fortnights": 15}
+        self.assertEqual(
+            volume_direction([{"mean_volume": 0.90, "days": 6}], base),
+            "insufficient data",
+        )
 
     def test_marker_is_not_placed_on_less_than_half_a_fortnight(self):
         base = {"mean_volume": 0.40, "fortnights": 15}

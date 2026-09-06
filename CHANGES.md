@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-06T04:43:05Z  
-**Since:** 2026-08-30T04:43:05Z
+**Generated:** 2026-09-06T07:16:30Z
+**Since:** 2026-08-30T07:16:30Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -11,23 +11,28 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 ## Indicators that moved
 
-| Indicator | Then | Now | Move | Window | Points |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Polymarket: US-Iran ceasefire continues | 78.5% | 0.1% | -78.4 pts | 16 h | away from H1, H4 |
-| IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 167 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 154 h | toward H2 |
-| Kalshi: Kash Patel travels to Russia | 65.0% | 44.0% | -21.0 pts | 167 h | away from H6 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.1% | 12.5% | +12.3 pts | 167 h | toward H2, H3 |
-| Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 167 h | toward H5; away from H3 |
-| Kalshi: Zelensky-Putin meeting | 7.0% | 13.0% | +6.0 pts | 167 h | toward H2 |
-| Kalshi: Putin-Trump meeting location | 5.0% | 10.0% | +5.0 pts | 167 h | toward H2 |
+| Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| Polymarket: US-Iran ceasefire continues — August 31 | polymarket:us-x-iran-ceasefire-continues-through-august-31 | 2026-08-31T20:29:00Z | 98.8% | 0.3% | -98.5 pts | 9 h | away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues — September 15 | polymarket:us-x-iran-ceasefire-continues-through-september-15 | 2026-09-15T20:29:00Z | 89.5% | 0.2% | -89.3 pts | 9 h | away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues — September 30 | polymarket:us-x-iran-ceasefire-continues-through-september-30 | 2026-09-30T20:29:00Z | 78.5% | 0.1% | -78.4 pts | 9 h | away from H1, H4 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 5 | 4.29 | -0.71 | 161 h | away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues — October 31 | polymarket:us-x-iran-ceasefire-continues-through-october-31 | 2026-10-31T20:29:00Z | 69.5% | 0.2% | -69.2 pts | 9 h | away from H1, H4 |
+| Kalshi: Witkoff travels to Russia — KXWITKOFFRUSSIA-26JUN29-OCT01 | kalshi:KXWITKOFFRUSSIA-26JUN29-OCT01 | 2026-10-01T14:00:00Z | 39.0% | 97.0% | +58.0 pts | 147 h | toward H2 |
+| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 49.0% | 12.0% | -37.0 pts | 161 h | toward H3; away from H5 |
+| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 65.0% | 44.0% | -21.0 pts | 161 h | away from H6 |
+| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 18.5% | 26.5% | +8.0 pts | 161 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 36.5% | 44.0% | +7.5 pts | 161 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 50.0% | 57.0% | +7.0 pts | 161 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — October 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2026 | 2026-11-01T03:59:00Z | 7.5% | 12.5% | +5.0 pts | 161 h | toward H2, H3 |
+| Kalshi: Putin-Trump meeting location — KXPUTINDJTLOCATION-29-HUN | kalshi:KXPUTINDJTLOCATION-29-HUN | 2029-01-01T04:59:00Z | 5.0% | 10.0% | +5.0 pts | 161 h | toward H2 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: Witkoff travels to Russia** — A named envoy trip is one of the cleaner observable proxies for an active Ukraine track.
-- **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs are thin - under $5,000 of volume - so treat the Q1-2027 peak with the caution that deserves.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
+- **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 
-_9 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_16 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
@@ -37,18 +42,18 @@ A change to resolution wording is a material event: the same ticker can silently
 
 **KXWITKOFFRUSSIA-26JUN29-OCT01** — Will Steve Witkoff visit Russia before Oct 1, 2026?
 
-- Before: If Steve Witkoff has physically travelled to and been present within the geographic boundaries of Russia before Oct 1, 2026, then the market resolves to Yes.
-- After: If Steve Witkoff has physically travelled to and been present within the geographic boundaries of Russia before Oct 1, 2026, then the market resolves to Yes.
+- Secondary rule before: Physical presence within the geographic boundaries of the area is required. Flying over without landing, layovers during which the person remains in the airplane or airport, virtual or remote appearances, future visit plans, or (unless explicitly specified) presence in adjacent international waters
+- Secondary rule after: The following do NOT constitute a visit:  Flying over the area without landing Layovers during which the person remains in an airplane Virtual or remote appearances Presence in international waters adjacent to the area Presence solely within embassy or consulate grounds Plans, announcements, or sche
 
 **KXWITKOFFRUSSIA-26JUN29-JAN01** — Will Steve Witkoff visit Russia before Jan 1, 2027?
 
-- Before: If Steve Witkoff has physically travelled to and been present within the geographic boundaries of Russia before Jan 1, 2027, then the market resolves to Yes.
-- After: If Steve Witkoff has physically travelled to and been present within the geographic boundaries of Russia before Jan 1, 2027, then the market resolves to Yes.
+- Secondary rule before: Physical presence within the geographic boundaries of the area is required. Flying over without landing, layovers during which the person remains in the airplane or airport, virtual or remote appearances, future visit plans, or (unless explicitly specified) presence in adjacent international waters
+- Secondary rule after: The following do NOT constitute a visit:  Flying over the area without landing Layovers during which the person remains in an airplane Virtual or remote appearances Presence in international waters adjacent to the area Presence solely within embassy or consulate grounds Plans, announcements, or sche
 
 **KXKASHRUSSIA-26JUL27-NOV01** — Will Kash Patel visit Russia before Nov 1, 2026?
 
-- Before: If Kash Patel has physically travelled to and been present within the geographic boundaries of Russia before Nov 1, 2026, then the market resolves to Yes.
-- After: If Kash Patel has physically travelled to and been present within the geographic boundaries of Russia before Nov 1, 2026, then the market resolves to Yes.
+- Secondary rule before: Physical presence within the geographic boundaries is required - flying over without landing, airport layovers where the person remains in the airplane or airport, virtual appearances, presence in international waters, or presence solely within embassy/consulate grounds do NOT count as visits. For c
+- Secondary rule after: The following do NOT constitute a visit:  Flying over the area without landing Layovers during which the person remains in an airplane Virtual or remote appearances Presence in international waters adjacent to the area Presence solely within embassy or consulate grounds Plans, announcements, or sche
 
 ### New markets listed in a tracked series
 

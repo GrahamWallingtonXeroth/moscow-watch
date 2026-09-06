@@ -4,7 +4,13 @@
 [![Update watch](https://github.com/GrahamWallingtonXeroth/moscow-watch/actions/workflows/watch.yml/badge.svg)](https://github.com/GrahamWallingtonXeroth/moscow-watch/actions/workflows/watch.yml)
 
 **On 25 August 2026 the director of the CIA spent about seven and a half hours in Moscow.
-Nobody has reported what was discussed.**
+The initial article preceded later reporting about what was discussed.**
+
+Subsequent single-source reporting says John Ratcliffe floated renewed US-mediated Ukraine
+talks and a Trump–Putin–Zelensky summit. Witkoff and Kushner then met Putin on 5 September
+with a Ukraine peace proposal. The sequence is now recorded in
+[docs/OBSERVATIONS.md](docs/OBSERVATIONS.md); a causal handoff remains reported rather than
+officially documented.
 
 This repository does not tell you why he went. It collects the quantities that would move
 differently depending on the answer, publishes them with their provenance and their
@@ -21,6 +27,9 @@ while adding nothing a reader can check.
 - **[TRACKER.md](TRACKER.md)** — every indicator, its current value, when it was collected,
   and when it becomes decidable. Opens with the resolution calendar.
 - **[CHANGES.md](CHANGES.md)** — what moved since the last run, and by how much.
+- **[docs/OBSERVATIONS.md](docs/OBSERVATIONS.md)** — dated, source-labelled factual
+  observations and falsifier-component status. It does not alter the pre-registered
+  hypotheses or turn temporal sequence into causal attribution.
 
 ![What the market thinks about the timing of a Ukraine deal](assets/hazard-curve.png)
 
@@ -142,9 +151,14 @@ formula is in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
   count of contacts, and its level means nothing on its own — **only the direction of
   change against the baseline is meaningful**. The directly collected counter, where every
   entry carries a citation, runs alongside it and remains the auditable one.
-- **The far legs of the ceasefire ladder are thin** — the March and June 2027 rungs carry
-  under $5,000 of volume between them. Treat the Q1-2027 peak with the caution that
-  deserves.
+- **Legacy GDELT rows can repeat a calendar date.** The raw append-only rows are retained
+  for audit, but derived fortnights count each date once and use the last recorded value.
+  New appends hold an exclusive file lock and deduplicate both the existing ledger and the
+  incoming batch, preventing overlapping workflow runs from adding the same id twice.
+- **The far legs of the ceasefire ladder are thinner than the near-dated legs.** Their
+  cumulative volume changes as trading continues, so the tracker prints the current
+  per-leg total instead of preserving a soon-stale dollar figure in prose. Treat curve
+  shape inferred from the far rungs with the caution that deserves.
 - **Claim matching runs on headlines and feed summaries**, not article bodies. A headline
   can invert the meaning of the article beneath it.
 
@@ -194,6 +208,7 @@ src/moscow_watch/
   tracker.py                 renders TRACKER.md
   diff.py                    renders CHANGES.md
   charts.py                  renders the committed PNGs
+docs/OBSERVATIONS.md         dated attestations and falsifier-component status
 data/*.jsonl                 append-only, collected only
 ```
 

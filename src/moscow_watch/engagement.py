@@ -38,7 +38,10 @@ def fortnightly_volume(
     together with the days after it and answer a different question from the one asked.
     Both are 14-day windows of the same daily quantity, so their means are comparable.
     """
-    buckets: dict[date, list[float]] = {}
+    # GDELT may return revised or repeated points for a calendar day. One day must carry
+    # one vote in a daily mean, so keep the last observation for that day. Raw rows remain
+    # append-only and auditable; only the derived bucket is deduplicated.
+    latest_by_day: dict[date, float] = {}
     for row in points:
         try:
             day = date.fromisoformat(str(row.get("day"))[:10])
@@ -47,6 +50,10 @@ def fortnightly_volume(
             continue
         if since is not None and day < since:
             continue
+        latest_by_day[day] = value
+
+    buckets: dict[date, list[float]] = {}
+    for day, value in sorted(latest_by_day.items()):
         buckets.setdefault(fortnight_start(day, anchor=anchor), []).append(value)
 
     series: list[dict[str, Any]] = []
@@ -99,6 +106,8 @@ def direction(
     """
     mean = base.get("mean_volume")
     if mean is None or not series:
+        return "insufficient data"
+    if int(series[-1].get("days") or 0) < MIN_DAYS_TO_PLACE_MARKER:
         return "insufficient data"
     try:
         latest = float(series[-1].get("mean_volume"))

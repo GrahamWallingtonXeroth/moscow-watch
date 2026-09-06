@@ -45,10 +45,13 @@ class LadderParsingTests(unittest.TestCase):
         # Reading a single leg cannot distinguish a parallel shift from a shape change.
         self.assertGreaterEqual(len(self._legs()), 5)
 
-    def test_settled_leg_with_no_prices_is_skipped_not_fatal(self):
+    def test_settled_leg_with_no_prices_retains_terminal_identity(self):
         slugs = {leg.market_slug for leg in self._legs()}
-        self.assertNotIn("cf-jul", slugs, "the priceless settled leg should be dropped")
-        self.assertIn("cf-dec", slugs, "and the rest of the ladder must survive")
+        self.assertIn("cf-jul", slugs)
+        settled = next(leg for leg in self._legs() if leg.market_slug == "cf-jul")
+        self.assertTrue(settled.closed)
+        self.assertIsNone(settled.yes_price)
+        self.assertIn("cf-dec", slugs, "the rest of the ladder must survive")
 
     def test_open_legs_excludes_closed_and_expired(self):
         live = open_legs(self._legs(), today=TODAY)
@@ -165,6 +168,14 @@ class KalshiTests(unittest.TestCase):
         self.assertAlmostEqual(market.open_interest, 421.31)
         self.assertAlmostEqual(market.volume, 422.31)
 
+    def test_terminal_result_is_retained(self):
+        payload = fixture_json("kalshi_markets.json")
+        payload["markets"][0]["status"] = "settled"
+        payload["markets"][0]["result"] = "yes"
+        market = parse_markets(payload, "KXTEST", "2026-08-26T12:00:00Z")[0]
+        self.assertEqual(market.status, "settled")
+        self.assertEqual(market.result, "yes")
+
     def test_settlement_sources_are_read_from_the_event(self):
         sources = parse_settlement_sources(fixture_json("kalshi_event.json"))
         self.assertEqual(len(sources), 1)
@@ -204,6 +215,19 @@ class KalshiTests(unittest.TestCase):
         self.assertEqual(len(changes), 1)
         self.assertEqual(changes[0]["kind"], "rules_changed")
         self.assertIn("different settlement", changes[0]["after"])
+
+    def test_secondary_rule_change_is_shown_even_if_primary_is_identical(self):
+        before = [m.to_dict() for m in self._markets()]
+        payload = fixture_json("kalshi_markets.json")
+        payload["markets"][0]["rules_secondary"] = "A newly specific secondary rule."
+        after = [
+            m.to_dict()
+            for m in parse_markets(payload, "KXTEST", "2026-08-27T12:00:00Z")
+        ]
+        change = rules_changes(before, after)[0]
+        self.assertFalse(change["rules_primary_changed"])
+        self.assertTrue(change["rules_secondary_changed"])
+        self.assertIn("newly specific", change["secondary_after"])
 
     def test_new_market_in_a_tracked_series_is_flagged(self):
         before = [m.to_dict() for m in self._markets()][:1]

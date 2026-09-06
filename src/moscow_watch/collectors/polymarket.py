@@ -88,6 +88,7 @@ class Leg:
     closed: bool | None = None
     active: bool | None = None
     archived: bool | None = None
+    resolved_outcome: str = ""
     source_url: str = ""
     source: str = "polymarket_gamma"
 
@@ -184,17 +185,29 @@ def parse_event(payload: Any, event_slug: str, captured_at: str) -> list[Leg]:
             if value is not None
         ]
         if len(prices) != len(outcomes):
-            # Resolved legs sometimes drop their prices entirely. Skipping such a leg is
-            # correct; failing the whole ladder because one settled rung is malformed is
-            # not. Live legs are still held to the strict rule below.
+            # Resolved legs sometimes drop their prices entirely. Retain their identity
+            # and lifecycle state even when Gamma no longer publishes a price. A closed
+            # contract is an observation, not a collection failure. Live legs remain
+            # subject to strict outcome/price alignment.
             if raw.get("closed") is True or not prices:
-                continue
-            # Never guess which price belongs to which outcome.
-            raise ValueError(
-                f"{event_slug}: {len(outcomes)} outcomes but {len(prices)} prices for "
-                f"{raw.get('slug')}"
-            )
-        by_outcome = {name.casefold(): value for name, value in zip(outcomes, prices, strict=True)}
+                prices = []
+            else:
+                # Never guess which price belongs to which outcome.
+                raise ValueError(
+                    f"{event_slug}: {len(outcomes)} outcomes but {len(prices)} prices for "
+                    f"{raw.get('slug')}"
+                )
+        if prices:
+            by_outcome = {
+                name.casefold(): value for name, value in zip(outcomes, prices, strict=True)
+            }
+        else:
+            by_outcome = {}
+        resolved_outcome = ""
+        if raw.get("closed") is True and by_outcome:
+            winners = [name for name, value in by_outcome.items() if value >= 0.999]
+            if len(winners) == 1:
+                resolved_outcome = winners[0].upper()
         best_bid = _number(raw.get("bestBid"))
         best_ask = _number(raw.get("bestAsk"))
         spread = _number(raw.get("spread"))
@@ -223,6 +236,7 @@ def parse_event(payload: Any, event_slug: str, captured_at: str) -> list[Leg]:
                 closed=_bool(raw.get("closed")),
                 active=_bool(raw.get("active")),
                 archived=_bool(raw.get("archived")),
+                resolved_outcome=resolved_outcome,
                 source_url=f"https://polymarket.com/event/{event_slug}",
             )
         )

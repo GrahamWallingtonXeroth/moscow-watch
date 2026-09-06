@@ -140,6 +140,11 @@ class MemoryStore:
 
     def append_unique(self, name: str, records, key: str = "id") -> int:
         existing = {r.get(key) for r in self.tables.get(name, [])}
-        fresh = [r for r in records if r.get(key) not in existing]
+        fresh = []
+        for record in records:
+            if record.get(key) in existing:
+                continue
+            fresh.append(record)
+            existing.add(record.get(key))
         self.tables.setdefault(name, []).extend(fresh)
         return len(fresh)

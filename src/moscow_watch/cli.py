@@ -85,23 +85,43 @@ def _collect_polymarket(
             legs = collector.ladder(indicator.event_slug, captured_at=at)
             live = open_legs(legs, today=today)
             all_legs.extend(leg.to_dict() for leg in legs)
-            if not live:
-                raise ValueError("no open legs")
-            # For a ladder, headline the leg closest to the indicator's own resolution
-            # date when one is configured; otherwise the nearest open leg. Reporting a
-            # ladder's nearest rung as "the" price is how a term structure gets misread.
             target = indicator.resolves_date
+            candidates = live or legs
+            if not candidates:
+                raise ValueError("event returned no identifiable legs")
+            # For a ladder, headline the exact leg closest to the indicator's configured
+            # resolution. If every leg has closed, preserve that contract's terminal
+            # state instead of calling a valid source response a failure.
             front = (
-                min(live, key=lambda leg: abs(((leg.resolves or today) - target).days))
+                min(candidates, key=lambda leg: abs(((leg.resolves or today) - target).days))
                 if target
-                else live[0]
+                else candidates[0]
             )
-            value = front.yes_price
+            value = front.yes_price if live else None
             detail = "; ".join(
                 f"{(leg.resolves.isoformat() if leg.resolves else '?')}: "
                 f"{format_value(indicator, leg.yes_price)}"
+                + (f", volume {leg.volume:,.0f}" if leg.volume is not None else "")
                 for leg in live
             )
+            if live:
+                display = (
+                    f"{format_value(indicator, value)}"
+                    f" ({front.group_item_title or (front.resolves.isoformat() if front.resolves else 'front')} leg)"
+                )
+                lifecycle = "open"
+                outcome = ""
+                detail_text = f"{len(live)} open legs — {detail}"
+                components = [leg.to_dict() for leg in live]
+            else:
+                lifecycle = "resolved" if front.resolved_outcome else "closed"
+                outcome = front.resolved_outcome
+                display = f"resolved {outcome}" if outcome else "closed — outcome unavailable"
+                detail_text = (
+                    f"No tradable legs remain; exact contract {front.market_id} is {display}. "
+                    "Terminal market state is not a source-health failure."
+                )
+                components = [leg.to_dict() for leg in legs]
             readings.append(
                 Reading(
                     indicator_id=indicator.id,
@@ -109,20 +129,20 @@ def _collect_polymarket(
                     source="polymarket",
                     kind=indicator.kind,
                     value=value,
-                    display=(
-                        f"{format_value(indicator, value)}"
-                        f" ({front.group_item_title or (front.resolves.isoformat() if front.resolves else 'front')} leg)"
-                    ),
+                    display=display,
                     collected_at=at,
-                    resolves=(front.resolves.isoformat() if front.resolves else indicator.resolves),
-                    detail=f"{len(live)} open legs — {detail}",
+                    resolves=front.end_date or indicator.resolves,
+                    detail=detail_text,
                     source_url=front.source_url,
-                    components=[leg.to_dict() for leg in live],
+                    components=components,
+                    market_id=front.market_id,
+                    outcome=outcome,
+                    lifecycle_status=lifecycle,
                 )
             )
             health.record_success(
                 f"polymarket:{indicator.id}", kind="polymarket", label=indicator.name,
-                target=indicator.event_slug, records=len(live), at=at, source_family="polymarket",
+                target=indicator.event_slug, records=len(legs), at=at, source_family="polymarket",
             )
         except Exception as exc:
             category, message = _error(exc)
@@ -150,6 +170,7 @@ def _collect_kalshi(
     collector = KalshiCollector(client)
     readings: list[Reading] = []
     fresh: list[dict[str, Any]] = []
+    previous = store.read("kalshi_markets")
 
     for indicator in config.indicators_for("kalshi"):
         try:
@@ -157,29 +178,108 @@ def _collect_kalshi(
             rows = [m.to_dict() for m in markets]
             fresh.extend(rows)
             priced = [m for m in markets if m.last_price is not None or m.yes_bid is not None]
+            previous_by_ticker: dict[str, dict[str, Any]] = {}
+            for row in previous:
+                if row.get("series_ticker") != indicator.series_ticker:
+                    continue
+                ticker = str(row.get("ticker") or "")
+                if ticker and (
+                    ticker not in previous_by_ticker
+                    or str(row.get("captured_at") or "")
+                    > str(previous_by_ticker[ticker].get("captured_at") or "")
+                ):
+                    previous_by_ticker[ticker] = row
+            current_tickers = {market.ticker for market in markets}
+            missing_active = {
+                ticker for ticker, row in previous_by_ticker.items()
+                if ticker not in current_tickers
+                and str(row.get("status") or "").casefold() in {"active", "open", "unopened"}
+            }
+            terminal = []
+            terminal_errors = []
+            if not priced or missing_active:
+                for status in ("settled", "closed"):
+                    try:
+                        terminal.extend(
+                            collector.series(
+                                indicator.series_ticker, status=status, captured_at=at
+                            )
+                        )
+                    except Exception as exc:
+                        terminal_errors.append(str(exc))
+                wanted = missing_active or set(previous_by_ticker)
+                if wanted:
+                    terminal = [market for market in terminal if market.ticker in wanted]
+                # Some endpoints expose the same terminal market under more than one
+                # status filter. Keep one current snapshot per exact ticker.
+                terminal = list({market.ticker: market for market in terminal}.values())
+                terminal.sort(key=lambda m: m.close_time or "", reverse=True)
+                terminal_rows = [m.to_dict() for m in terminal]
+                fresh.extend(terminal_rows)
+            else:
+                terminal_rows = []
             if not priced:
-                raise ValueError("series has no priced open markets")
-            # Nearest close is the most decision-relevant leg.
+                if not terminal:
+                    suffix = f" ({'; '.join(terminal_errors)})" if terminal_errors else ""
+                    raise ValueError(f"series has no open or identifiable terminal markets{suffix}")
+                front = terminal[0]
+                outcome = front.result.upper()
+                display = f"resolved {outcome}" if outcome else f"{front.status or 'closed'} — outcome pending"
+                readings.append(
+                    Reading(
+                        indicator_id=indicator.id, name=indicator.name, source="kalshi",
+                        kind=indicator.kind, value=None, display=display, collected_at=at,
+                        resolves=front.close_time or indicator.resolves,
+                        detail=(
+                            f"Exact contract {front.ticker} is {front.status or 'closed'}; "
+                            f"settles on {', '.join(front.settlement_sources) or 'unstated source'}. "
+                            "Terminal market state is not a source-health failure."
+                        ),
+                        source_url=front.source_url,
+                        components=terminal_rows,
+                        market_id=front.market_id,
+                        outcome=outcome,
+                        lifecycle_status="resolved" if outcome else (front.status or "closed"),
+                    )
+                )
+                health.record_success(
+                    f"kalshi:{indicator.id}", kind="kalshi", label=indicator.name,
+                    target=indicator.series_ticker, records=len(terminal), at=at,
+                    source_family="kalshi",
+                )
+                continue
+            # Nearest live close is the most decision-relevant price. Terminal contracts
+            # remain alongside it in components, so a rollover cannot erase resolution.
             front = min(priced, key=lambda m: m.close_time or "9999")
             value = front.last_price if front.last_price is not None else front.yes_bid
+            terminal_detail = ""
+            if terminal:
+                terminal_detail = "; terminal: " + ", ".join(
+                    f"{market.ticker} {market.result.upper() or market.status or 'pending'}"
+                    for market in terminal
+                )
             readings.append(
                 Reading(
                     indicator_id=indicator.id, name=indicator.name, source="kalshi",
                     kind=indicator.kind, value=value,
                     display=format_value(indicator, value), collected_at=at,
-                    resolves=str(front.close_time or "")[:10] or indicator.resolves,
+                    resolves=front.close_time or indicator.resolves,
                     detail=(
                         f"{len(markets)} open markets; front leg {front.ticker}, "
                         f"open interest {front.open_interest or 0:,.0f}, "
                         f"settles on {', '.join(front.settlement_sources) or 'unstated source'}"
+                        f"{terminal_detail}"
                     ),
                     source_url=front.source_url,
-                    components=rows,
+                    components=rows + terminal_rows,
+                    market_id=front.market_id,
+                    lifecycle_status="open",
                 )
             )
             health.record_success(
                 f"kalshi:{indicator.id}", kind="kalshi", label=indicator.name,
-                target=indicator.series_ticker, records=len(markets), at=at, source_family="kalshi",
+                target=indicator.series_ticker, records=len(markets) + len(terminal), at=at,
+                source_family="kalshi",
             )
         except Exception as exc:
             category, message = _error(exc)
@@ -197,7 +297,6 @@ def _collect_kalshi(
             )
             print(f"WARN kalshi/{indicator.id}: {message[:160]}", file=sys.stderr)
 
-    previous = store.read("kalshi_markets")
     changes = rules_changes(previous, fresh)
     print(f"kalshi markets added: {store.append_unique('kalshi_markets', fresh)}")
     if changes:
@@ -334,7 +433,16 @@ def _contact_reading(config: Config, store: JsonlStore, at: str) -> list[Reading
     series = fortnightly_series(stored, anchor=config.contact_anchor)
     store.append_unique(
         "contact_series",
-        [{**b, "id": f"fortnight:{b['fortnight_start']}"} for b in series],
+        [
+            {
+                **bucket,
+                "id": (
+                    f"fortnight:{bucket['fortnight_start']}:"
+                    f"{bucket['count']}:{bucket['senior_count']}"
+                ),
+            }
+            for bucket in series
+        ],
     )
     base = contact_baseline(series, before=config.event_date)
     latest = series[-1] if series else None
@@ -347,7 +455,11 @@ def _contact_reading(config: Config, store: JsonlStore, at: str) -> list[Reading
             source="corpus",
             kind=indicator.kind,
             value=float(latest["count"]) if latest else None,
-            display=(f"{latest['count']} reported contacts this fortnight" if latest else "n/a"),
+            display=(
+                f"{latest['count']} reported "
+                f"{'contact' if latest['count'] == 1 else 'contacts'} this fortnight"
+                if latest else "n/a"
+            ),
             collected_at=at,
             unit="contacts/fortnight",
             detail=(
@@ -623,15 +735,242 @@ def _latest_readings(store: JsonlStore) -> list[Reading]:
     return [Reading(**{k: v for k, v in row.items() if k in known}) for row in latest.values()]
 
 
+def _refresh_derived_readings(
+    config: Config, store: JsonlStore, readings: list[Reading]
+) -> list[Reading]:
+    """Recompute derived series from their append-only observations before rendering.
+
+    This lets a bug fix repair the generated page without rewriting the raw ledger or
+    pretending that regeneration made an old upstream observation fresh.
+    """
+    by_id = {reading.indicator_id: reading for reading in readings}
+
+    contact_indicators = config.indicators_for("corpus")
+    corpus = store.read("corpus")
+    if contact_indicators and corpus:
+        indicator = contact_indicators[0]
+        contacts = [contact.to_dict() for contact in extract_contacts(corpus)]
+        series = fortnightly_series(contacts, anchor=config.contact_anchor)
+        base = contact_baseline(series, before=config.event_date)
+        latest = series[-1] if series else None
+        previous = by_id.get(indicator.id)
+        collected_at = (
+            previous.collected_at
+            if previous
+            else max(str(row.get("collected_at") or "") for row in corpus)
+        )
+        by_id[indicator.id] = Reading(
+            indicator_id=indicator.id,
+            name=indicator.name,
+            source="corpus",
+            kind=indicator.kind,
+            value=float(latest["count"]) if latest else None,
+            display=(
+                f"{latest['count']} reported "
+                f"{'contact' if latest['count'] == 1 else 'contacts'} this fortnight"
+                if latest else "n/a"
+            ),
+            collected_at=collected_at,
+            unit="contacts/fortnight",
+            detail=(
+                f"direction vs pre-{config.event_date.isoformat()} baseline: "
+                f"{contact_direction(series, base)}; baseline "
+                f"{base.get('mean_per_fortnight')} per fortnight over "
+                f"{base.get('fortnights')} fortnights; counts REPORTED contacts only, "
+                "so this is a floor and never a total"
+            ),
+            components=series[-6:],
+        )
+
+    engagement_indicators = [i for i in config.indicators_for("gdelt") if i.query]
+    daily = store.read("engagement_daily")
+    if engagement_indicators and daily:
+        indicator = engagement_indicators[0]
+        series = fortnightly_volume(daily, anchor=config.event_date, since=config.event_date)
+        if series:
+            base = engagement_baseline(store.read("engagement_baseline"), before=config.event_date)
+            latest = series[-1]
+            mean = base.get("mean_volume")
+            baseline_text = (
+                f"baseline {mean:.4f}% over {base['fortnights']} fortnights before "
+                f"{config.event_date.isoformat()}"
+                if mean is not None
+                else "no pre-event baseline collected"
+            )
+            previous = by_id.get(indicator.id)
+            by_id[indicator.id] = Reading(
+                indicator_id=indicator.id,
+                name=indicator.name,
+                source="gdelt",
+                kind=indicator.kind,
+                value=float(latest["mean_volume"]),
+                display=f"{latest['mean_volume']:.4f}% of monitored coverage",
+                collected_at=previous.collected_at if previous else "",
+                unit="share of monitored coverage (%)",
+                detail=(
+                    f"direction vs baseline: {engagement_direction(series, base)}; "
+                    f"{latest['days']} of 14 unique days observed in the current fortnight; "
+                    f"{baseline_text}; this is REPORTING VOLUME from a news index, not a "
+                    "count of contacts, and it attests no claim"
+                ),
+                components=series[-6:],
+            )
+    return list(by_id.values())
+
+
+def _refresh_legacy_terminal_readings(
+    config: Config,
+    history: list[dict[str, Any]],
+    readings: list[Reading],
+) -> list[Reading]:
+    """Repair legacy 'no open market' rows into explicit lifecycle observations."""
+    known = {f.name for f in Reading.__dataclass_fields__.values()}
+    by_indicator: dict[str, list[dict[str, Any]]] = {}
+    for row in history:
+        by_indicator.setdefault(str(row.get("indicator_id") or ""), []).append(row)
+
+    repaired: list[Reading] = []
+    for reading in readings:
+        reason = reading.unavailable_reason.casefold()
+        terminal_response = "no open legs" in reason or "no priced open markets" in reason
+        if reading.available or not terminal_response:
+            repaired.append(reading)
+            continue
+        prior = [
+            row for row in by_indicator.get(reading.indicator_id, [])
+            if row.get("available", True) and row.get("components")
+        ]
+        if not prior:
+            repaired.append(reading)
+            continue
+        previous = sorted(prior, key=lambda row: str(row.get("collected_at") or ""))[-1]
+        components = [c for c in previous.get("components") or [] if isinstance(c, dict)]
+        selected = next(
+            (
+                c for c in components
+                if c.get("yes_price") == previous.get("value")
+                or c.get("last_price") == previous.get("value")
+            ),
+            components[0],
+        )
+        values = {key: value for key, value in previous.items() if key in known}
+        values.update(
+            {
+                "name": reading.name,
+                "collected_at": reading.collected_at,
+                "value": None,
+                "available": True,
+                "unavailable_reason": "",
+                "components": components,
+                "market_id": str(
+                    selected.get("market_id")
+                    or (f"kalshi:{selected.get('ticker')}" if selected.get("ticker") else "")
+                ),
+                "resolves": str(
+                    selected.get("end_date")
+                    or selected.get("close_time")
+                    or previous.get("resolves")
+                    or reading.resolves
+                ),
+            }
+        )
+        if reading.source == "polymarket":
+            priced = [c.get("yes_price") for c in components if c.get("yes_price") is not None]
+            inferred_no = bool(priced) and all(float(value) <= 0.005 for value in priced)
+            values.update(
+                {
+                    "display": "resolved NO" if inferred_no else "closed — outcome unavailable",
+                    "outcome": "NO" if inferred_no else "",
+                    "lifecycle_status": "resolved" if inferred_no else "closed",
+                    "detail": (
+                        "No tradable legs remain. The terminal NO outcome is inferred from "
+                        "all final stored YES prices being at or below 0.5% before the "
+                        "subsequent no-open response; verify the venue settlement record."
+                        if inferred_no
+                        else "No tradable legs remain; terminal outcome was not returned."
+                    ),
+                }
+            )
+        else:
+            values.update(
+                {
+                    "display": "closed — settlement result not returned",
+                    "outcome": "",
+                    "lifecycle_status": "closed",
+                    "detail": (
+                        f"No priced open market was returned after exact contract "
+                        f"{selected.get('ticker') or values.get('market_id')} had been tracked. "
+                        "This is a terminal or pending-settlement state, not a missing-feed "
+                        "probability."
+                    ),
+                }
+            )
+        repaired.append(Reading(**values))
+    return repaired
+
+
+def _refresh_market_metadata(readings: list[Reading]) -> list[Reading]:
+    """Carry the selected exact contract id and full UTC deadline into old readings."""
+    for reading in readings:
+        if reading.source not in {"polymarket", "kalshi"} or not reading.components:
+            continue
+        selected = next(
+            (
+                component for component in reading.components
+                if reading.market_id
+                and str(component.get("market_id") or "") == reading.market_id
+            ),
+            None,
+        )
+        if selected is None and reading.value is not None:
+            selected = next(
+                (
+                    component for component in reading.components
+                    if component.get("yes_price") == reading.value
+                    or component.get("last_price") == reading.value
+                ),
+                None,
+            )
+        if selected is None:
+            continue
+        reading.market_id = str(
+            selected.get("market_id")
+            or (f"kalshi:{selected.get('ticker')}" if selected.get("ticker") else "")
+        )
+        reading.resolves = str(
+            selected.get("end_date") or selected.get("close_time") or reading.resolves
+        )
+    return readings
+
+
 def command_tracker(args: argparse.Namespace) -> int:
     config, store = _load(args)
     health_path = Path(args.health_output)
-    health = (
-        SourceHealth(health_path).document(config.stale_after_hours)
-        if health_path.exists()
-        else {}
-    )
-    readings = _latest_readings(store)
+    history = store.read("readings")
+    readings = _refresh_legacy_terminal_readings(config, history, _latest_readings(store))
+    readings = _refresh_derived_readings(config, store, readings)
+    readings = _refresh_market_metadata(readings)
+    if health_path.exists():
+        health_manager = SourceHealth(health_path)
+        for reading in readings:
+            if reading.available and reading.lifecycle_status != "open" and reading.source in {
+                "polymarket", "kalshi"
+            }:
+                indicator = next(
+                    item for item in config.indicators if item.id == reading.indicator_id
+                )
+                health_manager.record_success(
+                    f"{reading.source}:{reading.indicator_id}",
+                    kind=reading.source,
+                    label=reading.name,
+                    target=indicator.event_slug or indicator.series_ticker,
+                    records=len(reading.components),
+                    at=reading.collected_at,
+                    source_family=reading.source,
+                )
+        health = health_manager.document(config.stale_after_hours)
+    else:
+        health = {}
     Path(args.output).write_text(
         render_tracker(config, readings, health=health), encoding="utf-8"
     )
@@ -651,6 +990,26 @@ def command_diff(args: argparse.Namespace) -> int:
         c for c in store.read("kalshi_rules_changes")
         if str(c.get("detected_at", "")) >= since
     ]
+    # Older change records stored only the primary rule, which could make a real change
+    # to the secondary rule render as identical before/after text. Enrich those records
+    # from the append-only market snapshots at render time.
+    market_history = store.read("kalshi_markets")
+    enriched_changes = []
+    for change in changes:
+        if change.get("kind") != "rules_changed" or "rules_secondary_changed" in change:
+            enriched_changes.append(change)
+            continue
+        ticker = str(change.get("ticker") or "")
+        detected_at = str(change.get("detected_at") or "")
+        rows = sorted(
+            [row for row in market_history if row.get("ticker") == ticker],
+            key=lambda row: str(row.get("captured_at") or ""),
+        )
+        before = [row for row in rows if str(row.get("captured_at") or "") < detected_at]
+        after = [row for row in rows if str(row.get("captured_at") or "") >= detected_at]
+        reconstructed = rules_changes(before[-1:], after[:1]) if before and after else []
+        enriched_changes.append({**change, **(reconstructed[0] if reconstructed else {})})
+    changes = enriched_changes
     Path(args.output).write_text(
         render_changes(config, movements, since=since, rules_changes=changes, suppressed=suppressed),
         encoding="utf-8",
