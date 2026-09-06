@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-05T20:23:59Z  
-**Since:** 2026-08-29T20:23:59Z
+**Generated:** 2026-09-06T04:43:05Z  
+**Since:** 2026-08-30T04:43:05Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,12 +13,13 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator | Then | Now | Move | Window | Points |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Polymarket: US-Iran ceasefire continues | 77.5% | 0.1% | -77.4 pts | 24 h | away from H1, H4 |
+| Polymarket: US-Iran ceasefire continues | 78.5% | 0.1% | -78.4 pts | 16 h | away from H1, H4 |
 | IMF PortWatch: daily Strait of Hormuz transits | 5 | 4.29 | -0.71 | 167 h | away from H1, H4 |
-| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 162 h | toward H2 |
+| Kalshi: Witkoff travels to Russia | 39.0% | 97.0% | +58.0 pts | 154 h | toward H2 |
 | Kalshi: Kash Patel travels to Russia | 65.0% | 44.0% | -21.0 pts | 167 h | away from H6 |
-| Polymarket: Russia-Ukraine ceasefire term structure | 0.4% | 18.5% | +18.1 pts | 167 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure | 0.1% | 12.5% | +12.3 pts | 167 h | toward H2, H3 |
 | Kalshi: new US sanctions on Russia | 5.0% | 12.0% | +7.0 pts | 167 h | toward H5; away from H3 |
+| Kalshi: Zelensky-Putin meeting | 7.0% | 13.0% | +6.0 pts | 167 h | toward H2 |
 | Kalshi: Putin-Trump meeting location | 5.0% | 10.0% | +5.0 pts | 167 h | toward H2 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
