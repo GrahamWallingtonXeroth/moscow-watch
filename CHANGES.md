@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-07T04:46:34Z
-**Since:** 2026-08-31T04:46:34Z
+**Generated:** 2026-09-07T12:37:43Z
+**Since:** 2026-08-31T12:37:43Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -14,14 +14,14 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
 | IMF PortWatch: daily Strait of Hormuz transits | — | — | 5 | 4.29 | -0.71 | 167 h | away from H1, H4 |
-| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 49.0% | 12.0% | -37.0 pts | 167 h | toward H3; away from H5 |
-| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 62.0% | 42.0% | -20.0 pts | 167 h | away from H6 |
-| Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 36.5% | 43.5% | +7.0 pts | 167 h | toward H2, H3 |
+| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 41.0% | 12.0% | -29.0 pts | 167 h | toward H3; away from H5 |
+| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 61.0% | 42.0% | -19.0 pts | 167 h | away from H6 |
+| Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 37.0% | 43.5% | +6.5 pts | 167 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 18.5% | 24.5% | +6.0 pts | 167 h | toward H2, H3 |
 | Polymarket: Russia-Ukraine ceasefire term structure — October 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2026 | 2026-11-01T03:59:00Z | 7.5% | 12.5% | +5.0 pts | 167 h | toward H2, H3 |
 | Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 13.5% | 8.5% | -5.0 pts | 167 h | away from H5 |
 | Kalshi: Putin-Trump meeting location — KXPUTINDJTLOCATION-29-HUN | kalshi:KXPUTINDJTLOCATION-29-HUN | 2029-01-01T04:59:00Z | 5.0% | 10.0% | +5.0 pts | 167 h | toward H2 |
-| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 19.0% | 23.5% | +4.5 pts | 167 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 49.5% | 54.0% | +4.5 pts | 167 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 50.0% | 53.0% | +3.0 pts | 167 h | toward H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
