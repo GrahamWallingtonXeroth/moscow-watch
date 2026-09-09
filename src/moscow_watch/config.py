@@ -97,6 +97,22 @@ class NewsSource:
 
 
 @dataclass(slots=True)
+class AnalysisSource:
+    """A publisher monitored as a link-only analytical reference, never as evidence."""
+
+    id: str
+    title: str
+    url: str
+    publisher: str
+    source_family: str
+    path_prefix: str
+    rights_url: str = ""
+    max_items: int = 14
+    enabled: bool = True
+    disabled_reason: str = ""
+
+
+@dataclass(slots=True)
 class DiscoveryQuery:
     id: str
     title: str
@@ -127,6 +143,7 @@ class Config:
     news_sources: list[NewsSource]
     discovery_queries: list[DiscoveryQuery]
     claim_rules: list[ClaimRule]
+    analysis_sources: list[AnalysisSource] = field(default_factory=list)
 
     @property
     def news_timespan_hours(self) -> float:
@@ -184,6 +201,10 @@ class Config:
         return [q for q in self.discovery_queries if q.enabled][: self.max_discovery_queries]
 
     @property
+    def enabled_analysis_sources(self) -> list[AnalysisSource]:
+        return [s for s in self.analysis_sources if s.enabled]
+
+    @property
     def reporting_families(self) -> set[str]:
         return {
             s.source_family
@@ -237,6 +258,9 @@ def load_config(path: str | Path) -> Config:
             DiscoveryQuery, raw.get("discovery_queries", []), "discovery_queries"
         ),
         claim_rules=_build(ClaimRule, raw.get("claim_rules", []), "claim_rules"),
+        analysis_sources=_build(
+            AnalysisSource, raw.get("analysis_sources", []), "analysis_sources"
+        ),
     )
 
 
@@ -359,6 +383,25 @@ def validate_config(config: Config) -> list[str]:
             "at least two independent reporting families must be enabled, otherwise no "
             "external claim can ever be corroborated"
         )
+
+    for dupe in _duplicates([s.id for s in config.analysis_sources]):
+        errors.append(f"duplicate analysis_source id: {dupe}")
+    for source in config.analysis_sources:
+        if not source.source_family:
+            errors.append(f"analysis source {source.id} has no source_family")
+        if not source.path_prefix:
+            errors.append(
+                f"analysis source {source.id} must declare path_prefix so it cannot "
+                "silently ingest an entire publisher"
+            )
+        elif not source.path_prefix.startswith("/"):
+            errors.append(f"analysis source {source.id} path_prefix must start with /")
+        if source.enabled and not source.rights_url:
+            errors.append(f"analysis source {source.id} has no rights_url")
+        if source.max_items <= 0:
+            errors.append(f"analysis source {source.id} max_items must be positive")
+        if not source.enabled and not source.disabled_reason:
+            errors.append(f"analysis source {source.id} is disabled but gives no disabled_reason")
 
     for dupe in _duplicates([q.id for q in config.discovery_queries]):
         errors.append(f"duplicate discovery_query id: {dupe}")

@@ -9,6 +9,19 @@ what its author or institution said or did; it does not establish every assertio
 the record. “Not observed” means not found in the configured, accessible record through
 the date stated. It is not proof that an undisclosed event did not happen.
 
+## 8 September 2026 — Trump–Putin follow-up call
+
+The [Kremlin records a Trump–Putin telephone call](https://en.kremlin.ru/events/president/news/80716)
+on 8 September and says the presidents discussed the Witkoff–Kushner Moscow talks and
+prospects for ending the war. This is `primary_documented` evidence that the call occurred
+and that the Russian presidency described its subject that way. It does not independently
+establish substantive convergence, a US commitment or a resumed trilateral session.
+
+The 8 September [ISW assessment](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-8-2026)
+surfaced the primary link but is analytical synthesis, not independent corroboration. The
+call extends the observable H2 process beyond the two-capital shuttle; it does not by itself
+show that a ceasefire is closer.
+
 ## 6 September 2026 — Ratcliffe and the subsequent Ukraine mission
 
 ### Evidence chain
@@ -18,7 +31,7 @@ the date stated. It is not proof that an undisclosed event did not happen.
 | Ratcliffe proposed a Trump–Putin–Zelensky summit and tested whether Russian intelligence chiefs could help restart US-mediated negotiations | 25 Aug | `single_source` | [Axios reported](https://www.axios.com/2026/08/29/cia-director-ratcliffe-putin-zelensky-summit-war) the claim on 29 August, citing two people briefed on the discussions. Two unnamed sources within one editorial family remain one source family. The CIA declined to comment. |
 | Washington briefed Zelensky on Ratcliffe's Moscow discussions and the summit proposal | 28 Aug | `single_source` for the proposal's contents | Axios reported the briefing and attributed contents. Public confirmation that Kyiv received information about the Moscow meetings does not disclose all of that information. |
 | Witkoff and Kushner were publicly dispatched with a Ukraine peace proposal and an itinerary covering Moscow and Kyiv | 4 Sep | `primary_documented` for the Ukrainian announcement; independently reported | The [Ukrainian presidency](https://www.president.gov.ua/en/news/stiv-vitkoff-ta-dzhared-kushner-vidvidayut-moskvu-i-v-nedily-106257) announced the itinerary. Announcement is not completion. |
-| Witkoff and Kushner reached Moscow and met Putin | 5 Sep | `primary_documented`; independently reported | The [Kremlin recorded the meeting](https://en.kremlin.ru/events/president/news/80699). Independent reports in the collected corpus provide separate editorial families. No concrete breakthrough or resumed trilateral session was announced in the public readouts. |
+| Witkoff and Kushner reached Moscow and met Putin | 5 Sep | `primary_documented`; independently reported | The [Kremlin recorded the meeting](https://en.kremlin.ru/events/president/news/80699). Independent reports in the collected corpus provide separate editorial families. No concrete breakthrough or resumed trilateral session was announced in the public readouts. The 8 September ISW assessment calls this a 6 September meeting; the repository retains the primary record's 5 September date. |
 
 The sequence is consistent with Ratcliffe having laid groundwork for the later mission,
 and the Axios report supplies a specific proposed mechanism. The causal handoff itself is

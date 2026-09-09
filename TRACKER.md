@@ -2,7 +2,7 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-09T04:46:30Z
+**Generated:** 2026-09-09T08:04:48Z
 
 This page lists what was collected, from where, and when each thing becomes decidable. **It contains no verdict, no score and no ranking**, by design. Which hypothesis the evidence favours is a judgement, and judgements belong in the article with a name attached.
 
@@ -25,6 +25,18 @@ Every value below was collected from the named source. Nothing here is a placeho
 | 2026-12-31 | 113 | Polymarket: NATO-Russia military clash | H5 |
 | 2026-12-31 | 113 | Polymarket: US-Russia military clash | H5 |
 | 2026-12-31 | 113 | Polymarket: US gives Ukraine a formal security guarantee | H3, H5 |
+
+## Analytical references
+
+These are publication links, not evidence records. Their article text, maps, datasets and endnotes are not collected, and the publisher never counts as independent corroboration of the sources cited inside its analysis.
+
+| Assessment | Assessment date | Sitemap modified | Record collected |
+| --- | --- | --- | --- |
+| [Russian Offensive Campaign Assessment, September 8, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-8-2026) | 2026-09-08 | 2026-09-09T03:06:45Z | 2026-09-09T07:53:51Z |
+| [Russian Offensive Campaign Assessment, September 7, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-7-2026) | 2026-09-07 | 2026-09-08T01:11:19Z | 2026-09-09T07:53:51Z |
+| [Russian Offensive Campaign Assessment, September 6, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-6-2026) | 2026-09-06 | 2026-09-07T00:40:45Z | 2026-09-09T07:53:51Z |
+
+Source: Institute for the Study of War. [Usage policy](https://understandingwar.org/fair-use-and-attribution-policy/)
 
 ## Hypotheses
 
@@ -136,6 +148,7 @@ Dated, source-labelled status for individual falsifier components is recorded in
 | IMF PortWatch | 1 of 1 | 2026-09-09T04:45:10Z |
 | Independent reporting | 4 of 4 | 2026-09-09T04:45:10Z |
 | Primary records | 3 of 7, 4 disabled | 2026-09-09T04:45:10Z |
+| Analytical references (links only) | 1 of 1 | 2026-09-09T08:04:14Z |
 | Discovery (GDELT, never promotes a claim) | 0 of 2 | 2026-09-08T16:40:00Z |
 | GDELT reporting index (volume only) | 0 of 1 | 2026-09-08T21:11:12Z |
 

@@ -159,6 +159,39 @@ All verified 26 August 2026. Reference pages for the disabled four:
 This is a real gap: with Treasury, State and NATO all unavailable, `official_action` claims
 must fall back to two independent newsrooms rather than a primary document.
 
+### Analytical references
+
+Analytical synthesis is useful for finding questions and original sources, but it is not a
+second witness to the material it synthesises. These sources therefore use a separate,
+link-only collector and never enter the news corpus, claim matcher or corroboration count.
+
+| Source | Monitored endpoint | Stored | Evidence status |
+| --- | --- | --- | --- |
+| Institute for the Study of War, Russian Offensive Campaign Assessment | `understandingwar.org/sitemap_index.xml` | Publisher, generated title, canonical URL, assessment date, sitemap modification time, collection time | Analytical reference only; never attests or corroborates |
+
+ISW disables its RSS feeds and advertises the sitemap in `robots.txt`. The collector reads
+only the sitemap index and a bounded set of same-host `post-sitemap` shards. It does **not**
+fetch an assessment page, map, dataset, endnote or excerpt. URLs must match the narrow
+Russian Offensive Campaign Assessment path configured in `indicators.toml`; other ISW
+products are ignored.
+
+If one selected sitemap shard fails but another parses, usable link records are retained
+and the source health row is marked `partial` with the failed shard named. If every
+selected shard fails, collection fails; an unavailable shard is never interpreted as no
+new assessment.
+
+The date in the assessment URL is stored as `assessment_date`. The sitemap's `lastmod` is
+stored separately as `sitemap_modified_at`: it can identify a later revision but must not
+be mistaken for the date of the reported events or proof of a substantive edit. A changed
+modification time appends a new record so the publisher's revision signal remains auditable.
+
+This boundary follows ISW's [Fair Use and Attribution Policy](https://understandingwar.org/fair-use-and-attribution-policy/),
+which permits attributed linking and limited quotation but requires permission for wider
+incorporation into analytical systems and restricts bulk redistribution and speculative
+market uses. Any factual claim found through an assessment must be checked against its
+underlying primary document or an independently reported source before entering
+`docs/OBSERVATIONS.md`.
+
 ### Discovery
 
 `api.gdeltproject.org/api/v2/doc/doc` — two broad queries per run, one per theatre.

@@ -85,6 +85,7 @@ All endpoints are public and require **no authentication, no API key and no secr
 | Kalshi | Markets, order books, candlesticks **with open interest**, and machine-readable resolution wording | `external-api.kalshi.com/trade-api/v2` |
 | IMF PortWatch | Daily Strait of Hormuz transits, ~2,790 rows of history | `services9.arcgis.com/.../Daily_Chokepoints_Data` |
 | RSS | Guardian, BBC, Al Jazeera, NPR, White House, Kremlin, UN News | publisher feeds |
+| ISW sitemap | Dated Russian Offensive Campaign Assessment links and revision times; no article contents | `understandingwar.org/sitemap_index.xml` |
 | GDELT | Discovery leads it may never promote, and — separately — reporting volume over time, which measures coverage and attests nothing | `api.gdeltproject.org/api/v2/doc/doc` |
 
 Two things about that table are worth pausing on.
@@ -120,6 +121,9 @@ formula is in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
   number — how much Russia–Iran engagement is being reported — and that is a measurement of
   coverage, not an attestation. Counting how often a subject is reported and establishing
   that something happened are different operations, and the code keeps them apart.
+- **It does not treat analytical synthesis as another witness.** ISW assessment links are
+  displayed separately, but the article text is not collected and ISW cannot corroborate
+  the primary documents and reporting cited inside an assessment.
 - **It does not invent history.** If two real observations do not exist, the tracker says
   so rather than assuming a baseline.
 
@@ -131,7 +135,7 @@ formula is in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 - **Reuters cannot be collected.** `reuters.com/robots.txt` disallows all automated access
   for this agent, and GDELT indexes no reuters.com news. The only compliant route is the
   paid Reuters Connect licence. The corpus is Guardian, BBC, Al Jazeera, NPR and UN News
-  plus primary records.
+  plus primary records; ISW appears only in a separate link-metadata ledger.
 - **Four primary sources are unavailable**, which weakens `official_action` claims: State
   serves HTML instead of XML, Treasury returns 404 with OFAC's RSS retired in 2025, NATO
   publishes no discoverable feed, and `president.gov.ua` disallows this agent.
@@ -187,6 +191,7 @@ python -m pip install -e ".[charts]"
 mw check-config              # validate indicators.toml offline
 mw doctor --check-robots     # read-only live checks; writes nothing
 mw collect --allow-partial   # collect from every configured source
+mw collect --source analysis --allow-partial # collect analytical-reference links only
 mw backfill --trades         # real price history and the trade tape
 mw backfill --only-engagement # pre-25-August reporting-volume baseline from GDELT
 mw tracker                   # render TRACKER.md
@@ -200,7 +205,7 @@ the charts and nothing else.
 ```text
 indicators.toml              hypotheses, indicators, sources, resolution dates
 src/moscow_watch/
-  collectors/                polymarket · kalshi · portwatch · contacts · feeds · gdelt
+  collectors/                polymarket · kalshi · portwatch · contacts · feeds · sitemaps · gdelt
   corroboration.py           attestation taxonomy — labels, never numbers
   engagement.py              reporting-volume buckets, baseline and direction
   dedupe.py                  syndication clustering
@@ -214,6 +219,9 @@ data/*.jsonl                 append-only, collected only
 
 Everything in `data/` was written by `mw collect` from a real upstream response. Nothing in
 this repository is hand-authored, illustrative or a placeholder standing in for data.
+`data/analysis_references.jsonl` contains only publisher, title, URL, assessment date,
+sitemap revision time and collection time—never the linked article body, map, dataset or
+endnotes.
 
 ## Licence
 

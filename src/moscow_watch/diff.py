@@ -285,6 +285,7 @@ def render(
     since: str,
     rules_changes: list[dict[str, Any]] | None = None,
     suppressed: int = 0,
+    analysis_references: list[dict[str, Any]] | None = None,
 ) -> str:
     rules_changes = rules_changes or []
     lines = [
@@ -386,6 +387,47 @@ def render(
             lines.append("")
     else:
         lines.append("No resolution wording changed and no new markets appeared in a tracked series.")
+        lines.append("")
+
+    fresh_references = [
+        reference
+        for reference in (analysis_references or [])
+        if str(reference.get("collected_at") or "") >= since
+    ]
+    if fresh_references:
+        earlier_urls = {
+            str(reference.get("url") or "")
+            for reference in (analysis_references or [])
+            if str(reference.get("collected_at") or "") < since
+        }
+        latest_by_url: dict[str, dict[str, Any]] = {}
+        for reference in fresh_references:
+            url = str(reference.get("url") or "")
+            current = latest_by_url.get(url)
+            if current is None or str(reference.get("sitemap_modified_at") or "") > str(
+                current.get("sitemap_modified_at") or ""
+            ):
+                latest_by_url[url] = reference
+        lines.extend([
+            "## New or modified analytical references",
+            "",
+            "Link metadata only: appearance here does not attest any claim in the linked "
+            "analysis or count its cited sources twice.",
+            "",
+            "| Assessment | Assessment date | Sitemap modified | Change |",
+            "| --- | --- | --- | --- |",
+        ])
+        for url, reference in sorted(
+            latest_by_url.items(),
+            key=lambda item: str(item[1].get("assessment_date") or ""),
+            reverse=True,
+        ):
+            title = _cell(reference.get("title") or "Untitled assessment")
+            change = "sitemap `lastmod` changed" if url in earlier_urls else "new"
+            lines.append(
+                f"| [{title}]({url}) | {_cell(reference.get('assessment_date') or '—')} | "
+                f"{_cell(reference.get('sitemap_modified_at') or '—')} | {change} |"
+            )
         lines.append("")
 
     lines.extend([

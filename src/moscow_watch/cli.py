@@ -29,6 +29,7 @@ from .collectors.gdelt import (
 from .collectors.kalshi import KalshiCollector, rules_changes
 from .collectors.polymarket import PolymarketCollector, open_legs, tape_summary
 from .collectors.portwatch import PortWatchCollector, lag_days, rolling_mean
+from .collectors.sitemaps import SitemapAnalysisCollector
 from .config import Config, load_config, validate_config
 from .diff import count_suppressed, find_movements
 from .diff import render as render_changes
@@ -420,6 +421,69 @@ def _collect_discovery(config: Config, store: JsonlStore, health: SourceHealth, 
     print(f"discovery leads added: {store.append_unique('discovery', found)}")
 
 
+def _collect_analysis_references(
+    config: Config, store: JsonlStore, health: SourceHealth, client: HttpClient, at: str
+) -> None:
+    collector = SitemapAnalysisCollector(client)
+    found: list[dict[str, Any]] = []
+    for source in config.analysis_sources:
+        source_id = f"analysis_reference:{source.id}"
+        if not source.enabled:
+            health.record_disabled(
+                source_id,
+                kind="analysis_reference",
+                label=source.title,
+                target=source.url,
+                reason=source.disabled_reason,
+                source_family=source.source_family,
+            )
+            continue
+        try:
+            references = collector.collect(
+                source,
+                window_hours=config.news_timespan_hours,
+                collected_at=at,
+            )
+            found.extend(reference.to_dict() for reference in references)
+            health_method = (
+                health.record_partial if collector.warnings else health.record_success
+            )
+            health_kwargs: dict[str, Any] = {}
+            if collector.warnings:
+                health_kwargs["message"] = "; ".join(collector.warnings)
+                print(
+                    f"WARN analysis/{source.id}: {health_kwargs['message'][:160]}",
+                    file=sys.stderr,
+                )
+            health_method(
+                source_id,
+                kind="analysis_reference",
+                label=source.title,
+                target=source.url,
+                records=len(references),
+                at=at,
+                source_family=source.source_family,
+                **health_kwargs,
+            )
+        except Exception as exc:
+            category, message = _error(exc)
+            health.record_failure(
+                source_id,
+                kind="analysis_reference",
+                label=source.title,
+                target=source.url,
+                category=category,
+                message=message,
+                at=at,
+                source_family=source.source_family,
+            )
+            print(f"WARN analysis/{source.id}: {message[:160]}", file=sys.stderr)
+    print(
+        "analysis references added: "
+        f"{store.append_unique('analysis_references', found)}"
+    )
+
+
 def _contact_reading(config: Config, store: JsonlStore, at: str) -> list[Reading]:
     indicators = config.indicators_for("corpus")
     if not indicators:
@@ -585,6 +649,8 @@ def command_collect(args: argparse.Namespace) -> int:
         readings += _collect_portwatch(config, store, health, client, at)
     if args.source in {"all", "feeds"}:
         _collect_feeds(config, store, health, client, at)
+    if args.source in {"all", "analysis"}:
+        _collect_analysis_references(config, store, health, client, at)
     if args.source in {"all", "discovery"}:
         _collect_discovery(config, store, health, at)
     if args.source in {"all", "feeds"}:
@@ -972,7 +1038,13 @@ def command_tracker(args: argparse.Namespace) -> int:
     else:
         health = {}
     Path(args.output).write_text(
-        render_tracker(config, readings, health=health), encoding="utf-8"
+        render_tracker(
+            config,
+            readings,
+            health=health,
+            analysis_references=store.read("analysis_references"),
+        ),
+        encoding="utf-8",
     )
     print(f"wrote {args.output} ({len(readings)} indicators)")
     return 0
@@ -1011,7 +1083,14 @@ def command_diff(args: argparse.Namespace) -> int:
         enriched_changes.append({**change, **(reconstructed[0] if reconstructed else {})})
     changes = enriched_changes
     Path(args.output).write_text(
-        render_changes(config, movements, since=since, rules_changes=changes, suppressed=suppressed),
+        render_changes(
+            config,
+            movements,
+            since=since,
+            rules_changes=changes,
+            suppressed=suppressed,
+            analysis_references=store.read("analysis_references"),
+        ),
         encoding="utf-8",
     )
     print(
@@ -1051,6 +1130,7 @@ def command_check(args: argparse.Namespace) -> int:
         f"{len(config.enabled_indicators)}/{len(config.indicators)} indicators | "
         f"{len(config.reporting_families)} independent reporting families | "
         f"{len(config.enabled_discovery)} discovery queries | "
+        f"{len(config.enabled_analysis_sources)} analytical reference sources | "
         f"{len(config.claim_rules)} claim rules"
     )
     return 0
@@ -1128,6 +1208,22 @@ def command_doctor(args: argparse.Namespace) -> int:
             "nothing can be corroborated"
         )
 
+    print("\nAnalytical references (links only — never corroborate a claim)")
+    analysis = SitemapAnalysisCollector(client)
+    analysis_ok = 0
+    for source in config.analysis_sources:
+        if not source.enabled:
+            print(f"  disabled {source.id:<30} {source.disabled_reason[:70]}")
+            continue
+        try:
+            references = analysis.collect(source, window_hours=config.news_timespan_hours)
+            analysis_ok += 1
+            state = "partial" if analysis.warnings else "ok"
+            detail = f"; {'; '.join(analysis.warnings)[:70]}" if analysis.warnings else ""
+            print(f"  {state:<8} {source.id:<30} {len(references)} references{detail}")
+        except Exception as exc:
+            print(f"  warn     {source.id:<30} {_error(exc)[1][:100]}")
+
     print("\nDiscovery (GDELT — leads only, never promotes a claim)")
     gd = GdeltDiscovery(HttpClient(timeout=DISCOVERY_TIMEOUT_SECONDS, retries=DISCOVERY_RETRIES))
     gd_ok = 0
@@ -1143,7 +1239,7 @@ def command_doctor(args: argparse.Namespace) -> int:
         print("\nRobots compliance")
         import urllib.robotparser as robotparser
 
-        for source in config.enabled_news_sources:
+        for source in [*config.enabled_news_sources, *config.enabled_analysis_sources]:
             parts = urlparse(source.url)
             parser = robotparser.RobotFileParser()
             parser.set_url(f"{parts.scheme}://{parts.netloc}/robots.txt")
@@ -1161,6 +1257,7 @@ def command_doctor(args: argparse.Namespace) -> int:
     print(f"  kalshi indicators reachable     : {ks_ok}")
     print(f"  counted-quantity sources        : {pw_ok}")
     print(f"  independent reporting families  : {len(families)} ({', '.join(sorted(families)) or 'none'})")
+    print(f"  analytical reference sources    : {analysis_ok} (non-critical, links only)")
     print(f"  discovery queries reachable     : {gd_ok} (non-critical)")
 
     if fatal:
@@ -1192,7 +1289,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     collect = sub.add_parser("collect", help="collect from every configured source")
     collect.add_argument(
-        "--source", choices=("all", "markets", "portwatch", "feeds", "discovery"), default="all"
+        "--source",
+        choices=("all", "markets", "portwatch", "feeds", "analysis", "discovery"),
+        default="all",
     )
     collect.add_argument("--allow-partial", action="store_true")
     collect.set_defaults(handler=command_collect)

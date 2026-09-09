@@ -67,6 +67,17 @@ Finding a story and believing it are different operations.
 | `independent_reporting` | An external event, with corroboration |
 | `discovery_only` | Nothing. It points at stories |
 
+Analytical references sit outside this table because they are not evidence inputs. The
+ISW sitemap collector records only dated links and sitemap revision metadata in
+`data/analysis_references.jsonl`. Those records are rendered in their own section and are
+never passed to claim matching, duplicate clustering, source-family independence counting
+or contact counting. An assessment may point a reviewer to useful original material, but
+neither its conclusions nor the sources it cites are silently re-counted as ISW evidence.
+
+`assessment_date`, `sitemap_modified_at` and `collected_at` remain separate. A changed
+sitemap timestamp appends a new metadata record; it does not refresh the underlying event
+date or prove that the assessment changed substantively.
+
 **`source_family` is the unit of editorial independence, not the domain.** Two regional
 editions of one newsroom, or two outlets running the same wire copy, share a family and
 cannot corroborate each other.
@@ -206,6 +217,8 @@ that reads like a broken feed rather than a compressed one.
 
 Losing GDELT does not stop the tracker, because GDELT never attests. Losing the second
 independent newsroom does, because nothing can then be corroborated.
+Losing an analytical-reference source is also non-critical and is shown in its own health
+layer rather than being misreported as a failure of the evidence corpus.
 
 ## Changing any of this
 

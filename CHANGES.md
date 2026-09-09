@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-09T04:46:30Z
-**Since:** 2026-09-02T04:46:30Z
+**Generated:** 2026-09-09T08:04:48Z
+**Since:** 2026-09-02T08:04:48Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -44,6 +44,16 @@ A change to resolution wording is a material event: the same ticker can silently
 | KXHORMUZWEEKLY-26SEP13-T15 | Will there be more than 15 transit calls through the Strait of Hormuz from Sep 7, 2026 to Sep 13, 2026? | 2026-09-15 |
 | KXHORMUZWEEKLY-26SEP13-T100 | Will there be more than 100 transit calls through the Strait of Hormuz from Sep 7, 2026 to Sep 13, 2026? | 2026-09-15 |
 | KXHORMUZWEEKLY-26SEP13-T10 | Will there be more than 10 transit calls through the Strait of Hormuz from Sep 7, 2026 to Sep 13, 2026? | 2026-09-15 |
+
+## New or modified analytical references
+
+Link metadata only: appearance here does not attest any claim in the linked analysis or count its cited sources twice.
+
+| Assessment | Assessment date | Sitemap modified | Change |
+| --- | --- | --- | --- |
+| [Russian Offensive Campaign Assessment, September 8, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-8-2026) | 2026-09-08 | 2026-09-09T03:06:45Z | new |
+| [Russian Offensive Campaign Assessment, September 7, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-7-2026) | 2026-09-07 | 2026-09-08T01:11:19Z | new |
+| [Russian Offensive Campaign Assessment, September 6, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-6-2026) | 2026-09-06 | 2026-09-07T00:40:45Z | new |
 
 ---
 

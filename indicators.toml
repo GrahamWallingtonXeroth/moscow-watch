@@ -477,6 +477,25 @@ disabled_reason = "president.gov.ua/robots.txt disallows this user agent and the
 reference_url = "https://www.president.gov.ua/en/news"
 
 # ---------------------------------------------------------------------------
+# ANALYTICAL REFERENCES
+#
+# These are monitored as dated links, not ingested as evidence. They never count as an
+# independent report or corroborate an underlying claim. ISW disables RSS; its public
+# robots file advertises the sitemap used here. Its usage policy is why this collector
+# stores no article body, maps, data, endnotes or extracts.
+# ---------------------------------------------------------------------------
+
+[[analysis_sources]]
+id = "isw_russian_offensive_campaign"
+title = "ISW Russian Offensive Campaign Assessment"
+url = "https://understandingwar.org/sitemap_index.xml"
+publisher = "Institute for the Study of War"
+source_family = "isw"
+path_prefix = "/research/russia-ukraine/russian-offensive-campaign-assessment-"
+rights_url = "https://understandingwar.org/fair-use-and-attribution-policy/"
+max_items = 7
+
+# ---------------------------------------------------------------------------
 # DISCOVERY — GDELT
 #
 # Two broad, paced queries. Discovery may never promote a claim on its own: an index is a

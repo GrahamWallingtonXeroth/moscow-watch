@@ -1,5 +1,19 @@
 {
   "sources": {
+    "analysis_reference:isw_russian_offensive_campaign": {
+      "consecutive_failures": 0,
+      "error_category": "",
+      "error_message": "",
+      "kind": "analysis_reference",
+      "label": "ISW Russian Offensive Campaign Assessment",
+      "last_attempt_at": "2026-09-09T08:04:14Z",
+      "last_success_at": "2026-09-09T08:04:14Z",
+      "records": 3,
+      "source_family": "isw",
+      "source_id": "analysis_reference:isw_russian_offensive_campaign",
+      "status": "ok",
+      "target": "https://understandingwar.org/sitemap_index.xml"
+    },
     "discovery:russia_iran_hormuz": {
       "consecutive_failures": 7,
       "error_category": "http_429",
@@ -450,16 +464,28 @@
     }
   },
   "summary": {
-    "age_hours": 0.02,
+    "age_hours": 3.33,
     "by_status": {
       "disabled": 4,
       "failed": 3,
-      "ok": 25
+      "ok": 26
     },
     "core_sources": 12,
     "core_sources_ok": 12,
     "corroboration_possible": true,
     "layers": {
+      "analysis_reference": {
+        "configured": 1,
+        "disabled": 0,
+        "failed": 0,
+        "families": [
+          "isw"
+        ],
+        "families_ok": 1,
+        "last_success_at": "2026-09-09T08:04:14Z",
+        "ok": 1,
+        "partial": 0
+      },
       "discovery": {
         "configured": 2,
         "disabled": 0,
@@ -467,7 +493,8 @@
         "families": [],
         "families_ok": 0,
         "last_success_at": "2026-09-08T16:40:00Z",
-        "ok": 0
+        "ok": 0,
+        "partial": 0
       },
       "gdelt": {
         "configured": 1,
@@ -476,7 +503,8 @@
         "families": [],
         "families_ok": 0,
         "last_success_at": "2026-09-08T21:11:12Z",
-        "ok": 0
+        "ok": 0,
+        "partial": 0
       },
       "independent_reporting": {
         "configured": 4,
@@ -490,7 +518,8 @@
         ],
         "families_ok": 4,
         "last_success_at": "2026-09-09T04:45:10Z",
-        "ok": 4
+        "ok": 4,
+        "partial": 0
       },
       "kalshi": {
         "configured": 9,
@@ -501,7 +530,8 @@
         ],
         "families_ok": 1,
         "last_success_at": "2026-09-09T04:45:10Z",
-        "ok": 9
+        "ok": 9,
+        "partial": 0
       },
       "polymarket": {
         "configured": 8,
@@ -512,7 +542,8 @@
         ],
         "families_ok": 1,
         "last_success_at": "2026-09-09T04:45:10Z",
-        "ok": 8
+        "ok": 8,
+        "partial": 0
       },
       "portwatch": {
         "configured": 1,
@@ -523,7 +554,8 @@
         ],
         "families_ok": 1,
         "last_success_at": "2026-09-09T04:45:10Z",
-        "ok": 1
+        "ok": 1,
+        "partial": 0
       },
       "primary_record": {
         "configured": 7,
@@ -536,12 +568,13 @@
         ],
         "families_ok": 3,
         "last_success_at": "2026-09-09T04:45:10Z",
-        "ok": 3
+        "ok": 3,
+        "partial": 0
       }
     },
     "newest_core_success_at": "2026-09-09T04:45:10Z",
     "overall": "ok",
     "stale_after_hours": 12.0
   },
-  "updated_at": "2026-09-09T04:46:29Z"
+  "updated_at": "2026-09-09T08:04:47Z"
 }

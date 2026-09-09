@@ -32,14 +32,19 @@ Any new source must:
   `mw doctor --check-robots`;
 - be fetched with the honest project user agent, never a disguised or rotated one, and
   never through a logged-in session or a paywall;
-- be fetched **once per run**, with rules applied locally afterwards;
-- declare a `source_type` and a `source_family`, plus a `standpoint` if it is a primary
-  record;
+- use a bounded number of upstream requests per run, with rules applied locally afterwards;
+- declare a `source_type` and a `source_family` if it can enter the evidence corpus, plus a
+  `standpoint` if it is a primary record;
 - fail with a readable error rather than half-parsing the wrong content type.
 
 If a source cannot be collected compliantly, disable it in `indicators.toml` with a stated
 reason and a reference link, and say so in `docs/SOURCES.md`. Publishing "unavailable,
 official page linked" is better than committing a dead URL.
+
+An analytical publisher is a different case. It must have an explicit usage-policy link
+and a narrow product filter. Its link metadata belongs in `analysis_references`, never the
+news corpus: do not collect its article body, maps, datasets or endnotes, and do not let it
+attest or corroborate sources cited inside its synthesis.
 
 ### Choosing a source family
 

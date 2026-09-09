@@ -81,6 +81,28 @@ class SourceHealth:
         entry.error_message = message[:300]
         entry.consecutive_failures += 1
 
+    def record_partial(
+        self,
+        source_id: str,
+        *,
+        kind: str,
+        label: str,
+        target: str,
+        records: int,
+        message: str,
+        at: str,
+        source_family: str = "",
+    ) -> None:
+        """Record usable output alongside an explicitly visible upstream gap."""
+        entry = self._entry(source_id, kind, label, target, source_family)
+        entry.status = "partial"
+        entry.last_attempt_at = at
+        entry.last_success_at = at
+        entry.records = records
+        entry.error_category = "partial_collection"
+        entry.error_message = message[:300]
+        entry.consecutive_failures = 0
+
     def record_disabled(
         self,
         source_id: str,
@@ -116,6 +138,7 @@ class SourceHealth:
             "portwatch",
             "independent_reporting",
             "primary_record",
+            "analysis_reference",
             "discovery",
             "gdelt",
         ):
@@ -127,6 +150,7 @@ class SourceHealth:
                 "configured": len(entries),
                 "ok": len(ok),
                 "failed": len([e for e in entries if e.status == "failed"]),
+                "partial": len([e for e in entries if e.status == "partial"]),
                 "disabled": len([e for e in entries if e.status == "disabled"]),
                 "families_ok": len(families_ok),
                 "families": sorted(families_ok),

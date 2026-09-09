@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://understandingwar.org/post-sitemap5.xml</loc>
+    <lastmod>2026-09-01T03:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://understandingwar.org/post-sitemap.xml</loc>
+    <lastmod>2026-09-09T03:06:45+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://understandingwar.org/post-sitemap6.xml</loc>
+    <lastmod>2026-09-09T03:06:45+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://understandingwar.org/map-sitemap.xml</loc>
+    <lastmod>2026-09-09T06:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://example.com/post-sitemap99.xml</loc>
+    <lastmod>2026-09-09T06:00:00+00:00</lastmod>
+  </sitemap>
+</sitemapindex>

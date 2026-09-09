@@ -117,6 +117,34 @@ class NewsItem:
 
 
 @dataclass(slots=True)
+class AnalysisReference:
+    """Link and date metadata for an analytical product whose contents are not ingested."""
+
+    source_id: str
+    title: str
+    url: str
+    publisher: str
+    source_family: str
+    assessment_date: str
+    sitemap_modified_at: str
+    attribution: str
+    rights_url: str = ""
+    collected_at: str = field(default_factory=utc_now_iso)
+
+    @property
+    def id(self) -> str:
+        # A changed sitemap timestamp is retained instead of overwriting the earlier
+        # observation. The URL remains the stable product identity; `lastmod` alone does
+        # not prove that the article changed substantively.
+        return stable_id(
+            "analysis-reference", self.source_id, self.url, self.sitemap_modified_at
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"id": self.id, **asdict(self)}
+
+
+@dataclass(slots=True)
 class EvidenceReview:
     """A deterministic classification of one article against one hypothesis."""
 

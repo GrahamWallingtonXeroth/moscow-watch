@@ -156,6 +156,7 @@ def render(
     readings: list[Reading],
     *,
     health: dict[str, Any] | None = None,
+    analysis_references: list[dict[str, Any]] | None = None,
     today: date | None = None,
 ) -> str:
     today = today or datetime.now(UTC).date()
@@ -199,6 +200,46 @@ def render(
     else:
         lines.append("No dated resolutions are configured.")
     lines.append("")
+
+    # ---- Analytical links: visible and useful, but deliberately outside evidence ----
+    references_by_url: dict[str, dict[str, Any]] = {}
+    for reference in analysis_references or []:
+        url = str(reference.get("url") or "")
+        current = references_by_url.get(url)
+        if current is None or str(reference.get("sitemap_modified_at") or "") > str(
+            current.get("sitemap_modified_at") or ""
+        ):
+            references_by_url[url] = reference
+    references = sorted(
+        references_by_url.values(),
+        key=lambda item: str(item.get("assessment_date") or ""),
+        reverse=True,
+    )[:7]
+    if references:
+        lines.extend([
+            "## Analytical references",
+            "",
+            "These are publication links, not evidence records. Their article text, maps, "
+            "datasets and endnotes are not collected, and the publisher never counts as "
+            "independent corroboration of the sources cited inside its analysis.",
+            "",
+            "| Assessment | Assessment date | Sitemap modified | Record collected |",
+            "| --- | --- | --- | --- |",
+        ])
+        for reference in references:
+            title = _cell(reference.get("title") or "Untitled assessment")
+            url = str(reference.get("url") or "")
+            lines.append(
+                f"| [{title}]({url}) | {_cell(reference.get('assessment_date') or '—')} | "
+                f"{_cell(reference.get('sitemap_modified_at') or '—')} | "
+                f"{_cell(reference.get('collected_at') or '—')} |"
+            )
+        attribution = _cell(references[0].get("attribution") or "")
+        rights_url = str(references[0].get("rights_url") or "")
+        if attribution:
+            policy = f" [Usage policy]({rights_url})" if rights_url else ""
+            lines.extend(["", f"{attribution}.{policy}"])
+        lines.append("")
 
     # ---- Hypotheses and their falsifiers ----
     lines.extend([
@@ -292,6 +333,7 @@ def render(
             ("portwatch", "IMF PortWatch"),
             ("independent_reporting", "Independent reporting"),
             ("primary_record", "Primary records"),
+            ("analysis_reference", "Analytical references (links only)"),
             ("discovery", "Discovery (GDELT, never promotes a claim)"),
             ("gdelt", "GDELT reporting index (volume only)"),
         ):
@@ -300,13 +342,14 @@ def render(
                 continue
             lines.append(
                 f"| {label} | {layer.get('ok', 0)} of {layer.get('configured', 0)}"
+                + (f", {layer['partial']} partial" if layer.get("partial") else "")
                 + (f", {layer['disabled']} disabled" if layer.get("disabled") else "")
                 + f" | {layer.get('last_success_at') or 'never'} |"
             )
         lines.append("")
         failed = [
             s for s in (health or {}).get("sources", {}).values()
-            if s.get("status") in {"failed", "disabled"}
+            if s.get("status") in {"failed", "disabled", "partial"}
         ]
         if failed:
             lines.extend(["| Source | Status | Detail |", "| --- | --- | --- |"])
