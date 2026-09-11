@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-11T04:44:38Z
-**Since:** 2026-09-04T04:44:38Z
+**Generated:** 2026-09-11T11:25:27Z
+**Since:** 2026-09-04T11:25:27Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,14 +13,13 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 4.29 | 3.14 | -1.14 | 161 h | away from H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 33.0% | 41.5% | +8.5 pts | 161 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 47.0% | 54.5% | +7.5 pts | 161 h | toward H2, H3 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 4.29 | 3.14 | -1.14 | 163 h | away from H1, H4 |
+| Polymarket: Russia-Ukraine ceasefire term structure — October 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2026 | 2026-11-01T03:59:00Z | 13.0% | 8.5% | -4.5 pts | 163 h | away from H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 
-_16 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_14 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
