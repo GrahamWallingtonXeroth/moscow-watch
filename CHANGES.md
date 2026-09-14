@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-13T20:53:19Z
-**Since:** 2026-09-06T20:53:19Z
+**Generated:** 2026-09-14T05:00:18Z
+**Since:** 2026-09-07T05:00:18Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -15,9 +15,9 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
 | Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 4 | +3 | 160 h | toward H1, H4; away from H3, H5 |
 | IMF PortWatch: daily Strait of Hormuz transits | — | — | 4.29 | 3.14 | -1.14 | 160 h | away from H1, H4 |
-| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 12.0% | 34.0% | +22.0 pts | 160 h | toward H5; away from H3 |
-| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 5.2% | 17.0% | +11.8 pts | 160 h | toward H2 |
+| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 12.0% | 35.0% | +23.0 pts | 160 h | toward H5; away from H3 |
 | Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 42.0% | 31.0% | -11.0 pts | 160 h | away from H6 |
+| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 5.2% | 12.0% | +6.8 pts | 160 h | toward H2 |
 | Polymarket: Russia-Ukraine ceasefire term structure — October 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2026 | 2026-11-01T03:59:00Z | 12.5% | 6.5% | -6.0 pts | 160 h | away from H2, H3 |
 | Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 43.5% | 37.5% | -6.0 pts | 160 h | away from H2, H3 |
 | Kalshi: Putin-Trump meeting location — KXPUTINDJTLOCATION-29-HUN | kalshi:KXPUTINDJTLOCATION-29-HUN | 2029-01-01T04:59:00Z | 10.0% | 4.0% | -6.0 pts | 160 h | away from H2 |
@@ -55,6 +55,7 @@ Link metadata only: appearance here does not attest any claim in the linked anal
 
 | Assessment | Assessment date | Sitemap modified | Change |
 | --- | --- | --- | --- |
+| [Russian Offensive Campaign Assessment, September 13, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-13-2026) | 2026-09-13 | 2026-09-14T01:53:30Z | new |
 | [Russian Offensive Campaign Assessment, September 12, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-12-2026) | 2026-09-12 | 2026-09-13T05:20:50Z | new |
 | [Russian Offensive Campaign Assessment, September 11, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-11-2026) | 2026-09-11 | 2026-09-12T02:31:53Z | new |
 | [Russian Offensive Campaign Assessment, September 10, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-10-2026) | 2026-09-10 | 2026-09-11T17:17:48Z | new |
