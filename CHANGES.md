@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-16T17:00:46Z
-**Since:** 2026-09-09T17:00:46Z
+**Generated:** 2026-09-16T21:21:20Z
+**Since:** 2026-09-09T21:21:20Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,21 +13,21 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 4 | +3 | 164 h | toward H1, H4; away from H3, H5 |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.14 | 5.29 | +2.14 | 164 h | toward H1, H4 |
-| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 12.0% | 87.0% | +75.0 pts | 164 h | toward H5; away from H3 |
-| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 45.0% | 25.0% | -20.0 pts | 164 h | away from H6 |
-| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 8.0% | 16.0% | +8.0 pts | 164 h | toward H2 |
-| Kalshi: Putin-Trump meeting location — KXPUTINDJTLOCATION-29-HUN | kalshi:KXPUTINDJTLOCATION-29-HUN | 2029-01-01T04:59:00Z | 10.0% | 4.0% | -6.0 pts | 164 h | away from H2 |
-| Polymarket: Russia-Ukraine ceasefire term structure — April 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-april-30-2027 | 2027-05-01T03:59:00Z | 47.5% | 42.5% | -5.0 pts | 164 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — November 30 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2026 | 2026-12-01T04:59:00Z | 15.5% | 12.0% | -3.5 pts | 164 h | away from H2, H3 |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 4 | +3 | 161 h | toward H1, H4; away from H3, H5 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.14 | 5.29 | +2.14 | 161 h | toward H1, H4 |
+| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 12.0% | 94.0% | +82.0 pts | 161 h | toward H5; away from H3 |
+| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 45.0% | 21.0% | -24.0 pts | 161 h | away from H6 |
+| Kalshi: Putin-Trump meeting location — KXPUTINDJTLOCATION-29-HUN | kalshi:KXPUTINDJTLOCATION-29-HUN | 2029-01-01T04:59:00Z | 10.0% | 4.0% | -6.0 pts | 161 h | away from H2 |
+| Polymarket: Russia-Ukraine ceasefire term structure — April 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-april-30-2027 | 2027-05-01T03:59:00Z | 47.5% | 42.5% | -5.0 pts | 161 h | away from H2, H3 |
+| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 11.0% | 16.0% | +5.0 pts | 161 h | toward H2 |
+| Polymarket: Russia-Ukraine ceasefire term structure — November 30 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2026 | 2026-12-01T04:59:00Z | 15.5% | 12.0% | -3.5 pts | 161 h | away from H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL.
 
-_25 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_24 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
@@ -66,7 +66,6 @@ Link metadata only: appearance here does not attest any claim in the linked anal
 | [Russian Offensive Campaign Assessment, September 10, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-10-2026) | 2026-09-10 | 2026-09-11T17:17:48Z | new |
 | [Russian Offensive Campaign Assessment, September 9, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-9-2026) | 2026-09-09 | 2026-09-10T00:11:32Z | new |
 | [Russian Offensive Campaign Assessment, August 30, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-august-30-2026) | 2026-08-30 | 2026-09-10T15:05:13Z | new |
-| [Russian Offensive Campaign Assessment, April 19, 2025](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-april-19-2025) | 2025-04-19 | 2026-09-09T18:42:10Z | new |
 
 ---
 
