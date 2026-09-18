@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-17T21:25:45Z
-**Since:** 2026-09-10T21:25:45Z
+**Generated:** 2026-09-18T04:47:17Z
+**Since:** 2026-09-11T04:47:17Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -15,21 +15,22 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
 | IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.14 | 5.29 | +2.14 | 161 h | toward H1, H4 |
 | Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 2 | 4 | +2 | 161 h | toward H1, H4; away from H3, H5 |
-| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 12.0% | 97.0% | +85.0 pts | 161 h | toward H5; away from H3 |
+| Kalshi: new US sanctions on Russia — KXSANCTIONRUSSIA-26JUL-NOV | kalshi:KXSANCTIONRUSSIA-26JUL-NOV | 2026-11-01T15:00:00Z | 12.0% | 99.0% | +87.0 pts | 161 h | toward H5; away from H3 |
 | Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 45.0% | 21.0% | -24.0 pts | 161 h | away from H6 |
+| Polymarket: Russia-Ukraine ceasefire term structure — August 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-august-31-2027 | 2027-09-01T03:59:00Z | 67.0% | 58.5% | -8.5 pts | 161 h | away from H2, H3 |
+| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 9.9% | 16.0% | +6.1 pts | 161 h | toward H2 |
 | Kalshi: Putin-Trump meeting location — KXPUTINDJTLOCATION-29-HUN | kalshi:KXPUTINDJTLOCATION-29-HUN | 2029-01-01T04:59:00Z | 10.0% | 4.0% | -6.0 pts | 161 h | away from H2 |
-| Polymarket: Russia-Ukraine ceasefire term structure — July 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-july-31-2027 | 2027-08-01T03:59:00Z | 62.5% | 57.0% | -5.5 pts | 161 h | away from H2, H3 |
-| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 9.9% | 15.0% | +5.1 pts | 161 h | toward H2 |
-| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 7.5% | 12.5% | +5.0 pts | 161 h | toward H5 |
-| Polymarket: Russia-Ukraine ceasefire term structure — April 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-april-30-2027 | 2027-05-01T03:59:00Z | 48.0% | 43.5% | -4.5 pts | 161 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — November 30 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2026 | 2026-12-01T04:59:00Z | 15.5% | 12.5% | -3.0 pts | 161 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — April 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-april-30-2027 | 2027-05-01T03:59:00Z | 48.5% | 43.5% | -5.0 pts | 161 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — July 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-july-31-2027 | 2027-08-01T03:59:00Z | 62.0% | 57.0% | -5.0 pts | 161 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — November 30 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2026 | 2026-12-01T04:59:00Z | 15.5% | 11.5% | -4.0 pts | 161 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 34.5% | 30.5% | -4.0 pts | 161 h | away from H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Kalshi: new US sanctions on Russia** — A US-posture input. Costs point to H5 and against the American leg of H3.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL.
 
-_22 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_19 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
@@ -60,13 +61,14 @@ Link metadata only: appearance here does not attest any claim in the linked anal
 
 | Assessment | Assessment date | Sitemap modified | Change |
 | --- | --- | --- | --- |
+| [Russian Offensive Campaign Assessment, September 17, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-17-2026) | 2026-09-17 | 2026-09-18T03:39:18Z | new |
 | [Russian Offensive Campaign Assessment, September 16, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-16-2026) | 2026-09-16 | 2026-09-17T13:34:33Z | new |
 | [Russian Offensive Campaign Assessment, September 15, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-15-2026) | 2026-09-15 | 2026-09-16T02:57:08Z | new |
 | [Russian Offensive Campaign Assessment, September 14, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-14-2026) | 2026-09-14 | 2026-09-16T02:08:28Z | new |
 | [Russian Offensive Campaign Assessment, September 13, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-13-2026) | 2026-09-13 | 2026-09-14T01:53:30Z | new |
 | [Russian Offensive Campaign Assessment, September 12, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-12-2026) | 2026-09-12 | 2026-09-16T02:09:40Z | new |
 | [Russian Offensive Campaign Assessment, September 11, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-11-2026) | 2026-09-11 | 2026-09-14T17:01:27Z | new |
-| [Russian Offensive Campaign Assessment, September 10, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-10-2026) | 2026-09-10 | 2026-09-11T17:17:48Z | new |
+| [Russian Offensive Campaign Assessment, September 10, 2026](https://understandingwar.org/research/russia-ukraine/russian-offensive-campaign-assessment-september-10-2026) | 2026-09-10 | 2026-09-11T17:17:48Z | sitemap `lastmod` changed |
 
 ---
 
