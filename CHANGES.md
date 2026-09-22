@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-22T17:00:19Z
-**Since:** 2026-09-15T17:00:19Z
+**Generated:** 2026-09-22T21:22:28Z
+**Since:** 2026-09-15T21:22:28Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -17,17 +17,18 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 | Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 4 | 2 | -2 | 168 h | toward H3, H5; away from H1, H4 |
 | Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 28.0% | 14.0% | -14.0 pts | 168 h | away from H6 |
 | Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 12.5% | 20.5% | +8.0 pts | 168 h | toward H5 |
+| Polymarket: US-Iran Hormuz agreement — September 30 | polymarket:us-iran-hormuz-agreement-by-september-30 | 2026-10-01T03:59:00Z | 4.5% | 11.6% | +7.0 pts | 168 h | toward H1, H4 |
+| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 25.5% | 32.5% | +7.0 pts | 168 h | toward H5 |
 | Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 15.0% | 8.0% | -7.0 pts | 168 h | away from H2 |
-| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 34.0% | 27.5% | -6.5 pts | 168 h | away from H2, H3 |
-| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 26.0% | 32.5% | +6.5 pts | 168 h | toward H5 |
+| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 33.5% | 28.5% | -5.0 pts | 168 h | away from H2, H3 |
 | Polymarket: Russia-Ukraine ceasefire term structure — February 28, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-february-28-2027 | 2027-03-01T04:59:00Z | 36.5% | 31.5% | -5.0 pts | 168 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 57.0% | 53.0% | -4.0 pts | 168 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 56.5% | 53.0% | -3.5 pts | 168 h | away from H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL.
 
-_19 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_16 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
