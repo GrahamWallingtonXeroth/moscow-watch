@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-09-29T05:47:46Z
-**Since:** 2026-09-22T05:47:45Z
+**Generated:** 2026-09-29T12:57:22Z
+**Since:** 2026-09-22T12:57:22Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,16 +13,15 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 5.29 | 3.14 | -2.14 | 162 h | away from H1, H4 |
-| Russia-Iran engagement volume (reporting index) | — | — | 0.46 | 0.54 | +0.08 | 162 h | toward H1, H4; away from H3, H5 |
-| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 12.0% | 4.0% | -8.0 pts | 162 h | away from H6 |
-| Polymarket: US-Iran Hormuz agreement — September 30 | polymarket:us-iran-hormuz-agreement-by-september-30 | 2026-10-01T03:59:00Z | 9.8% | 2.9% | -6.9 pts | 162 h | away from H1, H4 |
-| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 20.5% | 14.5% | -6.0 pts | 162 h | away from H5 |
+| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 14.0% | 4.0% | -10.0 pts | 164 h | away from H6 |
+| Russia-Iran engagement volume (reporting index) | — | — | 0.46 | 0.54 | +0.08 | 164 h | toward H1, H4; away from H3, H5 |
+| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 20.5% | 13.5% | -7.0 pts | 164 h | away from H5 |
+| Polymarket: Russia-Ukraine ceasefire term structure — September 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-september-30-2027 | 2027-10-01T03:59:00Z | 64.5% | 60.5% | -4.0 pts | 164 h | away from H2, H3 |
 
-- **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
+- **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 - **Russia-Iran engagement volume (reporting index)** — Counts REPORTING VOLUME from a news index - GDELT DOC 2.0 in timelinevol mode - and not contacts. It is a proxy for diplomatic tempo rather than a count of contacts: the value is the share of monitored world coverage matching the query, averaged over the fortnight. Only the DIRECTION of change against the pre-25-August baseline is meaningful; the level carries no meaning on its own. A GDELT hit still cannot attest a claim, because counting volume and attesting a claim are different operations, so nothing here promotes anything. The directly collected contact counter runs alongside it and is the auditable one.
 
-_23 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_22 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
