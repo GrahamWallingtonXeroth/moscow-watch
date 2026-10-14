@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-10-13T22:48:09Z
-**Since:** 2026-10-06T22:48:09Z
+**Generated:** 2026-10-14T04:57:25Z
+**Since:** 2026-10-07T04:57:25Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,10 +13,11 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 3 | +2 | 161 h | toward H1, H4; away from H3, H5 |
-| Russia-Iran engagement volume (reporting index) | — | — | 0.15 | 0.36 | +0.21 | 161 h | toward H1, H4; away from H3, H5 |
-| Polymarket: US-Iran Hormuz agreement — October 15 | polymarket:us-iran-hormuz-agreement-by-october-15 | 2026-10-16T03:59:00Z | 7.0% | 1.2% | -5.8 pts | 161 h | away from H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure — December 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2027 | 2028-01-01T04:59:00Z | 71.5% | 68.0% | -3.5 pts | 161 h | away from H2, H3 |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 3 | +2 | 167 h | toward H1, H4; away from H3, H5 |
+| Russia-Iran engagement volume (reporting index) | — | — | 0.15 | 0.36 | +0.21 | 167 h | toward H1, H4; away from H3, H5 |
+| Polymarket: US-Iran Hormuz agreement — October 15 | polymarket:us-iran-hormuz-agreement-by-october-15 | 2026-10-16T03:59:00Z | 7.0% | 0.8% | -6.2 pts | 167 h | away from H1, H4 |
+| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 21.5% | 26.5% | +5.0 pts | 167 h | toward H5 |
+| Polymarket: Russia-Ukraine ceasefire term structure — December 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2027 | 2028-01-01T04:59:00Z | 71.5% | 68.0% | -3.5 pts | 167 h | away from H2, H3 |
 
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL.
