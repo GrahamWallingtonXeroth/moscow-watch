@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-10-20T17:11:39Z
-**Since:** 2026-10-13T17:11:39Z
+**Generated:** 2026-10-20T21:39:52Z
+**Since:** 2026-10-13T21:39:52Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,16 +13,16 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 2.71 | 3.71 | +1 | 162 h | toward H1, H4 |
-| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 23.0% | 4.0% | -19.0 pts | 162 h | away from H6 |
-| Polymarket: US-Iran Hormuz agreement — November 30 | polymarket:us-iran-hormuz-agreement-by-november-30 | 2026-12-01T04:59:00Z | 24.5% | 31.0% | +6.5 pts | 162 h | toward H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure — September 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-september-30-2027 | 2027-10-01T03:59:00Z | 61.5% | 57.5% | -4.0 pts | 162 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 22.5% | 19.5% | -3.0 pts | 162 h | away from H2, H3 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 2.71 | 3.71 | +1 | 167 h | toward H1, H4 |
+| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-NOV01 | kalshi:KXKASHRUSSIA-26JUL27-NOV01 | 2026-11-01T15:00:00Z | 23.0% | 4.0% | -19.0 pts | 167 h | away from H6 |
+| Polymarket: US gives Ukraine a formal security guarantee — U.S. agrees to give Ukraine security guarantee by December 31? | polymarket:us-agrees-to-give-ukraine-security-guarantee-by-december-31 | 2027-01-01T04:59:00Z | 4.7% | 9.1% | +4.4 pts | 167 h | toward H5; away from H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — September 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-september-30-2027 | 2027-10-01T03:59:00Z | 61.5% | 58.5% | -3.0 pts | 167 h | away from H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
+- **Polymarket: US gives Ukraine a formal security guarantee** — One of the two market inputs to the US-posture axis of the discriminator map. A fall is relief toward Moscow.
 
-_27 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_26 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
