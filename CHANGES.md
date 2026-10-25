@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-10-25T04:45:16Z
-**Since:** 2026-10-18T04:45:15Z
+**Generated:** 2026-10-25T11:35:23Z
+**Since:** 2026-10-18T11:35:23Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,28 +13,28 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 3 | 1 | -2 | 162 h | toward H3, H5; away from H1, H4 |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 4.14 | 3.71 | -0.43 | 162 h | away from H1, H4 |
-| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 9.5% | 2.4% | -7.2 pts | 162 h | away from H5 |
-| Polymarket: Russia-Ukraine ceasefire term structure — July 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-july-31-2027 | 2027-08-01T03:59:00Z | 50.5% | 57.5% | +7.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — August 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-august-31-2027 | 2027-09-01T03:59:00Z | 54.0% | 61.0% | +7.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — September 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-september-30-2027 | 2027-10-01T03:59:00Z | 57.0% | 64.0% | +7.0 pts | 162 h | toward H2, H3 |
-| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 25.5% | 18.5% | -7.0 pts | 162 h | away from H5 |
-| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 48.5% | 55.0% | +6.5 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 18.5% | 24.5% | +6.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — November 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2027 | 2027-12-01T04:59:00Z | 62.5% | 68.5% | +6.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — October 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2027 | 2027-11-01T03:59:00Z | 60.5% | 66.0% | +5.5 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — February 28, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-february-28-2027 | 2027-03-01T04:59:00Z | 25.5% | 30.5% | +5.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 30.5% | 35.5% | +5.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — April 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-april-30-2027 | 2027-05-01T03:59:00Z | 37.5% | 42.5% | +5.0 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 13.0% | 17.5% | +4.5 pts | 162 h | toward H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — May 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-may-31-2027 | 2027-06-01T03:59:00Z | 46.5% | 51.0% | +4.5 pts | 162 h | toward H2, H3 |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 3 | 1 | -2 | 164 h | toward H3, H5; away from H1, H4 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 4.14 | 3.71 | -0.43 | 164 h | away from H1, H4 |
+| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 9.5% | 2.1% | -7.4 pts | 164 h | away from H5 |
+| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 25.5% | 18.5% | -7.0 pts | 164 h | away from H5 |
+| Polymarket: Russia-Ukraine ceasefire term structure — August 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-august-31-2027 | 2027-09-01T03:59:00Z | 54.0% | 60.5% | +6.5 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — September 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-september-30-2027 | 2027-10-01T03:59:00Z | 57.0% | 63.5% | +6.5 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 18.5% | 24.5% | +6.0 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — July 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-july-31-2027 | 2027-08-01T03:59:00Z | 50.5% | 56.5% | +6.0 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — October 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2027 | 2027-11-01T03:59:00Z | 60.5% | 66.0% | +5.5 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — November 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2027 | 2027-12-01T04:59:00Z | 62.5% | 68.0% | +5.5 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — March 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-march-31-2027 | 2027-04-01T03:59:00Z | 30.5% | 35.5% | +5.0 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — April 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-april-30-2027 | 2027-05-01T03:59:00Z | 37.5% | 42.0% | +4.5 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 12.5% | 16.5% | +4.0 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — February 28, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-february-28-2027 | 2027-03-01T04:59:00Z | 25.0% | 29.0% | +4.0 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — June 30, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-june-30-2027 | 2027-07-01T03:59:00Z | 48.5% | 52.5% | +4.0 pts | 164 h | toward H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — May 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-may-31-2027 | 2027-06-01T03:59:00Z | 46.5% | 50.0% | +3.5 pts | 164 h | toward H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL.
 
-_18 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_19 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
