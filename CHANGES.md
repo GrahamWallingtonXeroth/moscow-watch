@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-10-29T05:52:45Z
-**Since:** 2026-10-22T05:52:44Z
+**Generated:** 2026-10-29T13:06:37Z
+**Since:** 2026-10-22T13:06:36Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,17 +13,19 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 4 | +3 | 162 h | toward H1, H4; away from H3, H5 |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.71 | 3.29 | -0.43 | 162 h | away from H1, H4 |
-| Russia-Iran engagement volume (reporting index) | — | — | 0.49 | 0.3 | -0.19 | 162 h | toward H3, H5; away from H1, H4 |
-| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 27.0% | 15.5% | -11.5 pts | 162 h | away from H5 |
-| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 8.5% | 1.1% | -7.4 pts | 162 h | away from H5 |
-| Polymarket: Russia-Ukraine ceasefire term structure — February 28, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-february-28-2027 | 2027-03-01T04:59:00Z | 33.5% | 26.5% | -7.0 pts | 162 h | away from H2, H3 |
-| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 15.0% | 9.2% | -5.8 pts | 162 h | away from H2 |
-| Polymarket: US-Iran Hormuz agreement — December 31 | polymarket:us-iran-hormuz-agreement-by-december-31 | 2027-01-01T04:59:00Z | 32.5% | 38.0% | +5.5 pts | 162 h | toward H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 20.5% | 15.5% | -5.0 pts | 162 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — November 30 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2026 | 2026-12-01T04:59:00Z | 12.0% | 7.5% | -4.5 pts | 162 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 26.5% | 23.5% | -3.0 pts | 162 h | away from H2, H3 |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 1 | 4 | +3 | 164 h | toward H1, H4; away from H3, H5 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.71 | 3.29 | -0.43 | 157 h | away from H1, H4 |
+| Russia-Iran engagement volume (reporting index) | — | — | 0.49 | 0.3 | -0.19 | 164 h | toward H3, H5; away from H1, H4 |
+| Polymarket: NATO-Russia military clash — November 15 | polymarket:nato-x-russia-military-clash-by-november-15-2026 | 2026-11-16T04:59:00Z | 22.5% | 3.7% | -18.8 pts | 164 h | away from H5 |
+| Polymarket: NATO-Russia military clash — November 30 | polymarket:nato-x-russia-military-clash-by-november-30-2026 | 2026-12-01T04:59:00Z | 26.0% | 9.0% | -17.0 pts | 164 h | away from H5 |
+| Polymarket: NATO-Russia military clash — October 31 | polymarket:nato-x-russia-military-clash-by-october-31-2026 | 2026-11-01T03:59:00Z | 17.0% | 0.7% | -16.4 pts | 164 h | away from H5 |
+| Polymarket: NATO-Russia military clash — December 31 | polymarket:nato-x-russia-military-clash-by-december-31-2026-244-538-582 | 2027-01-01T04:59:00Z | 30.0% | 15.5% | -14.5 pts | 164 h | away from H5 |
+| Polymarket: US-Iran Hormuz agreement — December 31 | polymarket:us-iran-hormuz-agreement-by-december-31 | 2027-01-01T04:59:00Z | 31.5% | 40.5% | +9.0 pts | 164 h | toward H1, H4 |
+| Kalshi: Zelensky-Putin meeting — KXZELENSKYPUTIN-29-27 | kalshi:KXZELENSKYPUTIN-29-27 | 2027-01-01T04:59:00Z | 15.0% | 9.8% | -5.2 pts | 164 h | away from H2 |
+| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 20.5% | 15.5% | -5.0 pts | 164 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — February 28, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-february-28-2027 | 2027-03-01T04:59:00Z | 32.0% | 27.0% | -5.0 pts | 164 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — November 30 | polymarket:russia-x-ukraine-ceasefire-agreement-by-november-30-2026 | 2026-12-01T04:59:00Z | 12.5% | 8.5% | -4.0 pts | 164 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 26.5% | 23.5% | -3.0 pts | 164 h | away from H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
 - **Polymarket: Russia-Ukraine ceasefire term structure** — Read as a ladder, not a price. A parallel shift is sentiment; a change in the shape of the forward hazard curve is news about timing. The far legs have materially less turnover than the near-dated legs; inspect the current per-leg volume printed above before interpreting the shape.
