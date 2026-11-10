@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-11-10T07:22:40Z
-**Since:** 2026-11-03T07:22:39Z
+**Generated:** 2026-11-10T19:46:53Z
+**Since:** 2026-11-03T19:46:53Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,19 +13,15 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 5 | 7 | +2 | 161 h | toward H1, H4; away from H3, H5 |
-| IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.29 | 4.43 | +1.14 | 107 h | toward H1, H4 |
-| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-JAN01 | kalshi:KXKASHRUSSIA-26JUL27-JAN01 | 2027-01-01T15:00:00Z | 20.0% | 1.0% | -19.0 pts | 161 h | away from H6 |
-| Polymarket: US-Iran Hormuz agreement — November 30 | polymarket:us-iran-hormuz-agreement-by-november-30 | 2026-12-01T04:59:00Z | 27.5% | 16.0% | -11.5 pts | 161 h | away from H1, H4 |
-| Polymarket: US-Iran Hormuz agreement — December 31 | polymarket:us-iran-hormuz-agreement-by-december-31 | 2027-01-01T04:59:00Z | 40.5% | 33.5% | -7.0 pts | 161 h | away from H1, H4 |
-| Kalshi: US-Iran nuclear agreement — KXUSAIRANAGREEMENT-27-26DEC | kalshi:KXUSAIRANAGREEMENT-27-26DEC | 2026-12-01T15:00:00Z | 9.0% | 3.0% | -6.0 pts | 161 h | away from H1, H4 |
-| Polymarket: US gives Ukraine a formal security guarantee — June 30, 2027 | polymarket:us-agrees-to-give-ukraine-security-guarantee-by-june-30-2027 | 2027-07-01T03:59:00Z | 25.5% | 20.5% | -5.0 pts | 161 h | toward H3; away from H5 |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 5 | 1 | -4 | 164 h | toward H3, H5; away from H1, H4 |
+| IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.29 | 3.86 | +0.57 | 120 h | toward H1, H4 |
+| Kalshi: Kash Patel travels to Russia — KXKASHRUSSIA-26JUL27-JAN01 | kalshi:KXKASHRUSSIA-26JUL27-JAN01 | 2027-01-01T15:00:00Z | 17.0% | 1.0% | -16.0 pts | 164 h | away from H6 |
+| Polymarket: US-Iran Hormuz agreement — November 30 | polymarket:us-iran-hormuz-agreement-by-november-30 | 2026-12-01T04:59:00Z | 21.5% | 12.5% | -9.0 pts | 164 h | away from H1, H4 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
-- **Polymarket: US gives Ukraine a formal security guarantee** — One of the two market inputs to the US-posture axis of the discriminator map. A fall is relief toward Moscow.
 - **Reported senior Russia-Iran diplomatic contacts per fortnight** — The directly counted half of what separates H3 from H4. Both predict the same Iran outcomes; what tells them apart is which direction Russian officials are travelling. Counts REPORTED contacts only - unreported diplomacy is exactly what this story is about - so it is a floor, never a total. Every counted contact stores its source URL.
 
-_26 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
+_27 smaller move(s) were observed and deliberately not reported, having failed the window or threshold test._
 
 ## Resolution wording and new markets
 
