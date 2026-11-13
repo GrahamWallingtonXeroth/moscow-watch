@@ -2,8 +2,8 @@
 
 _Generated. Do not edit by hand._
 
-**Generated:** 2026-11-12T19:57:58Z
-**Since:** 2026-11-05T19:57:58Z
+**Generated:** 2026-11-13T06:49:59Z
+**Since:** 2026-11-06T06:49:59Z
 
 Everything below cleared two thresholds fixed in advance: a minimum observation window of 6 hours, and the indicator's own `material_move`. Smaller or faster wobbles are not reported, because they are noise and reporting them as news is how a tracker loses its reader.
 
@@ -13,13 +13,13 @@ A move is not evidence for a hypothesis. It is a change in a number that would *
 
 | Indicator / leg | Exact contract ID | Deadline (UTC) | Then | Now | Move | Window | Points |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 6 | 1 | -5 | 168 h | toward H3, H5; away from H1, H4 |
+| Reported senior Russia-Iran diplomatic contacts per fortnight | — | — | 7 | 1 | -6 | 168 h | toward H3, H5; away from H1, H4 |
 | IMF PortWatch: daily Strait of Hormuz transits | — | — | 3.29 | 3.86 | +0.57 | 168 h | toward H1, H4 |
-| Polymarket: US-Iran Hormuz agreement — December 31 | polymarket:us-iran-hormuz-agreement-by-december-31 | 2027-01-01T04:59:00Z | 38.0% | 24.5% | -13.5 pts | 168 h | away from H1, H4 |
-| Polymarket: US-Iran Hormuz agreement — November 30 | polymarket:us-iran-hormuz-agreement-by-november-30 | 2026-12-01T04:59:00Z | 19.5% | 8.5% | -11.0 pts | 168 h | away from H1, H4 |
-| Russia-Iran engagement volume (reporting index) | — | — | 0.42 | 0.32 | -0.11 | 168 h | toward H3, H5; away from H1, H4 |
-| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 15.5% | 12.5% | -3.0 pts | 168 h | away from H2, H3 |
-| Polymarket: Russia-Ukraine ceasefire term structure — January 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-january-31-2027 | 2027-02-01T04:59:00Z | 21.5% | 24.5% | +3.0 pts | 168 h | toward H2, H3 |
+| Polymarket: US-Iran Hormuz agreement — November 30 | polymarket:us-iran-hormuz-agreement-by-november-30 | 2026-12-01T04:59:00Z | 18.5% | 8.5% | -10.0 pts | 168 h | away from H1, H4 |
+| Polymarket: US-Iran Hormuz agreement — December 31 | polymarket:us-iran-hormuz-agreement-by-december-31 | 2027-01-01T04:59:00Z | 34.5% | 24.5% | -10.0 pts | 168 h | away from H1, H4 |
+| Russia-Iran engagement volume (reporting index) | — | — | 0.42 | 0.33 | -0.09 | 168 h | toward H3, H5; away from H1, H4 |
+| Polymarket: Russia-Ukraine ceasefire term structure — December 31 | polymarket:russia-x-ukraine-ceasefire-agreement-by-december-31-2026 | 2027-01-01T04:59:00Z | 14.5% | 10.5% | -4.0 pts | 168 h | away from H2, H3 |
+| Polymarket: Russia-Ukraine ceasefire term structure — August 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-august-31-2027 | 2027-09-01T03:59:00Z | 63.5% | 60.0% | -3.5 pts | 168 h | away from H2, H3 |
 | Polymarket: Russia-Ukraine ceasefire term structure — October 31, 2027 | polymarket:russia-x-ukraine-ceasefire-agreement-by-october-31-2027 | 2027-11-01T03:59:00Z | 64.0% | 67.0% | +3.0 pts | 168 h | toward H2, H3 |
 
 - **IMF PortWatch: daily Strait of Hormuz transits** — The project's one counted physical quantity. Updates weekly with roughly a week to ten days of lag, so the newest row is never today, and the lag is printed beside every reading. Counts are currently extraordinarily low, consistent with AIS jamming and dark-vessel behaviour in the strait; this measures observed transits, not all transits.
